@@ -1,0 +1,167 @@
+.messageInputContainer {
+  padding: var(--spacing-md);
+  background: white;
+  border-top: 1px solid var(--color-border);
+}
+
+.inputWrapper {
+  display: flex;
+  align-items: flex-end;
+  gap: var(--spacing-sm);
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: 24px;
+  padding: var(--spacing-sm);
+  transition: border-color var(--transition-fast);
+}
+
+.inputWrapper:focus-within {
+  border-color: var(--color-primary);
+}
+
+.attachButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  background: transparent;
+  border: none;
+  border-radius: 50%;
+  cursor: pointer;
+  color: var(--color-text-secondary);
+  transition: background var(--transition-fast), color var(--transition-fast);
+}
+
+.attachButton:hover {
+  background: var(--color-border);
+  color: var(--color-text-primary);
+}
+
+.attachButton:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.textareaWrapper {
+  flex: 1;
+  display: flex;
+  align-items: center;
+}
+
+.textarea {
+  width: 100%;
+  border: none;
+  background: transparent;
+  font-size: 14px;
+  color: var(--color-text-primary);
+  resize: none;
+  outline: none;
+  padding: var(--spacing-sm) 0;
+  max-height: 120px;
+  line-height: 1.4;
+  font-family: inherit;
+}
+
+.textarea::placeholder {
+  color: var(--color-text-secondary);
+}
+
+.sendButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  background: var(--color-primary);
+  border: none;
+  border-radius: 50%;
+  cursor: pointer;
+  color: white;
+  transition: background var(--transition-fast), transform var(--transition-fast);
+}
+
+.sendButton:hover {
+  background: var(--color-primary-dark);
+}
+
+.sendButton:active {
+  transform: scale(0.95);
+}
+
+.sendButton:disabled {
+  background: var(--color-border);
+  cursor: not-allowed;
+}
+
+.sendButton:disabled:hover {
+  background: var(--color-border);
+}
+
+/* Attachments preview */
+.attachmentsPreview {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--spacing-sm);
+  padding: var(--spacing-sm) var(--spacing-sm) 0;
+}
+
+.attachmentItem {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-xs);
+  padding: var(--spacing-xs) var(--spacing-sm);
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--border-radius-md);
+  font-size: 12px;
+  color: var(--color-text-primary);
+}
+
+.attachmentName {
+  max-width: 150px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.removeAttachment {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 16px;
+  height: 16px;
+  background: transparent;
+  border: none;
+  border-radius: 50%;
+  cursor: pointer;
+  color: var(--color-text-secondary);
+  transition: background var(--transition-fast), color var(--transition-fast);
+}
+
+.removeAttachment:hover {
+  background: var(--color-error);
+  color: white;
+}
+
+/* Hidden file input */
+.fileInput {
+  display: none;
+}
+
+/* Character count */
+.characterCount {
+  display: flex;
+  justify-content: flex-end;
+  padding-top: var(--spacing-xs);
+  font-size: 11px;
+  color: var(--color-text-secondary);
+}
+
+.characterCount.warning {
+  color: var(--color-warning);
+}
+
+.characterCount.error {
+  color: var(--color-error);
+}

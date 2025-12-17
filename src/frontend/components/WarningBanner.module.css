@@ -1,0 +1,70 @@
+/* Warning Banner Component */
+.warningBanner {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 16px;
+  border-radius: 6px;
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+.warningBanner.warning {
+  background: #FFF3CD;
+  border: 1px solid #FFEAA7;
+  color: #856404;
+}
+
+.warningBanner.error {
+  background: #F8D7DA;
+  border: 1px solid #F5C6CB;
+  color: #721C24;
+}
+
+.warningBanner.info {
+  background: #D1ECF1;
+  border: 1px solid #BEE5EB;
+  color: #0C5460;
+}
+
+.icon {
+  font-size: 18px;
+  flex-shrink: 0;
+}
+
+.message {
+  flex: 1;
+}
+
+.dismissButton {
+  background: none;
+  border: none;
+  font-size: 20px;
+  line-height: 1;
+  cursor: pointer;
+  padding: 0 4px;
+  color: inherit;
+  opacity: 0.7;
+  transition: opacity 0.2s;
+}
+
+.dismissButton:hover,
+.dismissButton:focus {
+  opacity: 1;
+  outline: 2px solid currentColor;
+  outline-offset: 2px;
+  border-radius: 2px;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .warningBanner {
+    font-size: 13px;
+    padding: 10px 12px;
+    gap: 8px;
+  }
+
+  .icon {
+    font-size: 16px;
+  }
+}

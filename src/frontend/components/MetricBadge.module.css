@@ -1,0 +1,29 @@
+.metricBadge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background-color: #F8F9FA;
+  border-radius: 4px;
+  padding: 8px 12px;
+  font-size: 14px;
+  color: #212529;
+}
+
+.icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 16px;
+  height: 16px;
+  color: #6C757D;
+}
+
+.label {
+  font-weight: 500;
+  color: #6C757D;
+}
+
+.value {
+  font-weight: 600;
+  color: #212529;
+}

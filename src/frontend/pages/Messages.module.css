@@ -1,0 +1,252 @@
+.messagesPage {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  background: var(--color-surface);
+}
+
+.mainContent {
+  flex: 1;
+  display: flex;
+  overflow: hidden;
+  height: calc(100vh - 64px); /* Subtract navigation height */
+}
+
+.sidebar {
+  width: 360px;
+  flex-shrink: 0;
+  border-right: 1px solid var(--color-border);
+  background: white;
+  display: flex;
+  flex-direction: column;
+}
+
+.chatArea {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  background: var(--color-surface);
+  min-width: 0;
+}
+
+/* Mobile responsive */
+@media (max-width: 768px) {
+  .sidebar {
+    width: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 10;
+    transition: transform 0.3s ease;
+  }
+
+  .sidebar.hidden {
+    transform: translateX(-100%);
+  }
+
+  .chatArea {
+    width: 100%;
+  }
+
+  .chatArea.hidden {
+    display: none;
+  }
+}
+
+/* Tablet */
+@media (min-width: 769px) and (max-width: 1024px) {
+  .sidebar {
+    width: 300px;
+  }
+}
+
+/* Error banner */
+.errorBanner {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--spacing-sm);
+  padding: var(--spacing-sm) var(--spacing-md);
+  background: #fef2f2;
+  color: var(--color-error);
+  font-size: 14px;
+  border-bottom: 1px solid #fecaca;
+}
+
+.retryButton {
+  background: transparent;
+  border: 1px solid var(--color-error);
+  border-radius: var(--border-radius-sm);
+  padding: 4px 8px;
+  font-size: 12px;
+  color: var(--color-error);
+  cursor: pointer;
+  transition: background var(--transition-fast);
+}
+
+.retryButton:hover {
+  background: #fecaca;
+}
+
+/* Connection status */
+.connectionStatus {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-xs);
+  padding: var(--spacing-xs) var(--spacing-md);
+  background: #fef9c3;
+  color: #854d0e;
+  font-size: 12px;
+}
+
+.connectionStatus.connected {
+  background: #dcfce7;
+  color: #166534;
+}
+
+.connectionDot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #854d0e;
+}
+
+.connectionStatus.connected .connectionDot {
+  background: #16a34a;
+}
+
+/* New conversation modal */
+.modalOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 100;
+  padding: var(--spacing-md);
+}
+
+.modal {
+  background: white;
+  border-radius: var(--border-radius-lg);
+  width: 100%;
+  max-width: 480px;
+  max-height: 80vh;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  box-shadow: var(--shadow-lg);
+}
+
+.modalHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--spacing-md);
+  border-bottom: 1px solid var(--color-border);
+}
+
+.modalTitle {
+  font-size: 18px;
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text-primary);
+}
+
+.modalCloseButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  background: transparent;
+  border: none;
+  border-radius: var(--border-radius-md);
+  cursor: pointer;
+  color: var(--color-text-secondary);
+  transition: background var(--transition-fast);
+}
+
+.modalCloseButton:hover {
+  background: var(--color-surface);
+}
+
+.modalBody {
+  flex: 1;
+  overflow-y: auto;
+  padding: var(--spacing-md);
+}
+
+.searchUserInput {
+  width: 100%;
+  padding: var(--spacing-sm) var(--spacing-md);
+  border: 1px solid var(--color-border);
+  border-radius: var(--border-radius-md);
+  font-size: 14px;
+  color: var(--color-text-primary);
+  margin-bottom: var(--spacing-md);
+}
+
+.searchUserInput:focus {
+  outline: none;
+  border-color: var(--color-primary);
+}
+
+.userList {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-sm);
+}
+
+.userItem {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-md);
+  padding: var(--spacing-sm);
+  border-radius: var(--border-radius-md);
+  cursor: pointer;
+  transition: background var(--transition-fast);
+}
+
+.userItem:hover {
+  background: var(--color-surface);
+}
+
+.userAvatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: var(--color-primary);
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: var(--font-weight-semibold);
+  font-size: 14px;
+}
+
+.userInfo {
+  flex: 1;
+}
+
+.userName {
+  font-weight: var(--font-weight-medium);
+  color: var(--color-text-primary);
+  font-size: 14px;
+}
+
+.userEmail {
+  font-size: 12px;
+  color: var(--color-text-secondary);
+}
+
+.noUsersFound {
+  text-align: center;
+  color: var(--color-text-secondary);
+  padding: var(--spacing-lg);
+}

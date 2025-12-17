@@ -1,0 +1,885 @@
+.pageContainer {
+  min-height: 100vh;
+  background-color: var(--color-surface);
+}
+
+.mainContent {
+  padding: var(--spacing-lg);
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+/* Page Header */
+.pageHeader {
+  margin-bottom: var(--spacing-xl);
+}
+
+.pageTitle {
+  font-size: 28px;
+  font-weight: var(--font-weight-bold);
+  color: var(--color-text-primary);
+  margin: 0 0 var(--spacing-xs) 0;
+}
+
+.pageSubtitle {
+  font-size: 15px;
+  color: var(--color-text-secondary);
+  margin: 0;
+}
+
+/* Tab Navigation */
+.tabNav {
+  display: flex;
+  gap: var(--spacing-xs);
+  border-bottom: 1px solid var(--color-border);
+  margin-bottom: var(--spacing-xl);
+}
+
+.tabButton {
+  padding: var(--spacing-sm) var(--spacing-md);
+  font-size: 14px;
+  font-weight: var(--font-weight-medium);
+  color: var(--color-text-secondary);
+  background: none;
+  border: none;
+  cursor: pointer;
+  position: relative;
+  transition: color 0.2s;
+}
+
+.tabButton:hover {
+  color: var(--color-text-primary);
+}
+
+.tabButton.active {
+  color: var(--color-primary);
+}
+
+.tabButton.active::after {
+  content: '';
+  position: absolute;
+  bottom: -1px;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: var(--color-primary);
+  border-radius: 2px 2px 0 0;
+}
+
+/* Section Card */
+.sectionCard {
+  background: white;
+  border-radius: var(--border-radius-lg);
+  box-shadow: var(--shadow-sm);
+  padding: var(--spacing-lg);
+  margin-bottom: var(--spacing-lg);
+}
+
+.sectionTitle {
+  font-size: 18px;
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text-primary);
+  margin: 0 0 var(--spacing-sm) 0;
+}
+
+.sectionDescription {
+  font-size: 14px;
+  color: var(--color-text-secondary);
+  margin: 0 0 var(--spacing-lg) 0;
+}
+
+/* Subscription Plans Grid */
+.plansGrid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: var(--spacing-md);
+  margin-bottom: var(--spacing-lg);
+}
+
+.planCard {
+  border: 2px solid var(--color-border);
+  border-radius: var(--border-radius-lg);
+  padding: var(--spacing-lg);
+  text-align: center;
+  transition: border-color 0.2s, box-shadow 0.2s;
+  position: relative;
+}
+
+.planCard:hover {
+  border-color: var(--color-primary-light);
+}
+
+.planCard.current {
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+.planCard.recommended {
+  border-color: var(--color-success);
+}
+
+.currentBadge {
+  position: absolute;
+  top: -10px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--color-primary);
+  color: white;
+  font-size: 11px;
+  font-weight: var(--font-weight-semibold);
+  padding: 4px 12px;
+  border-radius: 999px;
+  text-transform: uppercase;
+}
+
+.recommendedBadge {
+  position: absolute;
+  top: -10px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--color-success);
+  color: white;
+  font-size: 11px;
+  font-weight: var(--font-weight-semibold);
+  padding: 4px 12px;
+  border-radius: 999px;
+  text-transform: uppercase;
+}
+
+.planName {
+  font-size: 20px;
+  font-weight: var(--font-weight-bold);
+  color: var(--color-text-primary);
+  margin: 0 0 var(--spacing-xs) 0;
+}
+
+.planPrice {
+  font-size: 36px;
+  font-weight: var(--font-weight-bold);
+  color: var(--color-primary);
+  margin: var(--spacing-sm) 0;
+}
+
+.planPrice span {
+  font-size: 14px;
+  font-weight: var(--font-weight-normal);
+  color: var(--color-text-secondary);
+}
+
+.planDescription {
+  font-size: 13px;
+  color: var(--color-text-secondary);
+  margin-bottom: var(--spacing-md);
+}
+
+.featuresList {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 var(--spacing-lg) 0;
+  text-align: left;
+}
+
+.featureItem {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--spacing-xs);
+  font-size: 13px;
+  color: var(--color-text-secondary);
+  padding: var(--spacing-xs) 0;
+}
+
+.featureItem svg {
+  color: var(--color-success);
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+.planButton {
+  width: 100%;
+  padding: var(--spacing-sm) var(--spacing-md);
+  font-size: 14px;
+  font-weight: var(--font-weight-medium);
+  border-radius: var(--border-radius-md);
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.planButton.primary {
+  background: var(--color-primary);
+  color: white;
+  border: none;
+}
+
+.planButton.primary:hover:not(:disabled) {
+  background: var(--color-primary-dark);
+}
+
+.planButton.secondary {
+  background: white;
+  color: var(--color-text-secondary);
+  border: 1px solid var(--color-border);
+}
+
+.planButton.secondary:hover:not(:disabled) {
+  background: var(--color-surface);
+}
+
+.planButton:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* Billing Toggle */
+.billingToggle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--spacing-md);
+  margin-bottom: var(--spacing-xl);
+}
+
+.billingOption {
+  font-size: 14px;
+  color: var(--color-text-secondary);
+}
+
+.billingOption.active {
+  color: var(--color-text-primary);
+  font-weight: var(--font-weight-medium);
+}
+
+.toggleSwitch {
+  position: relative;
+  width: 48px;
+  height: 24px;
+  background: var(--color-border);
+  border-radius: 999px;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.toggleSwitch.annual {
+  background: var(--color-primary);
+}
+
+.toggleSwitch::after {
+  content: '';
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  background: white;
+  border-radius: 50%;
+  top: 2px;
+  left: 2px;
+  transition: transform 0.2s;
+  box-shadow: var(--shadow-sm);
+}
+
+.toggleSwitch.annual::after {
+  transform: translateX(24px);
+}
+
+.savingsBadge {
+  background: var(--color-success-light);
+  color: var(--color-success);
+  font-size: 12px;
+  font-weight: var(--font-weight-medium);
+  padding: 2px 8px;
+  border-radius: 999px;
+}
+
+/* Current Subscription Info */
+.subscriptionInfo {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--spacing-md);
+  background: var(--color-surface);
+  border-radius: var(--border-radius-md);
+  margin-bottom: var(--spacing-lg);
+}
+
+.subscriptionDetails {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-xs);
+}
+
+.subscriptionTier {
+  font-size: 16px;
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text-primary);
+}
+
+.subscriptionStatus {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-xs);
+  font-size: 13px;
+  color: var(--color-text-secondary);
+}
+
+.statusDot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+}
+
+.statusDot.active {
+  background: var(--color-success);
+}
+
+.statusDot.canceled {
+  background: var(--color-error);
+}
+
+.statusDot.pastDue {
+  background: var(--color-warning);
+}
+
+.manageButton {
+  padding: var(--spacing-sm) var(--spacing-md);
+  font-size: 14px;
+  font-weight: var(--font-weight-medium);
+  color: var(--color-primary);
+  background: white;
+  border: 1px solid var(--color-primary);
+  border-radius: var(--border-radius-md);
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.manageButton:hover {
+  background: var(--color-primary);
+  color: white;
+}
+
+/* Billing History */
+.billingTable {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.billingTable th,
+.billingTable td {
+  padding: var(--spacing-sm) var(--spacing-md);
+  text-align: left;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.billingTable th {
+  font-size: 12px;
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.billingTable td {
+  font-size: 14px;
+  color: var(--color-text-primary);
+}
+
+.statusBadge {
+  display: inline-flex;
+  align-items: center;
+  padding: 2px 8px;
+  font-size: 12px;
+  font-weight: var(--font-weight-medium);
+  border-radius: 999px;
+}
+
+.statusBadge.paid {
+  background: var(--color-success-light);
+  color: var(--color-success);
+}
+
+.statusBadge.pending {
+  background: var(--color-warning-light);
+  color: var(--color-warning);
+}
+
+.statusBadge.failed {
+  background: var(--color-error-light);
+  color: var(--color-error);
+}
+
+.receiptLink {
+  color: var(--color-primary);
+  text-decoration: none;
+  font-size: 13px;
+}
+
+.receiptLink:hover {
+  text-decoration: underline;
+}
+
+/* Empty State */
+.emptyState {
+  text-align: center;
+  padding: var(--spacing-xl);
+  color: var(--color-text-secondary);
+}
+
+/* Loading State */
+.loadingState {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: var(--spacing-xl);
+  gap: var(--spacing-md);
+}
+
+.spinner {
+  width: 32px;
+  height: 32px;
+  border: 3px solid var(--color-border);
+  border-top-color: var(--color-primary);
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Alert Messages */
+.alert {
+  padding: var(--spacing-md);
+  border-radius: var(--border-radius-md);
+  margin-bottom: var(--spacing-lg);
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+}
+
+.alert.success {
+  background: var(--color-success-light);
+  color: var(--color-success);
+}
+
+.alert.error {
+  background: var(--color-error-light);
+  color: var(--color-error);
+}
+
+.alert.warning {
+  background: var(--color-warning-light);
+  color: var(--color-warning);
+}
+
+/* Notification Preferences */
+.notificationList {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.notificationItem {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px 0;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.notificationItem:last-child {
+  border-bottom: none;
+}
+
+.notificationInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.notificationLabel {
+  font-size: 15px;
+  font-weight: 500;
+  color: #111827;
+}
+
+.notificationDescription {
+  font-size: 13px;
+  color: #6b7280;
+}
+
+/* Toggle Switch */
+.toggle {
+  position: relative;
+  display: inline-block;
+  width: 48px;
+  height: 26px;
+  flex-shrink: 0;
+}
+
+.toggle input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.toggleSlider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #d1d5db;
+  transition: 0.3s;
+  border-radius: 26px;
+}
+
+.toggleSlider::before {
+  position: absolute;
+  content: "";
+  height: 20px;
+  width: 20px;
+  left: 3px;
+  bottom: 3px;
+  background-color: white;
+  transition: 0.3s;
+  border-radius: 50%;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+}
+
+.toggle input:checked + .toggleSlider {
+  background-color: #3b82f6;
+}
+
+.toggle input:checked + .toggleSlider::before {
+  transform: translateX(22px);
+}
+
+.toggle input:disabled + .toggleSlider {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* Email Frequency */
+.frequencySection {
+  margin-top: 24px;
+  padding-top: 24px;
+  border-top: 1px solid #e5e7eb;
+}
+
+.frequencyTitle {
+  font-size: 15px;
+  font-weight: 600;
+  color: #111827;
+  margin: 0 0 8px 0;
+}
+
+.frequencyDescription {
+  font-size: 13px;
+  color: #6b7280;
+  margin: 0 0 16px 0;
+}
+
+.frequencyOptions {
+  display: flex;
+  gap: 24px;
+}
+
+.frequencyOption {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+}
+
+.frequencyOption input {
+  width: 18px;
+  height: 18px;
+  accent-color: #3b82f6;
+  cursor: pointer;
+}
+
+.frequencyOption input:disabled {
+  cursor: not-allowed;
+}
+
+.frequencyLabel {
+  font-size: 14px;
+  color: #374151;
+}
+
+/* Danger Button */
+.manageButton.danger {
+  background-color: white;
+  color: #dc2626;
+  border: 1px solid #dc2626;
+}
+
+.manageButton.danger:hover:not(:disabled) {
+  background-color: #fef2f2;
+}
+
+/* Account Settings */
+.accountItem {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px 0;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.accountItem:last-child {
+  border-bottom: none;
+}
+
+.accountItemInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.accountItemLabel {
+  font-size: 15px;
+  font-weight: 500;
+  color: #111827;
+}
+
+.accountItemDescription {
+  font-size: 13px;
+  color: #6b7280;
+}
+
+.accountButton {
+  padding: 8px 16px;
+  background-color: #3b82f6;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.2s;
+  white-space: nowrap;
+}
+
+.accountButton:hover {
+  background-color: #2563eb;
+}
+
+.accountButton.secondary {
+  background-color: white;
+  color: #374151;
+  border: 1px solid #d1d5db;
+}
+
+.accountButton.secondary:hover {
+  background-color: #f9fafb;
+  border-color: #9ca3af;
+}
+
+.accountButton.danger {
+  background-color: white;
+  color: #dc2626;
+  border: 1px solid #dc2626;
+}
+
+.accountButton.danger:hover {
+  background-color: #fef2f2;
+}
+
+/* Account Info Grid */
+.accountInfoGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+}
+
+.accountInfoItem {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.accountInfoLabel {
+  font-size: 13px;
+  color: #6b7280;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.accountInfoValue {
+  font-size: 15px;
+  color: #111827;
+  font-weight: 500;
+}
+
+.verified {
+  color: #059669;
+}
+
+.unverified {
+  color: #d97706;
+}
+
+/* Danger Zone */
+.dangerZone {
+  border: 1px solid #fecaca;
+  background-color: #fef2f2;
+}
+
+.dangerZone .sectionTitle {
+  color: #dc2626;
+}
+
+/* Delete Confirmation */
+.deleteConfirm {
+  padding: 16px;
+  background-color: white;
+  border: 1px solid #fecaca;
+  border-radius: 8px;
+}
+
+.deleteWarning {
+  font-size: 14px;
+  color: #991b1b;
+  margin: 0 0 16px 0;
+  line-height: 1.5;
+}
+
+.deleteInstruction {
+  font-size: 14px;
+  color: #374151;
+  margin: 0 0 12px 0;
+}
+
+.deleteInput {
+  width: 100%;
+  padding: 10px 12px;
+  border: 1px solid #d1d5db;
+  border-radius: 6px;
+  font-size: 14px;
+  margin-bottom: 16px;
+}
+
+.deleteInput:focus {
+  outline: none;
+  border-color: #dc2626;
+  box-shadow: 0 0 0 3px rgba(220, 38, 38, 0.1);
+}
+
+.deleteActions {
+  display: flex;
+  gap: 12px;
+  justify-content: flex-end;
+}
+
+.cancelDeleteButton {
+  padding: 10px 20px;
+  background-color: white;
+  color: #374151;
+  border: 1px solid #d1d5db;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.cancelDeleteButton:hover {
+  background-color: #f9fafb;
+  border-color: #9ca3af;
+}
+
+.confirmDeleteButton {
+  padding: 10px 20px;
+  background-color: #dc2626;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.confirmDeleteButton:hover:not(:disabled) {
+  background-color: #b91c1c;
+}
+
+.confirmDeleteButton:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* Responsive */
+@media (max-width: 1024px) {
+  .plansGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 768px) {
+  .mainContent {
+    padding: var(--spacing-md);
+  }
+
+  .plansGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .tabNav {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .subscriptionInfo {
+    flex-direction: column;
+    gap: var(--spacing-md);
+    text-align: center;
+  }
+
+  .billingTable {
+    display: block;
+    overflow-x: auto;
+  }
+
+  .notificationItem {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+  }
+
+  .toggle {
+    align-self: flex-end;
+  }
+
+  .frequencyOptions {
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  /* Account Settings Mobile */
+  .accountItem {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+  }
+
+  .accountButton {
+    align-self: flex-start;
+  }
+
+  .accountInfoGrid {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+
+  .deleteActions {
+    flex-direction: column;
+  }
+
+  .cancelDeleteButton,
+  .confirmDeleteButton {
+    width: 100%;
+  }
+}

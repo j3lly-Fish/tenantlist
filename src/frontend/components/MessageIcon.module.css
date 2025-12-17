@@ -1,0 +1,76 @@
+/* Message Icon Component */
+.messageIcon {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  padding: 0;
+  background: transparent;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  color: #666;
+  transition: background-color 0.2s, color 0.2s;
+}
+
+.messageIcon:hover {
+  background: #F5F5F5;
+  color: #333;
+}
+
+.messageIcon:focus {
+  outline: 2px solid #007AFF;
+  outline-offset: 2px;
+}
+
+.messageIcon.active {
+  color: #007AFF;
+  background: #EBF5FF;
+}
+
+.messageIcon.active:hover {
+  background: #D6EBFF;
+}
+
+/* Unread badge */
+.badge {
+  position: absolute;
+  top: 2px;
+  right: 2px;
+  min-width: 18px;
+  height: 18px;
+  padding: 0 5px;
+  background: #FF3B30;
+  border-radius: 9px;
+  font-size: 11px;
+  font-weight: 600;
+  color: #FFFFFF;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 1;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .messageIcon {
+    width: 36px;
+    height: 36px;
+  }
+
+  .messageIcon svg {
+    width: 20px;
+    height: 20px;
+  }
+
+  .badge {
+    top: 0;
+    right: 0;
+    min-width: 16px;
+    height: 16px;
+    font-size: 10px;
+  }
+}

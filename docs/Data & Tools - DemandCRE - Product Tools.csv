@@ -1,0 +1,51 @@
+Application,Website URL,Use Case,Est. Monthly Cost,Primary End User,Category,Strategic Review / Build Plan (My Notes)
+Snowflake,https://www.snowflake.com ,"Data Ingestion. The Port of Entry to receive raw data feeds from vendors (Deep Sync, Placer.ai) before syncing to the app.","Consumption Based
+
+(Est. $500 - $2k+)",Internal Team (Data Engineers),Internal,Keep this ONLY as the 'Data Port' to receive vendor feeds (Deep Sync/Placer). Do not let the app query this directlyit’s too slow and expensive. We need to sync clean data into our own Postgres DB for the actual product.
+Databricks,https://www.databricks.com ,Algorithm Computation. The backend environment where Data Scientists write and run the Smart Match algorithms that calculate the fit between a Tenant's criteria and a Property's location.,"Consumption Based
+
+(Est. $500 - $2k+)",Internal Team (Data Engineers),Internal,"This is overkill. We don't need a massive Spark cluster just to match Tenants to Properties. Let's have the dev team write a standard Python + PostGIS script to run these matches. We should own the matching algorithm code, not rent it."
+Hex.Tech,https://hex.tech ,Internal Prototyping. Used by the Data Team to visualize market trends (Vacancy/Absorption) for quality control before the Engineering team builds the actual charts into the customer dashboard.,"~$75/editor
+
+(Viewer-only is cheaper)",Internal Team (Data Engineers),Internal,"Fine for the data team to play with, but do not build product features on this. If we need internal dashboards, let's spin up Streamlit (Python) apps. They are free and we can customize them infinitely."
+NotebookLLM,https://notebooklm.google.com ,Research Operations. This is just an internal tool to do research. Upload untsructured data and develop insights. ,~$20 - $50/user,Internal Team (Research Team),Internal,
+FullStory,https://www.fullstory.com ,"UX Debugging. Used by the Product Team to watch replays of user sessions to identify exactly why a Broker abandoned the Create Listing flow or where the UI is confusing.  Conversion Intelligence. Tracks the Lost Revenue Funnel. It identifies exactly where paying customers drop off (e.g., Rage Clicks on the payment form) so Product teams can fix the revenue leak","~$800 - $1,200
+
+(Business plans)",Internal Team (Product Team),Internal,"Pricing scales too fast. Let's look at self-hosting PostHog (Open Source). It gives us the same session recording and analytics, but we keep the user data on our own servers and don't pay per-session."
+Flourish,https://flourish.studio ,"Marketing Asset Creation. Used by the Marketing Team to generate high-quality, animated MP4 charts for LinkedIn/Social Media to drive traffic to the platform (not used inside the app).","~$70 - $500
+
+(Business to Team)",Internal Team (Marketing Team),Internal,
+CrewAI,https://www.crewai.com ,Backend Automation. The invisible framework developers use to orchestrate AI Agents that perform background tasks like scraping web listings or drafting email notifications.,"~$74 - $299
+
+(Credit based)",Internal Team (Backend Automation),Internal,
+UpLead,https://www.uplead.com ,"Contact Unlocking. Powers the Reveal Decision Maker feature. When a Broker views a Stealth Tenant, this API fetches and displays the CEO/CFO's direct email and phone number.","~$500 - $1,500
+
+(Starter to Growth tiers)",Platform Customers (Brokers),Customer-Facing (In-App),"We need to be aggressive about caching this. Once we unlock a CEO's email, save it in our DB forever. Eventually, we should build our own scraping harvester to build this database internally so we stop paying per-contact"
+Pendo,https://www.pendo.io ,"Product Intelligence Suite. It tracks User Behavior (what features Brokers use most), delivers In-App Guides (onboarding Landlords), and collects User Feedback. It is the brain that tells Product Management what to build next.","$3,000",Platform Customers (New Users),Customer-Facing (In-App),"heavy 'All-in-One' suite. If we buy Pendo, we must use the Analytics deeply to justify the price. Strategic Pivot: Pendo can actually replace FullStory (session replay) and basic analytics. Decision: Either go 'All-in' on Pendo to consolidate tools, OR build a cheaper stack using PostHog (Analytics) + Driver.js (Guides)."
+Tako (DataTako),https://datatako.com ,Dashboard Visualization. The UI component library that renders the interactive Market Heatmaps and Rent Growth Charts that Tenants and Landlords see on their home screens.,"~$20 - $50/user
+
+(Or custom API cost)",Platform Customers (Dashboard Viewers),Customer-Facing (In-App),"We need to own our visualization code. Let's use D3.js or Recharts. If we rely on Tako, we can't customize the Heatmaps exactly how we want. I want the 'Demand Heatmap' to be a proprietary asset we built."
+Julius.ai,https://julius.ai ,Natural Language Interface. The Ask an Analyst chat window where Enterprise users can type questions like Show me retail vacancy in Brickell and get an instant data answer.,"Consumption Based
+
+(Start ~$2,500/mo)",Platform Customers (Enterprise),Customer-Facing (In-App),"This is great for the MVP, but long-term, we need to build our own Text-to-SQL agent using AI. We can't rely on a 3rd party to interpret our customers' questions about our data"
+ThoughtSpot,https://www.thoughtspot.com ,"Self-Service Reports. A Report Builder tab for SaaS-tier Landlords, allowing them to drag-and-drop metrics to create their own custom portfolio performance views.","~$40 - $100+
+
+(Token/Tier based)",Platform Customers (Landlords/Devs),Customer-Facing (In-App),"Way too expensive for general users. Reserve this strictly for the Enterprise tier. For everyone else, let's embed Apache Superset (Open Source) so they can do basic reporting for free."
+Censai,https://www.censaianalytics.com ,"Risk Scoring Display. The engine that feeds the Tenant Success Probability percentage (e.g., 85%) displayed on a tenant's profile to help Landlords assess risk.",Custom / TBD,Platform Customers (Risk Viewers),Customer-Facing (In-App),
+EDGAR (SEC),https://www.sec.gov/edgar ,Financial Health Widget. Automatically fetches and embeds the latest 10-K/10-Q PDF filings on the profiles of publicly traded National Brand tenants for Landlord review.,"Free
+
+(Public Gov Database)",Platform Customers (Risk Viewers),Customer-Facing (In-App),
+FranData,https://frandata.com ,"Operator Validation. Displays a specific badge (e.g., Multi-Unit Operator) on a tenant profile so Landlords know if the applicant runs 1 store or 50 stores.","Custom Data Feed
+
+(Likely $1k+/mo)",Platform Customers (Landlords),Customer-Facing (In-App),
+BBB,https://www.bbb.org ,Trust Verification. Displays the BBB Accredited logo on Mom & Pop tenant profiles to validate their legitimacy and increase Landlord trust.,"API Cost
+
+(Small per-check fee)",Platform Customers (Landlords),Customer-Facing (In-App),
+Stripe Connect,https://stripe.com/connect ,Subscription Mgmt. Processes monthly SaaS payments for Pro Tier access. (No rent collection),Transaction Fee (2.9% + 30¢),Platform Customers (Payers/Receivers),Customer-Facing (In-App),
+DocuSign API,https://www.docusign.com ,Transaction Management. Allows users to legally sign LOIs and Leases inside the dashboard.,API Pricing (Starts ~$300/mo),Platform Customers (Signers),Customer-Facing (In-App),
+Auth0,https://auth0.com ,"Security & Identity. Manages secure logins, Social Login, and Enterprise SSO.",Free up to 7k users (Then ~$23/mo+),Platform Customers (All Users),Customer-Facing (In-App),"Monitor the Monthly Active User count closely. If the bill jumps, we migrate to SuperTokens (Open Source). I don't want to pay a 'success tax' every time we sign up a new user."
+Persona,https://withpersona.com ,Identity Verification. Scans IDs to grant Verified Badges and prevent fraud.,Usage Based (~$1.50 per check),Platform Customers (New Tenants),Customer-Facing (In-App),
+Stream,https://getstream.io ,In-App Communication. Powers real-time chat and Negotiation Rooms.,~$499/mo (Standard Plan),Platform Customers (Brokers/Landlords),Customer-Facing (In-App),"Expensive but hard to build well. Use for MVP. If we scale, switch to Socket.io and build our own chat server."
+SendGrid,https://sendgrid.com ,Notification Engine. Delivers transactional emails like New Lead alerts.,~$100/mo (Pro Plan),Internal Team (Product/Dev),Internal (Back of House),Standard utility. Keep it. Building an email server from scratch is a deliverability nightmare.
+Mapbox,https://www.mapbox.com ,"Location Intelligence & Isochrones. Beyond simple maps, it calculates Drive-Time Polygons (e.g., Show me all office space within a 20-min commute of this suburb). This is a critical search filter for corporate tenants.",Pay-as-you-go,Platform Customers (Dashboard Viewers),Customer-Facing (In-App),"Pay-per-load is risky. If we use the Isochrone API (Drive-time), Mapbox is worth the money because that math is hard to build. If we just use it for visual tiles, we should switch to MapLibre to save money."
+Google Cloud Document AI,cloud.google.com/document-ai,"Automated Deal Extraction. The API that instantly reads uploaded Rent Rolls & LOIs, extracting fields (Rent, SQFT, Expiry) to auto-populate the listing form for the user. (Zero human intervention).",Consumption Based (~$65/1k pages),Platform Feature (Backend Automation),Platform Customers (via API),

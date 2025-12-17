@@ -1,0 +1,25 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "module": "commonjs",
+    "moduleResolution": "node",
+    "noEmit": false,
+    "outDir": "dist",
+    "allowImportingTsExtensions": false,
+    "jsx": "preserve",
+    "lib": ["ES2020"],
+    "noUnusedLocals": false,
+    "noUnusedParameters": false
+  },
+  "include": [
+    "src/**/*"
+  ],
+  "exclude": [
+    "node_modules",
+    "dist",
+    "src/frontend/**/*",
+    "src/__tests__/**/*",
+    "src/database/models/BusinessLocation.ts",
+    "src/database/seeds/**/*"
+  ]
+}

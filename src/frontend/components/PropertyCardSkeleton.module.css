@@ -1,0 +1,102 @@
+.skeleton {
+  background: white;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+/* Shimmer animation */
+@keyframes shimmer {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+.photoPlaceholder,
+.titlePlaceholder,
+.typePlaceholder,
+.locationPlaceholder,
+.detailsPlaceholder,
+.metricPlaceholder,
+.buttonPlaceholder {
+  background: linear-gradient(
+    90deg,
+    #f3f4f6 25%,
+    #e5e7eb 50%,
+    #f3f4f6 75%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 1.5s ease-in-out infinite;
+}
+
+.photoPlaceholder {
+  width: 100%;
+  height: 180px;
+}
+
+.content {
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 12px;
+}
+
+.titlePlaceholder {
+  flex: 1;
+  height: 20px;
+  border-radius: 4px;
+}
+
+.typePlaceholder {
+  width: 60px;
+  height: 24px;
+  border-radius: 4px;
+  flex-shrink: 0;
+}
+
+.locationPlaceholder {
+  width: 140px;
+  height: 16px;
+  border-radius: 4px;
+}
+
+.detailsPlaceholder {
+  width: 180px;
+  height: 16px;
+  border-radius: 4px;
+}
+
+.metricsPlaceholder {
+  display: flex;
+  gap: 8px;
+  padding-top: 8px;
+  border-top: 1px solid #f3f4f6;
+}
+
+.metricPlaceholder {
+  width: 70px;
+  height: 28px;
+  border-radius: 4px;
+}
+
+.buttonPlaceholder {
+  height: 44px;
+  border-radius: 8px;
+  margin-top: 4px;
+}
+
+@media (max-width: 768px) {
+  .photoPlaceholder {
+    height: 160px;
+  }
+}

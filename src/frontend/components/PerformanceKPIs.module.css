@@ -1,0 +1,28 @@
+.performanceKPIs {
+  margin-bottom: 40px;
+}
+
+.kpiGrid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
+}
+
+/* Tablet: 2x2 grid */
+@media (max-width: 1199px) {
+  .kpiGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* Mobile: Stacked */
+@media (max-width: 768px) {
+  .performanceKPIs {
+    margin-bottom: 32px;
+  }
+
+  .kpiGrid {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+}

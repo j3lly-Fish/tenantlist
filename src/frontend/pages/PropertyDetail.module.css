@@ -1,0 +1,443 @@
+.propertyDetail {
+  min-height: 100vh;
+  background-color: #f8f9fa;
+}
+
+.content {
+  padding-top: 80px;
+  min-height: calc(100vh - 80px);
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 32px 24px;
+}
+
+/* Back link */
+.backLink {
+  background: none;
+  border: none;
+  color: #3b82f6;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  padding: 0;
+  margin-bottom: 24px;
+  display: inline-block;
+  transition: color 0.2s;
+}
+
+.backLink:hover {
+  color: #2563eb;
+  text-decoration: underline;
+}
+
+/* Property header */
+.propertyHeader {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 32px;
+  margin-bottom: 32px;
+  background: white;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+/* Photo section */
+.photoSection {
+  position: relative;
+  height: 400px;
+  overflow: hidden;
+}
+
+.mainPhoto {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.statusBadge {
+  position: absolute;
+  top: 16px;
+  left: 16px;
+  padding: 6px 12px;
+  border-radius: 6px;
+  font-size: 13px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.statusActive {
+  background-color: #dcfce7;
+  color: #15803d;
+}
+
+.statusPending {
+  background-color: #fef3c7;
+  color: #b45309;
+}
+
+.statusLeased {
+  background-color: #dbeafe;
+  color: #1d4ed8;
+}
+
+.statusOffMarket {
+  background-color: #f3f4f6;
+  color: #6b7280;
+}
+
+/* Info section */
+.infoSection {
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+}
+
+.titleRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 16px;
+  margin-bottom: 12px;
+}
+
+.propertyTitle {
+  font-size: 24px;
+  font-weight: 700;
+  color: #111827;
+  margin: 0;
+  flex: 1;
+}
+
+.typeBadge {
+  padding: 6px 12px;
+  background-color: #f3f4f6;
+  color: #374151;
+  font-size: 13px;
+  font-weight: 500;
+  border-radius: 6px;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.location {
+  font-size: 15px;
+  color: #6b7280;
+  margin: 0 0 20px 0;
+}
+
+/* Key metrics */
+.keyMetrics {
+  display: flex;
+  gap: 24px;
+  padding: 20px 0;
+  border-top: 1px solid #f3f4f6;
+  border-bottom: 1px solid #f3f4f6;
+  margin-bottom: 20px;
+}
+
+.metric {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.metricValue {
+  font-size: 20px;
+  font-weight: 700;
+  color: #111827;
+}
+
+.metricLabel {
+  font-size: 13px;
+  color: #6b7280;
+}
+
+/* Performance metrics */
+.performanceMetrics {
+  display: flex;
+  gap: 32px;
+  margin-bottom: 24px;
+}
+
+.performanceMetric {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  padding: 12px 20px;
+  background-color: #f9fafb;
+  border-radius: 8px;
+}
+
+.performanceValue {
+  font-size: 24px;
+  font-weight: 700;
+  color: #3b82f6;
+}
+
+.performanceLabel {
+  font-size: 12px;
+  color: #6b7280;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+/* Actions */
+.actions {
+  display: flex;
+  gap: 12px;
+  margin-top: auto;
+}
+
+.actionButton {
+  padding: 10px 20px;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  border: none;
+}
+
+.actionButton.primary {
+  background-color: #3b82f6;
+  color: white;
+}
+
+.actionButton.primary:hover {
+  background-color: #2563eb;
+}
+
+.actionButton.secondary {
+  background-color: #f3f4f6;
+  color: #374151;
+}
+
+.actionButton.secondary:hover {
+  background-color: #e5e7eb;
+}
+
+.actionButton.danger {
+  background-color: white;
+  color: #dc2626;
+  border: 1px solid #fecaca;
+}
+
+.actionButton.danger:hover {
+  background-color: #fef2f2;
+  border-color: #dc2626;
+}
+
+/* Details grid */
+.detailsGrid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 24px;
+}
+
+.detailCard {
+  background: white;
+  border-radius: 12px;
+  padding: 24px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+.detailCard:first-child {
+  grid-column: span 2;
+}
+
+.cardTitle {
+  font-size: 16px;
+  font-weight: 600;
+  color: #111827;
+  margin: 0 0 16px 0;
+  padding-bottom: 12px;
+  border-bottom: 1px solid #f3f4f6;
+}
+
+.description {
+  font-size: 15px;
+  color: #374151;
+  line-height: 1.6;
+  margin: 0;
+  white-space: pre-wrap;
+}
+
+/* Details list */
+.detailsList {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.detailItem {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 0;
+  border-bottom: 1px solid #f9fafb;
+}
+
+.detailItem:last-child {
+  border-bottom: none;
+}
+
+.detailLabel {
+  font-size: 14px;
+  color: #6b7280;
+}
+
+.detailValue {
+  font-size: 14px;
+  color: #111827;
+  font-weight: 500;
+}
+
+.detailValue a {
+  color: #3b82f6;
+  text-decoration: none;
+}
+
+.detailValue a:hover {
+  text-decoration: underline;
+}
+
+/* Tags */
+.tagsList {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.tag {
+  display: inline-block;
+  padding: 6px 12px;
+  background-color: #f3f4f6;
+  color: #374151;
+  font-size: 13px;
+  border-radius: 6px;
+}
+
+.highlightTag {
+  display: inline-block;
+  padding: 6px 12px;
+  background-color: #eff6ff;
+  color: #1d4ed8;
+  font-size: 13px;
+  border-radius: 9999px;
+  border: 1px solid #bfdbfe;
+}
+
+/* Error state */
+.errorState {
+  text-align: center;
+  padding: 60px 24px;
+  background-color: white;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  max-width: 500px;
+  margin: 40px auto;
+}
+
+.errorState h2 {
+  font-size: 24px;
+  color: #dc2626;
+  margin: 0 0 16px 0;
+}
+
+.errorState p {
+  font-size: 16px;
+  color: #6b7280;
+  margin: 0 0 24px 0;
+}
+
+.backButton {
+  padding: 12px 24px;
+  background-color: #3b82f6;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.backButton:hover {
+  background-color: #2563eb;
+}
+
+/* Responsive */
+@media (max-width: 1024px) {
+  .propertyHeader {
+    grid-template-columns: 1fr;
+  }
+
+  .photoSection {
+    height: 300px;
+  }
+
+  .detailsGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .detailCard:first-child {
+    grid-column: span 1;
+  }
+}
+
+@media (max-width: 768px) {
+  .container {
+    padding: 24px 16px;
+  }
+
+  .content {
+    padding-top: 70px;
+  }
+
+  .titleRow {
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .propertyTitle {
+    font-size: 20px;
+  }
+
+  .keyMetrics {
+    flex-wrap: wrap;
+    gap: 16px;
+  }
+
+  .performanceMetrics {
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+
+  .performanceMetric {
+    flex: 1;
+    min-width: 80px;
+  }
+
+  .actions {
+    flex-direction: column;
+  }
+
+  .actionButton {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .photoSection {
+    height: 240px;
+  }
+
+  .infoSection {
+    padding: 20px;
+  }
+}

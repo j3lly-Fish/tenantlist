@@ -1,0 +1,1262 @@
+# Task Breakdown: Tenant Dashboard Implementation
+
+## Overview
+Total Task Groups: 6
+Implementation Approach: Phased, starting with database layer and building up to frontend
+Feature Focus: Tenant Dashboard with two-level hierarchy (Business Listings → Demand Listings)
+
+## Task List
+
+### Phase 1: Database Layer & Models
+
+#### Task Group 1: Database Schema and Migrations
+**Dependencies:** None
+**Assigned Role:** Database Engineer
+**Estimated Time:** 1-2 days
+
+- [x] 1.0 Complete database schema implementation
+  - [x] 1.1 Write 2-8 focused tests for database models
+    - Test Business model CRUD operations and validations
+    - Test DemandListing model with business_id foreign key CASCADE relationship
+    - Test BusinessMetrics aggregation queries for KPI calculations
+    - Test BusinessInvite status transitions
+    - Test user_profiles.profile_completed enforcement
+    - Limit to critical model behaviors only (2-8 tests maximum)
+  - [x] 1.2 Create businesses table migration
+    - Fields: id (UUID PK), user_id (UUID FK to users), name (VARCHAR 255), logo_url (VARCHAR 500 nullable), category (VARCHAR 50), status (ENUM: active/pending_verification/stealth_mode), is_verified (BOOLEAN default false), stealth_mode_enabled (BOOLEAN default false), created_at (TIMESTAMP), updated_at (TIMESTAMP)
+    - Index: `CREATE INDEX idx_businesses_user_id ON businesses(user_id)`
+    - Composite index: `CREATE INDEX idx_businesses_user_status ON businesses(user_id, status, created_at)` for filtered queries
+    - Foreign key: user_id references users(id) ON DELETE CASCADE
+    - Migration file: `src/database/migrations/YYYYMMDDHHMMSS_create_businesses_table.ts`
+  - [x] 1.3 Create demand_listings table migration (QFPs - Qualified Facility Profiles)
+    - Fields: id (UUID PK), business_id (UUID FK to businesses CASCADE), location_name (VARCHAR 255), city (VARCHAR 100), state (VARCHAR 50), address (TEXT nullable), sqft_min (INTEGER nullable), sqft_max (INTEGER nullable), budget_min (DECIMAL nullable), budget_max (INTEGER nullable), asset_type (VARCHAR 50), requirements (JSONB for additional fields), match_percentage (VARCHAR default 'N/A'), status (ENUM: active/pending/closed), created_at (TIMESTAMP), updated_at (TIMESTAMP)
+    - Index: `CREATE INDEX idx_demand_listings_business_id ON demand_listings(business_id)`
+    - Foreign key: business_id references businesses(id) ON DELETE CASCADE
+    - Migration file: `src/database/migrations/YYYYMMDDHHMMSS_create_demand_listings_table.ts`
+  - [x] 1.4 Create business_metrics table migration
+    - Fields: id (UUID PK), business_id (UUID FK to businesses CASCADE), demand_listing_id (UUID FK to demand_listings nullable), metric_date (DATE), views_count (INTEGER default 0), clicks_count (INTEGER default 0), property_invites_count (INTEGER default 0), declined_count (INTEGER default 0), messages_count (INTEGER default 0), qfps_submitted_count (INTEGER default 0), created_at (TIMESTAMP), updated_at (TIMESTAMP)
+    - Index: `CREATE INDEX idx_business_metrics_business_id ON business_metrics(business_id)`
+    - Composite index: `CREATE INDEX idx_business_metrics_date ON business_metrics(business_id, metric_date)` for time-series queries
+    - Foreign keys: business_id references businesses(id) ON DELETE CASCADE, demand_listing_id references demand_listings(id) ON DELETE SET NULL
+    - Migration file: `src/database/migrations/YYYYMMDDHHMMSS_create_business_metrics_table.ts`
+  - [x] 1.5 Create business_invites table migration
+    - Fields: id (UUID PK), business_id (UUID FK to businesses CASCADE), invited_by_user_id (UUID FK to users), invited_user_email (VARCHAR 255), status (ENUM: pending/accepted/declined), created_at (TIMESTAMP), updated_at (TIMESTAMP)
+    - Index: `CREATE INDEX idx_business_invites_business_id ON business_invites(business_id)`
+    - Foreign keys: business_id references businesses(id) ON DELETE CASCADE, invited_by_user_id references users(id)
+    - Migration file: `src/database/migrations/YYYYMMDDHHMMSS_create_business_invites_table.ts`
+  - [x] 1.6 Update user_profiles table migration
+    - Add profile_completed (BOOLEAN default false) column if not exists
+    - Add photo_url (VARCHAR 500 nullable) column if not exists
+    - Migration file: `src/database/migrations/YYYYMMDDHHMMSS_update_user_profiles_table.ts`
+  - [x] 1.7 Create Business model (src/database/models/Business.ts)
+    - CRUD methods: create(userId, name, category, logoUrl?), findById(id), findByUserId(userId), findByUserIdPaginated(userId, limit, offset), update(id, data), delete(id)
+    - Query methods: searchByName(userId, searchTerm), findByUserIdAndStatus(userId, status), countActiveBusinesses(userId)
+    - Association methods: getDemandListings(businessId), getMetrics(businessId), getInvites(businessId)
+    - Aggregation method: getAggregatedCounts(businessId) returning {listingsCount: number, statesCount: number, invitesCount: number}
+    - Use raw SQL with pg driver following existing User model pattern
+  - [x] 1.8 Create DemandListing model (src/database/models/DemandListing.ts)
+    - CRUD methods: create(businessId, data), findById(id), findByBusinessId(businessId), update(id, data), delete(id)
+    - Query methods: findActiveByBusinessId(businessId), countByBusinessId(businessId), getDistinctStates(businessId)
+    - Validation: Ensure business_id exists and user owns business before creating
+    - Use raw SQL with pg driver
+  - [x] 1.9 Create BusinessMetrics model (src/database/models/BusinessMetrics.ts)
+    - CRUD methods: create(businessId, demandListingId?, data), findById(id), findByBusinessId(businessId), update(id, data)
+    - Aggregation method: aggregateByUserId(userId) for KPI calculations returning {activeBusinesses, responseRate, landlordViews, messagesTotal}
+    - Aggregation method: aggregateByBusinessId(businessId) for business card metrics
+    - Time-series query: getMetricsByDateRange(businessId, startDate, endDate)
+    - Use raw SQL with pg driver
+  - [x] 1.10 Create BusinessInvite model (src/database/models/BusinessInvite.ts)
+    - CRUD methods: create(businessId, invitedByUserId, email), findById(id), findByBusinessId(businessId), update(id, status), delete(id)
+    - Query methods: countPendingByBusinessId(businessId), findByEmail(email)
+    - Use raw SQL with pg driver
+  - [x] 1.11 Run database migrations
+    - Execute all migrations in correct order: users/user_profiles (existing) → businesses → demand_listings → business_metrics → business_invites
+    - Verify all tables created successfully: `SELECT * FROM information_schema.tables WHERE table_schema = 'public'`
+    - Verify all indexes created: `SELECT * FROM pg_indexes WHERE schemaname = 'public'`
+    - Verify foreign key constraints working: Test CASCADE delete
+  - [x] 1.12 Create seed data for development
+    - Seed 5-10 sample businesses for existing test tenant users
+    - Include businesses in different statuses: active, pending_verification, stealth_mode
+    - Include businesses in different categories: F&B, Retail, Office, Industrial
+    - Add 2-5 demand listings per business with different cities/states
+    - Add sample metrics data for each business (views, clicks, invites, messages)
+    - Seed file: `src/database/seeds/tenant_dashboard_seed.ts`
+  - [x] 1.13 Ensure database layer tests pass
+    - Run ONLY the 2-8 tests written in 1.1
+    - Verify all model methods work correctly
+    - Verify associations and CASCADE deletes work (deleting business removes demand_listings, metrics, invites)
+    - Do NOT run entire test suite at this stage
+
+**Acceptance Criteria:**
+- All 4 new tables (businesses, demand_listings, business_metrics, business_invites) created with proper schema
+- All indexes and foreign key constraints in place
+- All model classes implement required methods with TypeScript typing
+- CASCADE delete works: deleting business removes all related demand_listings, metrics, invites
+- getAggregatedCounts returns correct listingsCount, statesCount, invitesCount for business cards
+- aggregateByUserId returns correct KPI data structure
+- The 2-8 tests written in 1.1 pass
+- user_profiles table updated with profile_completed and photo_url columns
+- Seed data creates realistic test scenarios with two-level hierarchy
+
+---
+
+### Phase 2: Backend API Layer
+
+#### Task Group 2: API Endpoints and Services
+**Dependencies:** Task Group 1
+**Assigned Role:** Backend API Engineer
+**Estimated Time:** 2-3 days
+
+- [x] 2.0 Complete backend API implementation
+  - [x] 2.1 Write 2-8 focused tests for API endpoints
+    - Test GET /api/dashboard/tenant authentication and KPI data structure
+    - Test GET /api/businesses pagination and filtering by status
+    - Test GET /api/businesses/:id authorization (user must own business)
+    - Test GET /api/businesses/:id/demand-listings returns correct nested data
+    - Test WebSocket /dashboard authentication with JWT
+    - Test KPIService.calculateDashboardKPIs Redis caching behavior
+    - Test ProfileCompletionGuard middleware blocks access if profile_completed=false
+    - Limit to critical API operations only (2-8 tests maximum)
+  - [x] 2.2 Create/Update KPIService (src/services/KPIService.ts)
+    - Extend or create calculateDashboardKPIs(userId: string) method
+    - Return structure: {activeBusinesses: number, responseRate: string, landlordViews: number, messagesTotal: number}
+    - activeBusinesses: Use Business.countActiveBusinesses(userId)
+    - responseRate: Calculate (messages_count / property_invites_count * 100) capped at 100%, rounded to 1 decimal, return as "XX.X%"
+    - landlordViews: Sum views_count from BusinessMetrics.aggregateByUserId(userId), return 0 for Starter tier users (check user_profiles.subscription_tier)
+    - messagesTotal: Sum messages_count from BusinessMetrics.aggregateByUserId(userId)
+    - Redis caching with 5-minute TTL (cacheTTL: 300)
+    - Cache key: `dashboard:kpis:${userId}`
+    - Handle edge cases: No businesses returns {0, "0%", 0, 0}, no metrics returns zeros
+    - Reference existing KPIService pattern if available
+  - [x] 2.3 Create DashboardEventService (src/services/DashboardEventService.ts)
+    - Method: emitKPIUpdate(userId: string, kpis: DashboardKPIs) - triggers WebSocket kpi:update event
+    - Method: emitBusinessCreated(userId: string, business: Business) - triggers business:created event
+    - Method: emitBusinessUpdated(userId: string, business: Business) - triggers business:updated event
+    - Method: emitBusinessDeleted(userId: string, businessId: string) - triggers business:deleted event
+    - Method: emitMetricsUpdated(userId: string, businessId: string, metrics: BusinessMetrics) - triggers metrics:updated event
+    - Integration with DashboardSocketServer for event emission to user-specific rooms
+    - Trigger cache invalidation on KPIService when emitting events
+  - [x] 2.4 Create/Update BusinessController (src/controllers/BusinessController.ts)
+    - GET /api/businesses - List user's businesses with pagination
+      - Query params: page (default 1), limit (default 20), status (optional: active|pending_verification|stealth_mode), search (optional)
+      - Returns: {businesses: Business[], total: number, page: number, limit: number}
+      - Filter by user_id from req.user.userId (from JWT via AuthMiddleware)
+      - Apply status filter if provided using Business.findByUserIdAndStatus
+      - Apply search filter using Business.searchByName with PostgreSQL ILIKE if search param present
+      - Use Business.findByUserIdPaginated for pagination with offset = (page - 1) * limit
+      - For each business, include aggregated counts via Business.getAggregatedCounts
+    - GET /api/businesses/:id - Business detail
+      - Returns: {business: Business, listingsCount: number, statesCount: number, invitesCount: number, demandListings: DemandListing[]}
+      - Verify user owns business (business.user_id === req.user.userId)
+      - Return 404 if not found, 403 if not owner
+      - Include aggregated counts and first 10 demand listings
+    - GET /api/businesses/:id/demand-listings - List all demand listings for business
+      - Returns: {demandListings: DemandListing[], total: number}
+      - Verify user owns business before returning data
+      - Use DemandListing.findByBusinessId(businessId)
+    - GET /api/businesses/:id/locations/:locationId/metrics - Location-specific metrics (placeholder for MVP)
+      - Returns: {message: "Feature coming soon", metrics: {views: "N/A", clicks: "N/A", invites: "N/A", declined: "N/A", messages: "N/A", qfps: "N/A"}}
+      - Structure in place for future implementation
+      - Verify user owns business before returning placeholder
+    - Middleware: AuthMiddleware, RoleGuard.require('tenant')
+    - Error handling: Consistent JSON format {success: boolean, data?: any, error?: string}
+    - HTTP status codes: 200 (success), 400 (validation), 401 (unauthorized), 403 (forbidden), 404 (not found), 500 (server error)
+  - [x] 2.5 Create/Update DashboardController (src/controllers/DashboardController.ts)
+    - GET /api/dashboard/tenant - Main dashboard data endpoint
+      - Returns: {kpis: DashboardKPIs, businesses: Business[], total: number}
+      - Call KPIService.calculateDashboardKPIs(req.user.userId)
+      - Call Business.findByUserIdPaginated(req.user.userId, 20, 0) for initial 20 businesses
+      - For each business, include aggregated counts using Business.getAggregatedCounts
+      - Middleware chain: AuthMiddleware, RoleGuard.require('tenant'), ProfileCompletionGuard
+      - Handle errors: Return 500 with error message if KPI calculation or business fetch fails
+    - Create ProfileCompletionGuard middleware (src/middleware/ProfileCompletionGuard.ts)
+      - Check user_profiles.profile_completed === true from database
+      - Return 403 with message: "Please complete your business profile to access the dashboard" if false
+      - Include redirect URL in response: {redirectTo: '/profile/complete'}
+      - Skip guard for /api/profile endpoints to allow profile completion
+  - [x] 2.6 Update/Create DashboardSocketServer (src/websocket/dashboardSocket.ts)
+    - Socket.io namespace: /dashboard
+    - authenticateSocket middleware: Extract JWT from cookies (req.cookies.accessToken) or handshake.auth.token or handshake.query.token
+    - Verify JWT using JwtService.verifyToken, get userId from token
+    - User-specific room on connection: socket.join(`user:${userId}`)
+    - Event listeners:
+      - 'connection': Log connection, join user room, emit current KPI state
+      - 'disconnect': Log disconnection, leave room
+      - 'request:current-state': Fetch and emit current KPIs and businesses
+    - Event emitters (called from DashboardEventService):
+      - 'kpi:update': Emit to `user:${userId}` room with {kpis: DashboardKPIs}
+      - 'business:created': Emit to `user:${userId}` room with {business: Business}
+      - 'business:updated': Emit to `user:${userId}` room with {business: Business}
+      - 'business:deleted': Emit to `user:${userId}` room with {businessId: string}
+      - 'metrics:updated': Emit to `user:${userId}` room with {businessId: string, metrics: BusinessMetrics}
+    - Connection state logging for debugging
+    - Reference existing WebSocket pattern from `src/websocket/` if available
+  - [x] 2.7 Add API routes to Express app
+    - Create businessRoutes.ts: Mount BusinessController routes at /api/businesses
+    - Update/create dashboardRoutes.ts: Mount DashboardController routes at /api/dashboard
+    - Apply middleware chain in route definitions:
+      - CsrfService for POST/PUT/DELETE endpoints
+      - AuthMiddleware for all routes
+      - RoleGuard.require('tenant') for tenant-specific routes
+      - ProfileCompletionGuard for dashboard route
+    - Apply RateLimitService: 100 requests per 15 minutes per user IP on all dashboard/business endpoints
+    - Register routes in main Express app (src/index.ts or src/server.ts)
+  - [x] 2.8 Ensure API layer tests pass
+    - Run ONLY the 2-8 tests written in 2.1
+    - Verify authentication and authorization work (401 without token, 403 for non-tenant)
+    - Verify pagination returns correct page of data with total count
+    - Verify KPI calculations return correct structure and values
+    - Verify WebSocket authenticates and emits to correct rooms
+    - Do NOT run entire test suite at this stage
+
+**Acceptance Criteria:**
+- GET /api/dashboard/tenant returns KPIs and businesses for authenticated tenant users only
+- KPIs structure: {activeBusinesses, responseRate, landlordViews, messagesTotal}
+- Landlord Views returns 0 for Starter tier users
+- GET /api/businesses supports pagination (?page=1&limit=20), status filtering (?status=active), and search (?search=keyword)
+- Each business includes aggregated counts: listingsCount, statesCount, invitesCount
+- GET /api/businesses/:id/demand-listings returns all demand listings for business
+- WebSocket /dashboard namespace authenticates with JWT and emits events to user-specific rooms (user:${userId})
+- ProfileCompletionGuard enforces profile_completed=true before dashboard access
+- KPIService calculates all 4 KPIs with Redis caching (5-minute TTL)
+- DashboardEventService emits events that trigger WebSocket updates
+- The 2-8 tests written in 2.1 pass
+- Proper error handling and consistent JSON response format
+
+---
+
+### Phase 3: Frontend Foundation & State Management
+
+#### Task Group 3: React Setup and Shared Components
+**Dependencies:** Task Group 2
+**Assigned Role:** Frontend Engineer
+**Estimated Time:** 2-3 days
+
+- [x] 3.0 Complete frontend foundation setup
+  - [x] 3.1 Write 2-8 focused tests for core utilities and hooks
+    - Test useDashboardWebSocket hook connection, disconnect, and reconnection logic
+    - Test useBusinessFilter hook state management and URL sync
+    - Test useDebouncedValue hook timing (300ms delay)
+    - Test API client error handling and token refresh
+    - Test PrivateRoute redirects unauthenticated users
+    - Limit to critical frontend utilities only (2-8 tests maximum)
+  - [x] 3.2 Initialize React frontend structure (if not exists, otherwise skip)
+    - Set up React 18.x with TypeScript
+    - Configure Vite as build tool for fast development and HMR
+    - Install dependencies: react-router-dom (v6), axios, socket.io-client, lodash.debounce, react-toastify
+    - Set up folder structure following existing pattern:
+      - src/frontend/components/ (reusable components)
+      - src/frontend/pages/ (page components)
+      - src/frontend/hooks/ (custom hooks)
+      - src/frontend/services/ (API client, WebSocket)
+      - src/frontend/types/ (TypeScript interfaces)
+      - src/frontend/utils/ (helper functions)
+    - Configure environment variables: VITE_API_BASE_URL, VITE_WS_BASE_URL
+    - Reference existing SignupModal.tsx pattern for CSS Modules usage
+  - [x] 3.3 Create TypeScript interfaces (src/frontend/types/dashboard.types.ts)
+    - Interface Business: {id: string, user_id: string, name: string, logo_url: string | null, category: string, status: 'active' | 'pending_verification' | 'stealth_mode', is_verified: boolean, stealth_mode_enabled: boolean, created_at: string, updated_at: string, listingsCount?: number, statesCount?: number, invitesCount?: number}
+    - Interface DemandListing: {id: string, business_id: string, location_name: string, city: string, state: string, address: string | null, sqft_min: number | null, sqft_max: number | null, budget_min: number | null, budget_max: number | null, asset_type: string, requirements: Record<string, any>, match_percentage: string, status: 'active' | 'pending' | 'closed', created_at: string, updated_at: string}
+    - Interface BusinessMetrics: {views_count: number, clicks_count: number, property_invites_count: number, declined_count: number, messages_count: number, qfps_submitted_count: number}
+    - Interface DashboardKPIs: {activeBusinesses: number, responseRate: string, landlordViews: number, messagesTotal: number}
+    - Interface DashboardData: {kpis: DashboardKPIs, businesses: Business[], total: number}
+    - Interface BusinessCardProps: {business: Business, onEdit?: () => void, onDelete?: () => void, onViewPerformance?: () => void, onManageLocations?: () => void, onClick?: () => void}
+    - Interface KPICardProps: {title: string, value: number | string, suffix?: string, isLocked?: boolean, tierRequired?: string, loading?: boolean}
+  - [x] 3.4 Create API client service (src/frontend/services/api.ts)
+    - Axios instance with base URL from environment variable: axios.create({baseURL: import.meta.env.VITE_API_BASE_URL})
+    - Request interceptor: Add Authorization header with JWT from cookies (check document.cookie)
+    - Response interceptor:
+      - Handle 401: Try token refresh via RefreshTokenService, if fails redirect to /login
+      - Handle 403: Show toast notification with error message
+      - Handle 500: Show toast notification and log error
+      - Network errors: Retry with exponential backoff (3 attempts max: 1s, 2s, 4s delays)
+    - Typed API methods:
+      - getDashboard(): Promise<DashboardData>
+      - getBusinesses(page: number, limit: number, status?: string, search?: string): Promise<{businesses: Business[], total: number, page: number, limit: number}>
+      - getBusinessById(id: string): Promise<{business: Business, demandListings: DemandListing[]}>
+      - getDemandListings(businessId: string): Promise<{demandListings: DemandListing[], total: number}>
+      - getProfile(): Promise<{user: User, profile: UserProfile}>
+    - Error handling with toast notifications using react-toastify
+    - Export apiClient instance and typed methods
+  - [x] 3.5 Create WebSocket hook (src/frontend/hooks/useDashboardWebSocket.ts)
+    - Socket.io client connection to /dashboard namespace
+    - Connection URL: import.meta.env.VITE_WS_BASE_URL + '/dashboard'
+    - Extract JWT from cookies for authentication in handshake.auth.token
+    - Connection on mount, disconnect on unmount (useEffect cleanup)
+    - State: isConnected (boolean), connectionState ('connected' | 'disconnected' | 'reconnecting')
+    - Exponential backoff reconnection: 1s, 2s, 4s, 8s, 16s max delay, 5 max attempts
+    - Event listeners setup via callback props:
+      - onKPIUpdate(kpis: DashboardKPIs)
+      - onBusinessCreated(business: Business)
+      - onBusinessUpdated(business: Business)
+      - onBusinessDeleted(businessId: string)
+      - onMetricsUpdated(businessId: string, metrics: BusinessMetrics)
+    - Emit 'request:current-state' on reconnect for state reconciliation
+    - Return: {socket, isConnected, connectionState, reconnect}
+  - [x] 3.6 Create custom hooks for business logic
+    - useBusinessFilter hook (src/frontend/hooks/useBusinessFilter.ts):
+      - Accepts: businesses: Business[]
+      - State: searchQuery (string), statusFilter (string | null), filteredBusinesses (Business[])
+      - Filter logic: Filter by searchQuery (ILIKE on business.name) AND statusFilter
+      - Sync with URL query params using useSearchParams from react-router-dom (?status=active&search=keyword)
+      - Update URL when filters change
+      - Return: {filteredBusinesses, searchQuery, setSearchQuery, statusFilter, setStatusFilter, clearFilters}
+    - useDebouncedValue hook (src/frontend/hooks/useDebouncedValue.ts):
+      - Accepts: value: T, delay: number (default 300ms)
+      - Use lodash.debounce or custom implementation
+      - Return: debouncedValue: T
+    - useInfiniteScroll hook (src/frontend/hooks/useInfiniteScroll.ts):
+      - Accepts: fetchMore: () => void, hasMore: boolean, threshold: number (default 200px)
+      - Use Intersection Observer API to monitor scroll position
+      - Trigger fetchMore when user scrolls within threshold of bottom
+      - State: isLoadingMore (boolean)
+      - Return: {scrollRef: RefObject<HTMLDivElement>, isLoadingMore}
+  - [x] 3.7 Create base component library
+    - Button component (src/frontend/components/common/Button.tsx):
+      - Props: variant ('primary' | 'secondary' | 'danger'), size ('small' | 'medium' | 'large'), disabled, onClick, children, ariaLabel
+      - Variants: primary (blue bg), secondary (gray bg), danger (red bg)
+      - Wrapped in React.memo for performance
+      - CSS Module: Button.module.css
+    - Badge component (src/frontend/components/common/Badge.tsx):
+      - Props: color ('green' | 'yellow' | 'gray' | 'blue'), children
+      - Pill-shaped design with 4px border-radius
+      - Wrapped in React.memo
+      - CSS Module: Badge.module.css
+    - Dropdown component (src/frontend/components/common/Dropdown.tsx):
+      - Props: options (array of {label, value}), value, onChange, label
+      - Keyboard navigation support (Arrow keys, Enter, Escape)
+      - Close on outside click using useEffect with document.addEventListener
+      - CSS Module: Dropdown.module.css
+    - Input component (src/frontend/components/common/Input.tsx):
+      - Props: type, placeholder, value, onChange, onClear, ariaLabel
+      - Clear button (X icon) when value is not empty
+      - Accessible labels and ARIA attributes
+      - CSS Module: Input.module.css
+    - Card component (src/frontend/components/common/Card.tsx):
+      - White background, box-shadow: 0px 2px 8px rgba(0,0,0,0.1), border-radius: 8px, padding: 16px
+      - Props: children, onClick, className
+      - Wrapped in React.memo
+      - CSS Module: Card.module.css
+    - All components have proper TypeScript props interfaces exported
+  - [x] 3.8 Set up React Router
+    - Configure routes in App.tsx using createBrowserRouter or BrowserRouter with Routes:
+      - / → Redirect to /dashboard
+      - /dashboard → Dashboard page (protected, tenant role)
+      - /dashboard/business/:id → Business Detail page (protected, tenant role, placeholder)
+      - /dashboard/trends → Trends placeholder page (protected, tenant role)
+      - /dashboard/proposals → Proposals placeholder page (protected, tenant role)
+      - /settings → Settings placeholder page (protected)
+      - /profile → Profile placeholder page (protected)
+      - /login → Login page (public)
+    - Protected route wrapper: PrivateRoute component (src/frontend/components/PrivateRoute.tsx)
+      - Check JWT token exists in cookies
+      - Check user authenticated via AuthContext
+      - Redirect to /login if not authenticated using Navigate from react-router-dom
+    - Role-based route: TenantRoute component (src/frontend/components/TenantRoute.tsx)
+      - Check user.role === 'tenant' via AuthContext
+      - Redirect to appropriate dashboard if wrong role (landlord → /landlord-dashboard, broker → /broker-dashboard)
+    - Profile completion guard: ProfileGuard component (src/frontend/components/ProfileGuard.tsx)
+      - Check user.profile_completed === true via AuthContext or API call
+      - Redirect to /profile/complete if false
+      - Applied to /dashboard route
+  - [x] 3.9 Ensure frontend foundation tests pass
+    - Run ONLY the 2-8 tests written in 3.1
+    - Verify hooks work correctly (WebSocket connection, filter state, debounce timing)
+    - Verify API client handles errors and retries
+    - Verify PrivateRoute redirects unauthenticated users
+    - Do NOT run entire test suite at this stage
+
+**Acceptance Criteria:**
+- React 18.x with TypeScript configured and running with Vite
+- All TypeScript interfaces defined for dashboard data structures
+- API client service handles authentication, errors (401, 403, 500), and retry logic with exponential backoff
+- useDashboardWebSocket hook connects to /dashboard namespace, authenticates with JWT, and handles reconnection with exponential backoff
+- useBusinessFilter manages search and status filter state, syncs with URL query params
+- useDebouncedValue debounces value changes by 300ms
+- useInfiniteScroll uses Intersection Observer to trigger fetchMore when scrolling near bottom
+- Base component library created: Button, Badge, Dropdown, Input, Card (all with CSS Modules and React.memo)
+- React Router configured with protected routes (PrivateRoute, TenantRoute, ProfileGuard)
+- The 2-8 tests written in 3.1 pass
+
+---
+
+### Phase 4: Dashboard UI Components
+
+#### Task Group 4: Dashboard Page and Business Cards
+**Dependencies:** Task Group 3
+**Assigned Role:** UI/UX Developer
+**Estimated Time:** 3-4 days
+
+- [x] 4.0 Complete dashboard UI components
+  - [x] 4.1 Write 2-8 focused tests for UI components
+    - Test KPICard renders correct metric value and label, shows locked state for tier-gated features
+    - Test BusinessCard displays all metadata (logo, name, badges, three-dot menu, buttons)
+    - Test BusinessGrid handles empty state and loading skeleton
+    - Test SearchInput and FilterDropdown update filter state
+    - Test ThreeDotsMenu opens/closes and handles keyboard navigation
+    - Test infinite scroll triggers load more when scrolling near bottom
+    - Limit to critical UI component behaviors only (2-8 tests maximum)
+  - [x] 4.2 Create KPICard component (src/frontend/components/dashboard/KPICard.tsx)
+    - Props: {title: string, value: number | string, suffix?: string, isLocked?: boolean, tierRequired?: string, loading?: boolean}
+    - Layout: Large metric value (48px bold, font-weight: 700), label below (14px regular, color: #6C757D)
+    - Locked state: Gray overlay with semi-transparent background, "Upgrade to [tierRequired]" badge displayed
+    - Loading state: Skeleton loader with pulsing gray rectangle
+    - ARIA attributes: aria-label={`${title}: ${value}${suffix || ''}`}, aria-live="polite" for real-time updates
+    - Wrapped in React.memo for performance
+    - CSS Module: KPICard.module.css
+    - Match design from planning/visuals/DemandCRE-design.pdf
+  - [x] 4.3 Create MetricBadge component (src/frontend/components/dashboard/MetricBadge.tsx)
+    - Props: {icon?: ReactNode, label: string, value: number}
+    - Layout: Icon (optional) + label + value in horizontal row with 8px gap
+    - Styling: Gray background (#F8F9FA), rounded corners (border-radius: 4px), 12px padding, 14px font size
+    - Used for: Listings count, States count, Invites count on business cards
+    - CSS Module: MetricBadge.module.css
+  - [x] 4.4 Create StatusBadge component (src/frontend/components/dashboard/StatusBadge.tsx)
+    - Props: {status: 'active' | 'pending_verification' | 'stealth_mode'}
+    - Color coding:
+      - Active: Green background #28A745, white text
+      - Pending Verification: Yellow background #FFC107, dark text
+      - Stealth Mode: Gray background #6C757D, white text
+    - Text display: "Active", "Pending Verification", "Stealth Mode"
+    - Pill-shaped design: border-radius: 12px, padding: 4px 12px
+    - CSS Module: StatusBadge.module.css
+  - [x] 4.5 Create CategoryBadge component (src/frontend/components/dashboard/CategoryBadge.tsx)
+    - Props: {category: string}
+    - Examples: "F&B", "Retail", "Office", "Industrial"
+    - Neutral styling: Gray background (#E9ECEF), dark text (#212529)
+    - Pill-shaped design: border-radius: 12px, padding: 4px 12px, font-size: 12px
+    - CSS Module: CategoryBadge.module.css
+  - [x] 4.6 Create ThreeDotsMenu component (src/frontend/components/dashboard/ThreeDotsMenu.tsx)
+    - Three-dot icon (⋮) button in top-right corner of business card
+    - Dropdown menu with options:
+      - "Stealth mode" toggle (checkbox, disabled for non-Enterprise tiers with tooltip "Enterprise feature")
+      - "Edit Business" (placeholder action)
+      - "Delete Business" (placeholder action with confirmation)
+    - Keyboard navigation: Arrow keys to move, Enter to select, Escape to close
+    - Click outside to close (useEffect with document.addEventListener)
+    - event.stopPropagation on all menu interactions to prevent card click
+    - Position: absolute, top-right of parent card
+    - CSS Module: ThreeDotsMenu.module.css
+  - [x] 4.7 Create BusinessCard component (src/frontend/components/dashboard/BusinessCard.tsx)
+    - Layout (top to bottom):
+      - ThreeDotsMenu in top-right corner (position: absolute)
+      - Business logo (lazy loaded with loading="lazy", fallback to placeholder if logo_url is null)
+      - Business name heading (18px semibold) + CategoryBadge next to name
+      - StatusBadge
+      - Row of 3 MetricBadges (Listings count, States count, Invites count)
+      - Warning banner if is_verified=false: "Business visibility is restricted until verification is complete"
+      - Bottom row: "View Performance" (primary blue button) + "Manage Locations" (secondary gray button)
+    - Props: {business: Business, onEdit?: () => void, onDelete?: () => void, onViewPerformance?: () => void, onManageLocations?: () => void, onClick?: () => void}
+    - Card styling: White background, box-shadow: 0px 2px 8px rgba(0,0,0,0.1), border-radius: 8px, padding: 16px, gap: 12px between elements
+    - Click handler on card: Navigate to /dashboard/business/:id (call onClick prop)
+    - Button click handlers: event.stopPropagation to prevent card click
+    - ARIA attributes: aria-label={`Business: ${business.name}`}, role="article"
+    - Wrapped in React.memo for performance
+    - CSS Module: BusinessCard.module.css
+    - Reference design from planning/visuals/DemandCRE-design.pdf and user-provided screenshot
+  - [x] 4.8 Create BusinessCardSkeleton component (src/frontend/components/dashboard/BusinessCardSkeleton.tsx)
+    - Placeholder card matching BusinessCard dimensions
+    - Pulsing gray rectangles (animation: pulse 1.5s ease-in-out infinite)
+    - Same layout structure as BusinessCard for visual consistency
+    - Used during loading states (initial fetch, infinite scroll)
+    - CSS Module: BusinessCardSkeleton.module.css with pulse animation
+  - [x] 4.9 Create EmptyState component (src/frontend/components/dashboard/EmptyState.tsx)
+    - Props: {title?: string, message?: string, actionLabel?: string, onAction?: () => void}
+    - Default message: "Get started by adding your first business"
+    - CTA button: "Add Business" (calls onAction, placeholder modal for MVP)
+    - Illustration or icon: Large empty box icon or illustration
+    - Centered layout with vertical stacking
+    - CSS Module: EmptyState.module.css
+  - [x] 4.10 Create SearchInput component (src/frontend/components/dashboard/SearchInput.tsx)
+    - Props: {placeholder?: string, value: string, onChange: (value: string) => void, onClear?: () => void}
+    - Placeholder: "Search businesses..."
+    - Uses useDebouncedValue hook internally for 300ms delay
+    - Search icon (🔍) on left side of input
+    - Clear button (X icon) on right side when value is not empty
+    - onChange event: Update value state and call onChange prop with debounced value
+    - ARIA attributes: aria-label="Search businesses", role="searchbox"
+    - CSS Module: SearchInput.module.css
+  - [x] 4.11 Create FilterDropdown component (src/frontend/components/dashboard/FilterDropdown.tsx)
+    - Props: {options: {label: string, value: string}[], value: string | null, onChange: (value: string | null) => void, label?: string}
+    - Options for status filter:
+      - {label: "All Status", value: null}
+      - {label: "Active", value: "active"}
+      - {label: "Pending Verification", value: "pending_verification"}
+      - {label: "Stealth Mode", value: "stealth_mode"}
+    - Selected option displayed in dropdown button with chevron icon (▼)
+    - Dropdown menu opens on click with all options
+    - Selected option highlighted with blue background
+    - Close dropdown on selection or outside click
+    - Keyboard navigation: Arrow keys to move, Enter to select, Escape to close
+    - CSS Module: FilterDropdown.module.css
+  - [x] 4.12 Create BusinessGrid component (src/frontend/components/dashboard/BusinessGrid.tsx)
+    - Props: {businesses: Business[], loading?: boolean, isLoadingMore?: boolean, hasMore?: boolean, onLoadMore?: () => void, onBusinessClick?: (business: Business) => void, onEdit?: (business: Business) => void, onDelete?: (business: Business) => void, onViewPerformance?: (business: Business) => void, onManageLocations?: (business: Business) => void}
+    - CSS Grid layout:
+      - Desktop (1200px+): grid-template-columns: repeat(3, 1fr), gap: 24px
+      - Tablet (768px-1199px): grid-template-columns: repeat(2, 1fr), gap: 20px
+      - Mobile (<768px): grid-template-columns: 1fr, gap: 16px
+    - Render BusinessCard for each business with action handlers
+    - Show BusinessCardSkeleton (4 cards) during initial loading
+    - Show EmptyState when businesses.length === 0 and not loading
+    - Infinite scroll:
+      - Loading indicator at bottom when isLoadingMore=true (spinner + "Loading more businesses...")
+      - End-of-list message when !hasMore: "No more businesses to load"
+      - Use useInfiniteScroll hook to trigger onLoadMore when scrolling near bottom
+    - CSS Module: BusinessGrid.module.css
+  - [x] 4.13 Ensure UI component tests pass
+    - Run ONLY the 2-8 tests written in 4.1
+    - Verify components render correctly with provided props
+    - Verify user interactions work (clicks, filters, search, menu)
+    - Verify locked state displays for tier-gated features
+    - Do NOT run entire test suite at this stage
+
+**Acceptance Criteria:**
+- KPICard displays metrics with proper styling (48px value, 14px label) and locked state for tier-gated features
+- BusinessCard matches design with all elements: logo (lazy loaded), name, CategoryBadge, StatusBadge, 3 MetricBadges, ThreeDotsMenu, warning banner (if unverified), 2 action buttons
+- MetricBadge, StatusBadge, CategoryBadge render with correct colors and styling
+- ThreeDotsMenu opens/closes correctly, handles keyboard navigation, prevents card click propagation
+- BusinessGrid displays cards in responsive grid (3 columns → 2 columns → 1 column) with proper spacing
+- SearchInput debounces input by 300ms and shows clear button when value present
+- FilterDropdown displays options, handles selection, and supports keyboard navigation
+- EmptyState shows when no businesses exist with "Add Business" CTA
+- BusinessCardSkeleton shows during loading with pulsing animation
+- Infinite scroll triggers onLoadMore when scrolling within 200px of bottom
+- All components accessible with ARIA labels and keyboard navigation
+- All components use CSS Modules for scoped styling
+- All components wrapped in React.memo for performance
+- The 2-8 tests written in 4.1 pass
+
+---
+
+### Phase 5: Dashboard Page Integration
+
+#### Task Group 5: Main Dashboard Page and Navigation
+**Dependencies:** Task Group 4
+**Assigned Role:** Full Stack Developer
+**Estimated Time:** 3-4 days
+
+- [x] 5.0 Complete dashboard page integration
+  - [x] 5.1 Write 2-8 focused tests for dashboard integration
+    - Test Dashboard page fetches data on mount and displays KPIs and businesses
+    - Test real-time KPI updates via WebSocket kpi:update event
+    - Test infinite scroll loads next page when scrolling near bottom
+    - Test search and filter update business list in real-time
+    - Test navigation between dashboard tabs (Dashboard, Trends, Proposals)
+    - Test ConnectionIndicator shows correct state (connected, disconnected, reconnecting)
+    - Limit to critical integration flows only (2-8 tests maximum)
+  - [x] 5.2 Create TopNavigation component (src/frontend/components/navigation/TopNavigation.tsx)
+    - Layout (left to right):
+      - "zyx" logo (links to /dashboard, 24px font, bold)
+      - Primary navigation tabs: Dashboard (active), Trends, Proposals
+      - Spacer (flex-grow: 1)
+      - Tier badge showing subscription_tier (e.g., "Free Plan", "Starter", "Pro", "Premium", "Enterprise")
+      - "Add Business" CTA button (primary blue styling, placeholder action shows modal)
+      - Settings icon (gear icon, opens dropdown menu)
+      - "Go to Profile" link (navigates to /profile)
+    - Active tab styling: Blue underline (border-bottom: 3px solid #1E90FF), bold text (font-weight: 600)
+    - Inactive tabs: Gray text, no underline, clickable
+    - Sticky positioning: position: sticky, top: 0, z-index: 100, background: white, box-shadow on scroll
+    - Responsive: Hamburger menu (☰) on mobile (<768px) with slide-out drawer containing all nav items
+    - Fetch user profile data on mount: GET /api/profile for tier badge display
+    - CSS Module: TopNavigation.module.css
+    - Match design from planning/visuals/DemandCRE-design.pdf
+  - [x] 5.3 Create TierBadge component (src/frontend/components/navigation/TierBadge.tsx)
+    - Props: {tier: string}
+    - Display subscription tier name from user_profiles.subscription_tier
+    - Color coding:
+      - Starter/Free Plan: Gray background #6C757D
+      - Pro: Blue background #007BFF
+      - Premium: Purple background #6F42C1
+      - Enterprise: Gold background #FFD700
+    - Pill-shaped design: border-radius: 12px, padding: 4px 12px, white text, 12px font
+    - Tooltip on hover showing tier features (use title attribute or custom tooltip component)
+    - CSS Module: TierBadge.module.css
+  - [x] 5.4 Create ConnectionIndicator component (src/frontend/components/dashboard/ConnectionIndicator.tsx)
+    - Props: {connectionState: 'connected' | 'disconnected' | 'reconnecting'}
+    - Display colored dot indicator:
+      - Connected: Green dot (#28A745), solid
+      - Reconnecting: Yellow dot (#FFC107), pulsing animation
+      - Disconnected: Red dot (#DC3545), solid
+    - Position: Fixed top-right corner of dashboard (position: fixed, top: 20px, right: 20px)
+    - Tooltip showing connection state text on hover
+    - Small size: 12px diameter dot + label (optional)
+    - CSS Module: ConnectionIndicator.module.css with pulse animation
+  - [x] 5.5 Create PerformanceKPIs component (src/frontend/components/dashboard/PerformanceKPIs.tsx)
+    - Props: {kpis: DashboardKPIs, loading?: boolean, userTier?: string}
+    - 4 KPICards in horizontal row:
+      1. Active Businesses (value: kpis.activeBusinesses, suffix: none)
+      2. Response Rate (value: kpis.responseRate, suffix: none, displays as "XX.X%")
+      3. Landlord Views (value: kpis.landlordViews, suffix: none, isLocked: userTier === 'starter', tierRequired: "Pro")
+      4. Messages Total (value: kpis.messagesTotal, suffix: none)
+    - Responsive grid:
+      - Desktop (1200px+): grid-template-columns: repeat(4, 1fr), gap: 16px
+      - Tablet (768px-1199px): grid-template-columns: repeat(2, 1fr), gap: 16px (2x2 grid)
+      - Mobile (<768px): grid-template-columns: 1fr, gap: 12px (stacked vertically)
+    - Update KPIs when receiving new data via props (WebSocket or polling)
+    - CSS Module: PerformanceKPIs.module.css
+  - [x] 5.6 Create BusinessListingsSection component (src/frontend/components/dashboard/BusinessListingsSection.tsx)
+    - Props: {businesses: Business[], total: number, loading?: boolean, isLoadingMore?: boolean, hasMore?: boolean, onLoadMore?: () => void, onSearchChange?: (value: string) => void, onStatusFilterChange?: (value: string | null) => void, searchQuery?: string, statusFilter?: string | null}
+    - Layout (top to bottom):
+      - Section header: "Your Business Listings ([filteredCount])" where filteredCount updates based on filters
+      - Controls bar (horizontal flex layout):
+        - FilterDropdown (status filter)
+        - SearchInput (business name search)
+      - BusinessGrid with filtered/searched businesses
+    - Conditional rendering:
+      - Show BusinessCardSkeleton during initial loading
+      - Show EmptyState when businesses.length === 0 and not loading
+      - Show "No businesses match your filters" when filteredBusinesses.length === 0 but businesses.length > 0
+    - CSS Module: BusinessListingsSection.module.css
+  - [x] 5.7 Create Dashboard page (src/frontend/pages/Dashboard/Dashboard.tsx)
+    - Main container with semantic HTML: <header>, <main>, <section>
+    - Layout (top to bottom):
+      - TopNavigation
+      - DashboardHeader (title: "Tenant Dashboard", subtitle: "Manage your space requirements and track proposals")
+      - PerformanceKPIs
+      - BusinessListingsSection
+      - ConnectionIndicator (fixed position)
+    - State management:
+      - dashboardData: DashboardData | null
+      - kpis: DashboardKPIs | null
+      - businesses: Business[]
+      - total: number
+      - page: number (current page, starts at 1)
+      - filters: {status: string | null, search: string}
+      - loading: boolean (initial load)
+      - isLoadingMore: boolean (infinite scroll load)
+      - hasMore: boolean (calculated: businesses.length < total)
+      - error: string | null
+    - useEffect: Fetch initial data on mount
+      - Call getDashboard() from API client
+      - Set dashboardData, kpis, businesses (first 20), total, loading states
+      - Handle errors with toast notification
+    - useEffect: Connect WebSocket via useDashboardWebSocket hook
+      - Pass event handlers: onKPIUpdate, onBusinessCreated, onBusinessUpdated, onBusinessDeleted
+      - Update kpis state when kpi:update event received
+      - Prepend business to businesses array when business:created event received
+      - Update business in businesses array when business:updated event received
+      - Remove business from businesses array when business:deleted event received
+      - Cleanup: Disconnect WebSocket on unmount
+    - useEffect: Fallback to polling if WebSocket fails
+      - After 3 failed WebSocket reconnection attempts, start polling
+      - Poll getDashboard() every 30 seconds
+      - Stop polling when WebSocket reconnects successfully
+      - Cleanup: Clear polling interval on unmount
+    - Infinite scroll: useInfiniteScroll hook
+      - fetchMore function: Load next page via getBusinesses(page + 1, 20, filters.status, filters.search)
+      - Append new businesses to businesses array
+      - Increment page number
+      - Set isLoadingMore during fetch
+      - Update hasMore based on new total
+    - Filter updates: When search or status filter changes
+      - Reset page to 1
+      - Re-fetch businesses from page 1 with new filters
+      - Clear current businesses array before fetch
+    - Action handlers (placeholders for MVP):
+      - handleEdit: Show toast "Edit business coming soon"
+      - handleDelete: Show toast "Delete business coming soon"
+      - handleViewPerformance: Navigate to /dashboard/business/:id
+      - handleManageLocations: Show toast "Manage locations coming soon"
+      - handleBusinessClick: Navigate to /dashboard/business/:id
+    - Error handling:
+      - Show toast notification for API errors with retry button
+      - Show persistent banner for WebSocket disconnection
+      - Log errors to console for debugging
+    - CSS Module: Dashboard.module.css
+  - [x] 5.8 Create DashboardHeader component (src/frontend/components/dashboard/DashboardHeader.tsx)
+    - Title: "Tenant Dashboard" (32px bold)
+    - Subtitle: "Manage your space requirements and track proposals" (16px regular, gray color #6C757D)
+    - Vertical stacking with 8px gap
+    - CSS Module: DashboardHeader.module.css
+  - [x] 5.9 Create Business Detail placeholder page (src/frontend/pages/BusinessDetail/BusinessDetail.tsx)
+    - Route: /dashboard/business/:id
+    - Extract businessId from URL params using useParams from react-router-dom
+    - Fetch business data: getBusinessById(businessId) on mount
+    - Layout (top to bottom):
+      - TopNavigation
+      - Breadcrumb navigation: Dashboard > [Business Name] > [Location Name] (clickable links)
+      - Business selector dropdown at top (switch between user's businesses, populated with all user's businesses)
+      - Location tabs: Display demand_listings.city values horizontally (e.g., Miami, NYC, Buffalo)
+        - Active tab: Blue underline, bold text
+        - Inactive tabs: Gray text, clickable
+        - Tab content: Performance metrics for selected location
+      - Performance funnel structure (placeholder metrics, all show "N/A"):
+        - Views: N/A
+        - Clicks: N/A (N/A%)
+        - Property Invites: N/A (N/A%)
+        - Declined: N/A (N/A%)
+        - Messages: N/A (N/A%)
+        - QFPs Submitted: N/A (N/A%)
+      - Match percentage: Display "N/A" until matching algorithm built
+      - "Coming soon" overlay message: "Full analytics feature coming soon"
+    - CSS Module: BusinessDetail.module.css
+  - [x] 5.10 Create placeholder pages
+    - Trends page (src/frontend/pages/Trends/Trends.tsx):
+      - Route: /dashboard/trends
+      - Layout: TopNavigation + centered content
+      - Title: "Market Trends"
+      - Message: "Coming Soon - This feature is available in Pro tier"
+      - Description: Future vacancy rates, absorption trends, and market insights charts
+      - Upgrade CTA button for Starter tier users
+    - Proposals page (src/frontend/pages/Proposals/Proposals.tsx):
+      - Route: /dashboard/proposals
+      - Layout: TopNavigation + centered content
+      - Title: "Proposals"
+      - Message: "Coming Soon"
+      - Placeholder Kanban structure visual: Favorites → To Tour → Offer → Signed (grayed out)
+    - Settings page (src/frontend/pages/Settings/Settings.tsx):
+      - Route: /settings
+      - Layout: TopNavigation + centered content
+      - Title: "Settings"
+      - Placeholder sections: Account, Notifications, Team, Billing (all grayed out with "Coming soon")
+    - Profile page (src/frontend/pages/Profile/Profile.tsx):
+      - Route: /profile
+      - Layout: TopNavigation + centered content
+      - Title: "Profile"
+      - Message: "Profile editing coming soon"
+      - Display read-only profile data from user context (name, email, photo)
+    - All placeholder pages use consistent layout and styling
+  - [x] 5.11 Add error boundary
+    - ErrorBoundary component (src/frontend/components/ErrorBoundary.tsx):
+      - Catches React rendering errors using componentDidCatch lifecycle method
+      - Fallback UI: "Something went wrong" message with reload button
+      - Log errors to console: console.error(error, errorInfo)
+      - Optional: Send errors to monitoring service (e.g., Sentry) in production
+    - Wrap entire App component with ErrorBoundary in App.tsx
+  - [x] 5.12 Implement responsive design
+    - Verify all components work at different breakpoints:
+      - Desktop (1200px+): 4-column KPI grid, 3-column business grid, full navigation bar
+      - Tablet (768px-1199px): 2x2 KPI grid, 2-column business grid, full navigation bar
+      - Mobile (<768px): Stacked KPIs, 1-column business grid, hamburger menu navigation
+    - Touch-friendly button sizes: Minimum 44x44px on mobile devices
+    - Test on actual devices: iPhone (Safari), Android (Chrome), iPad (Safari)
+  - [x] 5.13 Ensure dashboard integration tests pass
+    - Run ONLY the 2-8 tests written in 5.1
+    - Verify data fetching on mount works correctly
+    - Verify real-time WebSocket updates refresh KPIs and businesses
+    - Verify infinite scroll loads next page
+    - Verify search and filter update business list
+    - Do NOT run entire test suite at this stage
+
+**Acceptance Criteria:**
+- TopNavigation displays all elements correctly with active tab styling (blue underline, bold text)
+- TierBadge shows user's subscription tier with appropriate color coding
+- Dashboard page fetches and displays KPIs and businesses (first 20) on mount
+- PerformanceKPIs displays 4 KPI cards with Landlord Views locked for Starter tier users
+- WebSocket connection established on mount and real-time updates refresh KPIs and businesses
+- ConnectionIndicator shows green/yellow/red dot based on WebSocket connection state
+- Infinite scroll loads next page (businesses 21-40, 41-60, etc.) when scrolling within 200px of bottom
+- Search and filter controls update business list in real-time with URL query param sync
+- Business cards clickable, navigate to /dashboard/business/:id
+- Action buttons show placeholder toasts ("Coming soon")
+- Business Detail placeholder page shows structure with breadcrumb, business selector, location tabs, performance funnel (all "N/A"), and match percentage "N/A"
+- Placeholder pages (Trends, Proposals, Settings, Profile) display "Coming soon" messages with appropriate descriptions
+- ErrorBoundary catches and displays errors gracefully with reload button
+- Responsive design works on desktop (1200px+), tablet (768px-1199px), mobile (<768px)
+- Fallback to polling (30s interval) if WebSocket fails after 3 reconnection attempts
+- The 2-8 tests written in 5.1 pass
+
+---
+
+### Phase 6: Testing, Polish & Documentation
+
+#### Task Group 6: Test Coverage Review, Styling & Documentation
+**Dependencies:** Task Groups 1-5
+**Assigned Role:** QA Engineer / Tech Lead
+**Estimated Time:** 2-3 days
+
+- [x] 6.0 Review tests, fill gaps, and finalize implementation
+  - [x] 6.1 Review existing tests from Task Groups 1-5
+    - Review 2-8 tests from database-engineer (Task 1.1)
+    - Review 2-8 tests from api-engineer (Task 2.1)
+    - Review 2-8 tests from frontend-engineer (Task 3.1)
+    - Review 2-8 tests from ui-developer (Task 4.1)
+    - Review 2-8 tests from full-stack-developer (Task 5.1)
+    - Total existing tests: approximately 10-40 tests
+    - Document test coverage by feature area (database, API, UI components, integration)
+  - [x] 6.2 Analyze test coverage gaps for tenant dashboard feature only
+    - Identify critical user workflows lacking test coverage:
+      - End-to-end flow: Login as tenant → Complete profile → View dashboard → See KPIs and businesses
+      - Real-time updates: WebSocket kpi:update event triggers UI update
+      - Tier-gating: Starter tier user sees locked Landlord Views KPI with "Upgrade to Pro" badge
+      - Infinite scroll: Load more businesses on scroll, handle end-of-list
+      - Search and filter: Combined search + status filter updates business list
+      - Error handling: API failure shows toast and retry button, WebSocket disconnect shows banner
+      - Authorization: Non-tenant user redirected, user can only access own businesses
+    - Focus ONLY on gaps related to tenant dashboard feature requirements
+    - Prioritize end-to-end workflows over unit test gaps
+    - Do NOT assess entire application test coverage
+  - [x] 6.3 Write up to 10 additional strategic tests maximum
+    - Add maximum 10 new tests to fill identified critical gaps
+    - Focus on integration points and end-to-end workflows:
+      - E2E test: Tenant login → Dashboard loads with correct KPIs → Click business → View detail
+      - E2E test: WebSocket connection established → KPI update event → UI refreshes
+      - E2E test: Search "starbucks" → Filter by status "active" → Results update
+      - E2E test: Infinite scroll loads page 2 → Page 3 → End-of-list message
+      - E2E test: Starter tier user sees locked Landlord Views KPI
+      - Integration test: Business CRUD operations trigger WebSocket events
+      - Integration test: API error (500) shows toast with retry button
+      - Integration test: WebSocket disconnect shows banner, reconnects with exponential backoff
+      - Integration test: Non-tenant user redirected from /dashboard
+      - Integration test: User without profile_completed redirected to /profile/complete
+    - Do NOT write comprehensive coverage for all scenarios
+    - Skip edge cases, performance tests, and accessibility tests unless business-critical
+  - [x] 6.4 Run feature-specific tests only
+    - Run ONLY tests related to tenant dashboard feature (tests from 1.1, 2.1, 3.1, 4.1, 5.1, and 6.3)
+    - Expected total: approximately 20-50 tests maximum
+    - Do NOT run entire application test suite
+    - Verify all critical workflows pass
+    - Generate test coverage report for tenant dashboard feature only
+    - Target: >80% coverage for critical paths
+  - [x] 6.5 Apply final styling and responsive design
+    - Verify all components match planning/visuals/DemandCRE-design.pdf
+    - Color scheme verification:
+      - Primary blue: #1E90FF or #007BFF for CTAs, links, active states
+      - Status colors: Green #28A745 (active), Yellow #FFC107 (pending), Gray #6C757D (stealth)
+      - Background: #F8F9FA (light gray), #FFFFFF (white cards)
+      - Text: #212529 (dark), #6C757D (gray/muted)
+    - Typography verification:
+      - Page title: 32px bold
+      - Section headers: 24px semibold
+      - Card headers: 18px semibold
+      - Body text: 16px regular
+      - Small text: 14px regular
+      - All fonts use rem units (1rem = 16px) for accessibility
+    - Spacing verification:
+      - Card padding: 16px
+      - Gap between cards: 24px (desktop), 20px (tablet), 16px (mobile)
+      - Section margins: 32px vertical
+    - Card styling verification:
+      - box-shadow: 0px 2px 8px rgba(0,0,0,0.1)
+      - border-radius: 8px
+      - White background #FFFFFF
+    - Responsive breakpoints verification:
+      - Desktop (1200px+): 4-column KPI grid, 3-column business grid
+      - Tablet (768px-1199px): 2x2 KPI grid, 2-column business grid
+      - Mobile (<768px): Stacked KPIs, 1-column business grid, hamburger menu
+    - Mobile navigation: Hamburger menu (☰) with slide-out drawer animation
+    - Touch-friendly buttons: Minimum 44x44px tap target size
+  - [x] 6.6 Implement accessibility features
+    - ARIA labels on all interactive elements:
+      - Buttons: aria-label describing action
+      - Links: aria-label with destination
+      - Form controls: aria-labelledby or aria-label
+      - KPI cards: aria-live="polite" for real-time updates
+    - Keyboard navigation support:
+      - Tab: Focus next element
+      - Shift+Tab: Focus previous element
+      - Enter: Activate button/link
+      - Escape: Close modals/dropdowns
+      - Arrow keys: Navigate dropdown options
+    - Focus indicators:
+      - 3px solid blue (#1E90FF) outline on :focus-visible
+      - Visible on all focusable elements (buttons, links, inputs)
+      - Do NOT show on mouse click (only keyboard focus)
+    - Screen reader support:
+      - Semantic HTML: <header>, <main>, <nav>, <section>, <article>
+      - Headings hierarchy: h1 (page title) → h2 (section headers) → h3 (card titles)
+      - aria-live regions for dynamic content updates (KPIs, business list)
+    - Color contrast verification:
+      - Text on background: Minimum 4.5:1 contrast ratio (WCAG AA)
+      - UI components (buttons, badges): Minimum 3:1 contrast ratio
+      - Use WebAIM Contrast Checker or browser DevTools
+    - Skip to main content link:
+      - Hidden link at top: "Skip to main content"
+      - Visible only on keyboard focus
+      - Jumps to <main> element
+  - [x] 6.7 Implement performance optimizations
+    - React.memo on frequently rendered components:
+      - KPICard
+      - BusinessCard
+      - MetricBadge
+      - StatusBadge
+      - CategoryBadge
+    - Image lazy loading:
+      - Business logos: loading="lazy" attribute
+      - Intersection Observer polyfill for older browsers
+    - Code splitting:
+      - Dashboard page: React.lazy(() => import('./pages/Dashboard'))
+      - Wrap with Suspense and loading spinner
+    - Debounced search:
+      - 300ms delay using useDebouncedValue hook
+      - Prevents excessive API calls during typing
+    - Redis caching:
+      - KPI calculations: 5-minute TTL (already implemented in KPIService)
+      - Verify cache invalidation on business/metrics updates
+    - Bundle optimization:
+      - Tree-shaking: Remove unused code
+      - Minification: Compress JS/CSS files
+      - Vendor chunk splitting: Separate vendor libraries from app code
+      - Verify bundle size: Target <500KB gzipped
+    - Virtual scrolling:
+      - Implement react-window if business count > 100
+      - Renders only visible items for performance
+    - Compression:
+      - Gzip/Brotli compression for API responses (configured in nginx)
+      - Verify Content-Encoding: gzip header in production
+  - [x] 6.8 Implement security measures
+    - CSRF protection:
+      - CsrfService double-submit cookie pattern on POST/PUT/DELETE endpoints
+      - Verify CSRF token validation in middleware
+    - Rate limiting:
+      - 100 requests per 15 minutes per user IP on dashboard endpoints
+      - RateLimitService middleware applied
+      - Return 429 Too Many Requests if exceeded
+    - Input sanitization:
+      - Escape special characters in search queries
+      - Prevent SQL injection in PostgreSQL ILIKE queries
+      - Use parameterized queries (prepared statements)
+    - XSS prevention:
+      - React's automatic escaping of JSX expressions
+      - DOMPurify library for sanitizing user-generated content before rendering
+      - Content Security Policy headers
+    - JWT tokens:
+      - httpOnly cookies (prevent JavaScript access)
+      - secure flag (HTTPS only in production)
+      - sameSite=strict (prevent CSRF attacks)
+      - Verify token expiration and refresh logic
+    - Content Security Policy headers:
+      - default-src 'self'
+      - script-src 'self'
+      - style-src 'self' 'unsafe-inline' (for CSS-in-JS if needed)
+      - img-src 'self' data: https:
+      - connect-src 'self' wss: (for WebSocket)
+    - HTTPS enforcement:
+      - FORCE_HTTPS=true in production
+      - Redirect HTTP to HTTPS
+      - Verify SSL certificate valid
+  - [x] 6.9 Add error handling and loading states
+    - API error states:
+      - Toast notifications using react-toastify with error icon
+      - Retry button in toast for temporary failures
+      - Clear error message text (e.g., "Failed to load businesses. Please try again.")
+    - Network failure auto-retry:
+      - 3 attempts maximum
+      - Exponential backoff: 1s, 2s, 4s delays
+      - Show toast after final failure with manual retry button
+    - WebSocket disconnection:
+      - Persistent banner at top: "Connection lost. Reconnecting..." with dismiss button
+      - Banner disappears when reconnected
+      - Fallback to polling after 3 failed reconnection attempts
+    - Empty state:
+      - No businesses: "Get started by adding your first business" with "Add Business" CTA button
+      - No search results: "No businesses match your filters" with "Clear filters" button
+    - Loading states:
+      - Initial fetch: BusinessCardSkeleton (4 cards) with pulsing animation
+      - Infinite scroll: Loading indicator at bottom (spinner + "Loading more businesses...")
+      - Button actions: Disable button and show spinner during action
+    - ErrorBoundary:
+      - Catches React rendering errors
+      - Fallback UI: "Something went wrong" message with reload button
+      - Logs error to console and monitoring service
+  - [x] 6.10 Update documentation
+    - API documentation (docs/api/tenant-dashboard.md):
+      - GET /api/dashboard/tenant: Request/response structure, authentication requirements
+      - GET /api/businesses: Query parameters (page, limit, status, search), response structure
+      - GET /api/businesses/:id: Response structure with aggregated counts
+      - GET /api/businesses/:id/demand-listings: Response structure
+      - WebSocket /dashboard namespace: Event types (kpi:update, business:created, etc.), payload structures
+      - Authentication: JWT token in httpOnly cookies or Authorization header
+      - Authorization: Tenant role required, user can only access own businesses
+    - Component documentation (docs/components/tenant-dashboard.md):
+      - Component hierarchy diagram (visual tree)
+      - Props interfaces for all components (KPICard, BusinessCard, etc.)
+      - Usage examples with code snippets
+      - CSS Module naming conventions
+      - Accessibility features per component
+    - Update roadmap (agent-os/product/roadmap.md):
+      - Mark "Tenant Dashboard (MVP)" as completed
+      - Note placeholder features for future implementation:
+        - Business CRUD operations (Add, Edit, Delete)
+        - Stealth mode toggle (Enterprise feature)
+        - Manage Locations functionality
+        - Business Detail View with real analytics
+        - Trends page with market insights
+        - Proposals page Kanban board
+        - Messaging system UI
+        - Property matching algorithm
+        - View tracking for Pro/Premium tiers
+    - Create implementation notes (agent-os/specs/2025-11-24-tenant-dashboard/implementation-notes.md):
+      - Architecture decisions:
+        - WebSocket vs polling strategy (WebSocket primary, polling fallback)
+        - State management choice (Context API vs Redux - document chosen approach)
+        - CSS Modules for styling (scoped, avoids global conflicts)
+        - Two-level hierarchy: Business Listings → Demand Listings
+      - Reusable patterns for landlord/broker dashboards:
+        - API client service can be extended
+        - WebSocket hook pattern for real-time features
+        - Component library (Button, Badge, etc.) reusable across dashboards
+      - Known limitations:
+        - Match percentages show "N/A" until algorithm built
+        - Landlord Views show 0 for Starter tier
+        - Business CRUD operations are placeholders
+        - Performance funnel shows structure but no real data
+        - Messaging system shows count only
+      - Future enhancements:
+        - Virtual scrolling for >100 businesses
+        - Advanced filtering (multiple criteria, date ranges)
+        - Bulk operations (select all, bulk delete)
+        - Export functionality (CSV, PDF reports)
+        - Dark mode theme toggle
+
+**Acceptance Criteria:**
+- All feature-specific tests pass (approximately 20-50 tests total)
+- No more than 10 additional tests added when filling testing gaps
+- Critical user workflows covered by end-to-end tests (login → dashboard → search → view business)
+- Test coverage >80% for critical paths (database, API, UI components, integration)
+- All components match visual design from Figma (colors, typography, spacing, shadows)
+- Responsive design works on desktop (1200px+), tablet (768px-1199px), mobile (<768px)
+- Accessibility features implemented: ARIA labels, keyboard navigation, focus indicators, semantic HTML
+- Color contrast meets WCAG AA standards (4.5:1 for text, 3:1 for UI components)
+- Performance optimizations in place: React.memo, lazy loading, code splitting, debouncing, bundle <500KB gzipped
+- Security measures implemented: CSRF protection, rate limiting (100 req/15min), input sanitization, XSS prevention, httpOnly cookies, Content Security Policy
+- Error handling and loading states cover all scenarios: API errors with retry, WebSocket disconnection with banner and fallback, empty states, loading skeletons
+- Documentation updated: API endpoints, component usage, roadmap, implementation notes
+- Testing focused exclusively on tenant dashboard feature requirements
+- Production-ready checklist verified: Environment variables, build optimization, CORS, CDN, HTTPS
+
+---
+
+## Execution Order
+
+Recommended implementation sequence:
+1. **Phase 1:** Database Layer & Models (Task Group 1) - 1-2 days
+2. **Phase 2:** Backend API Layer (Task Group 2) - 2-3 days
+3. **Phase 3:** Frontend Foundation & State Management (Task Group 3) - 2-3 days
+4. **Phase 4:** Dashboard UI Components (Task Group 4) - 3-4 days
+5. **Phase 5:** Dashboard Page Integration (Task Group 5) - 3-4 days
+6. **Phase 6:** Testing, Polish & Documentation (Task Group 6) - 2-3 days
+
+**Total Estimated Time:** 2-3 weeks
+
+---
+
+## Implementation Notes
+
+### Two-Level Data Hierarchy
+- **Business Listings** (top level): Represents companies/brands (e.g., Starbucks, McDonald's)
+  - Stored in `businesses` table
+  - Each business has: name, logo, category, status, verification state
+- **Demand Listings** (nested level): Specific location requirements/QFPs under each business (e.g., Miami location, NYC location)
+  - Stored in `demand_listings` table with `business_id` foreign key
+  - Each demand listing has: location_name, city, state, sqft range, budget range, asset type, requirements (JSONB)
+- **Example:** McDonald's (1 business) with 50 locations = 1 business listing + 50 demand listings
+- **Dashboard View:** Shows Business Listings as primary grid, each card displays count of nested demand listings
+
+### Reusability Patterns
+- **Component Library:** Button, Badge, Dropdown, Input, Card components built in `src/frontend/components/common/` for reuse across tenant, landlord, and broker dashboards
+- **WebSocket Hook:** useDashboardWebSocket pattern can be reused for other real-time features (messaging, notifications)
+- **API Client:** apiClient service can be extended for all API endpoints across the application
+- **Authentication:** AuthMiddleware, RoleGuard, ProfileCompletionGuard can be reused for other protected routes
+
+### Tier-Based Feature Gating
+- **Starter Tier Features (In Scope for MVP):**
+  - View dashboard with 4 KPI cards
+  - Landlord Views shows 0 with "Upgrade to Pro" badge (grayed out)
+  - View up to 2 business listings (enforced on backend)
+  - Search and filter businesses by status
+  - View demand listings under each business
+  - Real-time KPI updates via WebSocket
+  - Match percentage shows "N/A" until algorithm built
+  - Infinite scroll for business listings
+
+- **Features Shown as Locked (Grayed Out with Upgrade Prompts):**
+  - Landlord Views KPI (Pro tier required)
+  - Business Detail View analytics (Pro tier required - structure shown, metrics "N/A")
+  - Stealth mode toggle in ThreeDotsMenu (Enterprise tier required - option disabled)
+  - Team collaboration features (Pro+ tiers required)
+  - Advanced analytics and charts (Premium tier required)
+  - Video uploads (Premium tier - button grayed out)
+  - Heatmaps (Premium tier - visualization grayed out)
+  - API access (Enterprise tier)
+  - Audit logs (Enterprise tier)
+
+### Out of Scope for Initial Implementation
+- Full CRUD operations for businesses (Add, Edit, Delete buttons show "Coming soon" toast)
+- Stealth mode toggle functionality (ThreeDotsMenu option disabled with tooltip)
+- Manage Locations functionality (button shows "Coming soon" toast)
+- Business Detail View full implementation (structure only, metrics show "N/A")
+- Trends page with market insights (placeholder with "Coming soon")
+- Proposals page Kanban board (placeholder with structure visual)
+- Messaging system UI (Messages Total KPI shows count only, no chat interface)
+- Settings page implementation (placeholder sections)
+- Profile editing and photo upload (placeholder page)
+- Property matching algorithm (show "N/A" for match percentages)
+- View tracking for Pro/Premium tiers (Landlord Views shows 0 for now)
+- Team collaboration features and invitation system
+- Document vault and LOI submission
+- Calendar integration for tour scheduling
+- Notification system for match alerts and messages
+- Subscription tier upgrade flow and Stripe payment integration
+- Email notification templates
+- Advanced analytics charts and data visualizations (D3.js/Recharts)
+- Bulk operations (select all, bulk delete, bulk status update)
+- Export functionality (CSV, PDF reports)
+- Dark mode theme toggle
+- Multi-language support (i18n)
+
+### Technical Decisions to Make During Implementation
+- [x] State management choice: Context API vs Redux Toolkit vs Zustand
+  - Recommendation: Context API for simplicity, Redux Toolkit if complex state needed
+- [x] UI component library: Material-UI vs Ant Design vs custom components
+  - Recommendation: Custom components for full design control matching Figma
+- [x] Styling approach: CSS Modules vs Styled Components vs Tailwind CSS
+  - Recommendation: CSS Modules (already in use per SignupModal.tsx)
+- [x] Build tool: Vite (recommended) vs Webpack
+  - Recommendation: Vite for fast development and HMR
+- [x] Form handling: React Hook Form vs Formik (for future CRUD forms)
+  - Recommendation: React Hook Form (smaller bundle, better performance)
+- [x] Virtual scrolling: react-window vs react-virtualized (if >100 businesses)
+  - Recommendation: react-window (lighter, maintained)
+
+### Key Dependencies
+- React 18.x with TypeScript
+- React Router v6 for navigation
+- Socket.io client for WebSocket
+- Axios for HTTP requests
+- react-toastify for notifications
+- lodash.debounce for search debouncing
+- (Optional) react-window for virtual scrolling if >100 businesses
+- (Optional) DOMPurify for XSS prevention
+
+### Database Migration Order
+1. Ensure users and user_profiles tables exist (should already exist)
+2. Create businesses table (depends on users)
+3. Create demand_listings table (depends on businesses)
+4. Create business_metrics table (depends on businesses and demand_listings)
+5. Create business_invites table (depends on businesses and users)
+6. Update user_profiles table (add profile_completed and photo_url columns)
+
+### API Endpoint Summary
+| Method | Endpoint | Description | Auth | Role |
+|--------|----------|-------------|------|------|
+| GET | /api/dashboard/tenant | Main dashboard data with KPIs and businesses (first 20) | Required | Tenant |
+| GET | /api/businesses | Paginated business listings with filters (page, limit, status, search) | Required | Tenant |
+| GET | /api/businesses/:id | Business detail with aggregated counts and demand listings | Required | Tenant (owner) |
+| GET | /api/businesses/:id/demand-listings | All demand listings for business | Required | Tenant (owner) |
+| GET | /api/businesses/:id/locations/:locationId/metrics | Location-specific metrics (placeholder) | Required | Tenant (owner) |
+| GET | /api/profile | User profile data for navigation and tier badge | Required | Any |
+| WS | /dashboard | WebSocket namespace for real-time updates (kpi:update, business:created, etc.) | Required | Tenant |
+
+### WebSocket Events
+| Event | Direction | Payload | Description |
+|-------|-----------|---------|-------------|
+| kpi:update | Server → Client | {kpis: DashboardKPIs} | KPI metrics updated, refresh dashboard KPIs |
+| business:created | Server → Client | {business: Business} | New business added, prepend to business list |
+| business:updated | Server → Client | {business: Business} | Business updated, update in business list |
+| business:deleted | Server → Client | {businessId: string} | Business deleted, remove from business list |
+| metrics:updated | Server → Client | {businessId: string, metrics: BusinessMetrics} | Business metrics updated, refresh specific business metrics |
+| request:current-state | Client → Server | {} | Request full KPI and business state on reconnect |
+
+### Testing Strategy
+- **Unit Tests:** Individual components (KPICard, BusinessCard, MetricBadge, StatusBadge, etc.)
+- **Integration Tests:** Dashboard page with API mocking, WebSocket event handling, filter and search logic
+- **End-to-End Tests:** Complete user flow (login → complete profile → view dashboard → search → filter → view business)
+- **Test Focus:** Limit to 2-8 tests per task group during development, maximum 10 additional tests for gap filling
+- **Total Expected Tests:** Approximately 20-50 tests covering critical paths only
+- **Coverage Target:** >80% for critical paths (database CRUD, API endpoints, UI component interactions, integration flows)
+
+### Visual Design Reference
+- **Primary design:** `/home/anti/Documents/tenantlist/agent-os/specs/2025-11-24-tenant-dashboard/planning/visuals/DemandCRE-design.pdf`
+- **Additional reference:** User-provided screenshot showing business card layout with metric badges and action buttons
+- **Brand:** "zyx" logo with clean, modern aesthetic, sans-serif typeface (Inter or similar)
+- **Color scheme:**
+  - Primary blue: #1E90FF or #007BFF (CTAs, links, active states)
+  - Status colors: Green #28A745 (active), Yellow #FFC107 (pending), Gray #6C757D (stealth, neutral)
+  - Background: #F8F9FA (light gray), #FFFFFF (white cards)
+  - Text: #212529 (dark), #6C757D (gray/muted)
+- **Card-based layout:** White backgrounds, box-shadow: 0px 2px 8px rgba(0,0,0,0.1), border-radius: 8px
+- **Typography:** Page title (32px), Section headers (24px), Card headers (18px), Body (16px), Small (14px)
+- **KPI cards:** Large metric value (48px bold), label below (14px gray)
+
+### Known Limitations
+- **Match percentages:** Show "N/A" until matching algorithm built (roadmap item #3)
+- **Landlord Views:** Shows 0 for Starter tier users (view tracking not yet implemented)
+- **Business CRUD operations:** Buttons present but show "Coming soon" toasts (non-functional)
+- **Performance funnel:** Shows structure but no real data calculations ("N/A" for all metrics)
+- **Messaging system:** Shows Messages Total count only, no chat interface
+- **Stealth mode toggle:** Visible in ThreeDotsMenu but disabled for non-Enterprise tiers
+- **Demand listing CRUD:** No create/edit/delete functionality yet
+
+### Performance Considerations
+- **Infinite scroll:** 20 businesses per page to balance UX and performance
+- **Debounced search:** 300ms delay to prevent excessive API calls
+- **Redis caching:** 5-minute TTL on KPI calculations to reduce database load
+- **React.memo:** Applied to KPICard, BusinessCard, MetricBadge, StatusBadge, CategoryBadge
+- **Code splitting:** Dashboard page lazy loaded with React.lazy and Suspense
+- **Image lazy loading:** Business logos use loading="lazy" attribute
+- **Virtual scrolling:** Implement react-window if business count exceeds 100
+- **Bundle size target:** <500KB gzipped for optimal load time
+
+### Security Requirements
+- **JWT tokens:** httpOnly cookies (not localStorage) to prevent XSS attacks
+- **CSRF protection:** Double-submit cookie pattern on POST/PUT/DELETE endpoints
+- **Rate limiting:** 100 requests per 15 minutes per user IP on dashboard endpoints
+- **Input sanitization:** Escape special characters in search queries to prevent SQL injection
+- **XSS prevention:** React's automatic escaping + DOMPurify for user-generated content
+- **Authorization:** Role-based access control (tenant only), user can only access own businesses
+- **Content Security Policy:** default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'
+- **HTTPS enforcement:** FORCE_HTTPS=true in production, redirect HTTP to HTTPS
+
+### Browser Support
+- **Modern browsers:** Chrome, Firefox, Safari, Edge (latest 2 versions)
+- **No IE11 support** required
+- **ES6+ features:** Acceptable (transpile with Babel if needed for broader support)
+- **Mobile browsers:** iOS Safari, Android Chrome (test on actual devices)
+
+---
+
+## Success Metrics
+
+After implementation, the following should be achievable:
+- Tenant users can login and view dashboard with accurate KPI data
+- Dashboard displays 4 KPI cards: Active Businesses, Response Rate, Landlord Views (locked for Starter), Messages Total
+- Business listings load and display correctly in responsive grid (3 columns → 2 columns → 1 column)
+- Each business card shows: logo, name, category badge, status badge, 3 metric badges (Listings, States, Invites), three-dot menu, 2 action buttons
+- Search and filter work in real-time with URL query param sync
+- Infinite scroll loads additional businesses (20 per page) when scrolling near bottom
+- WebSocket updates KPIs and businesses in real-time without page refresh
+- Fallback to polling (30s interval) if WebSocket fails after 3 reconnection attempts
+- Responsive design works on desktop (1200px+), tablet (768px-1199px), mobile (<768px)
+- All feature-specific tests pass (approximately 20-50 tests)
+- Accessibility audit passes with WCAG AA compliance
+- Performance metrics acceptable: Bundle <500KB gzipped, Time to Interactive <500ms
+- Error handling works in all scenarios: API errors with retry, WebSocket disconnection with banner
+- Code follows existing patterns and conventions (TypeScript, CSS Modules, component structure)
+
+---
+
+## Documentation Deliverables
+
+All documentation will be located in `/home/anti/Documents/tenantlist/agent-os/specs/2025-11-24-tenant-dashboard/`:
+
+1. **tasks.md** (this file) - Complete task breakdown and implementation guide
+2. **implementation-notes.md** - Architecture decisions, reusable patterns, known limitations, future enhancements
+3. **docs/api/tenant-dashboard.md** - API endpoint documentation with request/response structures
+4. **docs/components/tenant-dashboard.md** - Component documentation with props interfaces and usage examples
+5. **agent-os/product/roadmap.md** (update) - Mark Tenant Dashboard as completed, note placeholder features
+
+Optional (if created during Task Group 6):
+6. **accessibility-audit.md** - WCAG 2.1 Level AA compliance report
+7. **performance-optimization.md** - Performance metrics and optimization strategies
+8. **error-handling-review.md** - Comprehensive error handling documentation
+9. **DEPLOYMENT_CHECKLIST.md** - Production deployment checklist and procedures
+
+---
+
+## Notes on Existing Implementation
+
+Based on the existing tasks.md file, it appears that a previous implementation was completed with all 10 task groups marked as complete. This new tasks breakdown:
+- Consolidates 10 task groups into 6 focused phases
+- Updates requirements based on current spec.md and requirements.md
+- Emphasizes the two-level hierarchy (Business Listings → Demand Listings)
+- Clarifies tier-based feature gating (Landlord Views locked for Starter tier)
+- Focuses on the "N/A" placeholder approach for match percentages and performance metrics
+- Aligns with the simple internal messaging system (not Stream API)
+- References the DemandCRE-design.pdf and user-provided screenshot for design guidance
+- Maintains the 2-8 tests per task group constraint with maximum 10 additional tests for gap filling
+
+---
+
+**Ready for Implementation!**
+
+This comprehensive task breakdown provides a clear roadmap for implementing the Tenant Dashboard feature with two-level business data hierarchy, real-time WebSocket updates, tier-based feature gating, and responsive design matching the Figma specifications.

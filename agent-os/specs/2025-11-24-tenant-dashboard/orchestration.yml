@@ -1,0 +1,21 @@
+task_groups:
+  - name: Task Group 1 - Project Setup & Infrastructure
+    claude_code_subagent: implementer
+  - name: Task Group 2 - Database Schema & Migrations
+    claude_code_subagent: implementer
+  - name: Task Group 3 - Backend API - Business Endpoints
+    claude_code_subagent: implementer
+  - name: Task Group 4 - Backend API - Dashboard & KPI Endpoints
+    claude_code_subagent: implementer
+  - name: Task Group 5 - Frontend - Core Infrastructure
+    claude_code_subagent: implementer
+  - name: Task Group 6 - Frontend - Shared UI Components
+    claude_code_subagent: implementer
+  - name: Task Group 7 - Frontend - Top Navigation
+    claude_code_subagent: implementer
+  - name: Task Group 8 - Frontend - Dashboard Page
+    claude_code_subagent: implementer
+  - name: Task Group 9 - Frontend - Placeholder Pages
+    claude_code_subagent: implementer
+  - name: Task Group 10 - Testing, Polish & Documentation
+    claude_code_subagent: implementer

@@ -1,0 +1,34 @@
+/* Status Badge Component */
+.statusBadge {
+  display: inline-flex;
+  align-items: center;
+  padding: 4px 12px;
+  border-radius: 12px;
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: capitalize;
+  white-space: nowrap;
+}
+
+.statusBadge.active {
+  background: #D4EDDA;
+  color: #155724;
+}
+
+.statusBadge.pending {
+  background: #FFF3CD;
+  color: #856404;
+}
+
+.statusBadge.stealth {
+  background: #E2E3E5;
+  color: #383D41;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .statusBadge {
+    font-size: 11px;
+    padding: 3px 10px;
+  }
+}

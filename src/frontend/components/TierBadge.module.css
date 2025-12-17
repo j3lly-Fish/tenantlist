@@ -1,0 +1,47 @@
+/* Tier Badge Component */
+.tierBadge {
+  display: inline-flex;
+  align-items: center;
+  padding: 6px 12px;
+  border-radius: 16px;
+  font-size: 13px;
+  font-weight: 600;
+  white-space: nowrap;
+  border: 1px solid transparent;
+  transition: all 0.2s;
+}
+
+/* Free tier styling */
+.tierBadge.free {
+  background: #F5F5F5;
+  color: #666;
+  border-color: #E0E0E0;
+}
+
+/* Starter tier styling */
+.tierBadge.starter {
+  background: #E3F2FD;
+  color: #1976D2;
+  border-color: #90CAF9;
+}
+
+/* Pro tier styling */
+.tierBadge.pro {
+  background: #F3E5F5;
+  color: #7B1FA2;
+  border-color: #BA68C8;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .tierBadge {
+    font-size: 12px;
+    padding: 4px 10px;
+  }
+}
+
+@media (max-width: 480px) {
+  .tierBadge {
+    display: none; /* Hide on very small screens to save space */
+  }
+}

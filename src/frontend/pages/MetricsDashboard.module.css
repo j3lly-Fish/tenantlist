@@ -1,0 +1,782 @@
+/* Metrics Dashboard Page */
+.metricsPage {
+  min-height: 100vh;
+  background-color: #f5f5f5;
+}
+
+.content {
+  padding-top: 80px;
+  min-height: calc(100vh - 80px);
+}
+
+.container {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 32px 24px;
+}
+
+/* Header */
+.headerRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 24px;
+}
+
+.headerLeft {
+  flex: 1;
+}
+
+.title {
+  font-size: 28px;
+  font-weight: 700;
+  color: #111827;
+  margin: 0 0 8px 0;
+}
+
+.subtitle {
+  font-size: 15px;
+  color: #6b7280;
+  margin: 0;
+}
+
+.manageButton {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  padding: 16px 24px;
+  background: white;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s;
+  color: #374151;
+  font-size: 13px;
+  font-weight: 500;
+}
+
+.manageButton:hover {
+  background: #f9fafb;
+  border-color: #d1d5db;
+}
+
+.manageIcon {
+  color: #6b7280;
+}
+
+/* Summary Card */
+.summaryCard {
+  background: white;
+  border-radius: 12px;
+  padding: 24px;
+  margin-bottom: 24px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+}
+
+.summaryTitle {
+  font-size: 16px;
+  font-weight: 600;
+  color: #111827;
+  margin: 0 0 20px 0;
+}
+
+.summaryGrid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 24px;
+}
+
+.summaryItem {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.summaryLabel {
+  font-size: 13px;
+  color: #6b7280;
+  margin-bottom: 8px;
+}
+
+.summaryValue {
+  font-size: 32px;
+  font-weight: 700;
+  color: #111827;
+}
+
+/* Filters Card */
+.filtersCard {
+  background: white;
+  border-radius: 12px;
+  padding: 20px 24px;
+  margin-bottom: 24px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+}
+
+.filtersRow {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+  margin-bottom: 24px;
+}
+
+.filtersLeft {
+  display: flex;
+  align-items: flex-end;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.filtersRight {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.filterGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  min-width: 140px;
+}
+
+.filterLabel {
+  font-size: 12px;
+  font-weight: 500;
+  color: #6b7280;
+}
+
+.filterSelect {
+  padding: 10px 32px 10px 12px;
+  font-size: 14px;
+  border: 1px solid #d1d5db;
+  border-radius: 6px;
+  background: white;
+  color: #111827;
+  cursor: pointer;
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%236b7280' stroke-width='2'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 10px center;
+}
+
+.filterSelect:focus {
+  outline: none;
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+.viewToggle {
+  display: flex;
+  border: 1px solid #d1d5db;
+  border-radius: 6px;
+  overflow: hidden;
+}
+
+.toggleButton {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 10px 16px;
+  font-size: 13px;
+  font-weight: 500;
+  background: white;
+  border: none;
+  color: #6b7280;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.toggleButton:first-child {
+  border-right: 1px solid #d1d5db;
+}
+
+.toggleButton:hover {
+  background: #f9fafb;
+}
+
+.toggleActive {
+  background: #f3f4f6;
+  color: #111827;
+}
+
+.downloadButton {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 20px;
+  font-size: 14px;
+  font-weight: 500;
+  background: #1f2937;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.downloadButton:hover {
+  background: #111827;
+}
+
+/* Location Cards Grid */
+.locationCardsGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+  margin-bottom: 24px;
+}
+
+.locationCard {
+  background: white;
+  border-radius: 12px;
+  padding: 20px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+}
+
+.locationHeader {
+  margin-bottom: 16px;
+}
+
+.locationCity {
+  font-size: 18px;
+  font-weight: 600;
+  color: #111827;
+  margin: 0 0 4px 0;
+}
+
+.locationBusiness {
+  font-size: 13px;
+  color: #3b82f6;
+}
+
+.locationContent {
+  display: flex;
+  gap: 16px;
+  align-items: center;
+}
+
+.chartLegend {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  flex: 1;
+}
+
+.legendRow {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.legendDot {
+  width: 12px;
+  height: 12px;
+  border-radius: 2px;
+  flex-shrink: 0;
+}
+
+.legendText {
+  font-size: 12px;
+  color: #374151;
+}
+
+/* Donut Chart */
+.donutContainer {
+  position: relative;
+  width: 120px;
+  height: 120px;
+  flex-shrink: 0;
+}
+
+.donutSvg {
+  width: 100%;
+  height: 100%;
+}
+
+.donutCenter {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+}
+
+.donutValue {
+  display: block;
+  font-size: 24px;
+  font-weight: 700;
+  color: #111827;
+}
+
+.donutLabel {
+  display: block;
+  font-size: 11px;
+  color: #6b7280;
+}
+
+.percentageLabels {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  pointer-events: none;
+}
+
+.percentLabel {
+  position: absolute;
+  font-size: 10px;
+  font-weight: 600;
+  color: #374151;
+}
+
+.locationFooter {
+  margin-top: 16px;
+  padding-top: 12px;
+  border-top: 1px solid #e5e7eb;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.footerStat {
+  font-size: 12px;
+  color: #6b7280;
+}
+
+/* Table View */
+.tableCard {
+  background: white;
+  border-radius: 12px;
+  padding: 20px;
+  margin-bottom: 24px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+  overflow-x: auto;
+}
+
+.metricsTable {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.metricsTable th,
+.metricsTable td {
+  padding: 12px 16px;
+  text-align: left;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.metricsTable th {
+  font-size: 12px;
+  font-weight: 600;
+  color: #6b7280;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  background: #f9fafb;
+}
+
+.metricsTable td {
+  font-size: 14px;
+  color: #111827;
+}
+
+.metricsTable tbody tr:hover {
+  background: #f9fafb;
+}
+
+/* Sortable Headers */
+.sortableHeader {
+  cursor: pointer;
+  user-select: none;
+  white-space: nowrap;
+}
+
+.sortableHeader:hover {
+  color: #111827;
+}
+
+.sortArrow {
+  margin-left: 4px;
+  font-size: 12px;
+}
+
+/* Business Cell with Avatar */
+.businessCell {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.businessAvatar {
+  width: 32px;
+  height: 32px;
+  border-radius: 6px;
+  overflow: hidden;
+  flex-shrink: 0;
+  background: #e5e7eb;
+}
+
+.businessAvatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.avatarPlaceholder {
+  display: block;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(135deg, #f3f4f6 0%, #e5e7eb 100%);
+}
+
+/* Actions Button */
+.actionsButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  background: transparent;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  color: #6b7280;
+  transition: all 0.2s;
+}
+
+.actionsButton:hover {
+  background: #f3f4f6;
+  color: #374151;
+}
+
+/* Brokers Card */
+.brokersCard {
+  background: white;
+  border-radius: 12px;
+  padding: 24px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+}
+
+.brokersTitle {
+  font-size: 16px;
+  font-weight: 600;
+  color: #111827;
+  margin: 0 0 24px 0;
+}
+
+/* Broker List */
+.brokersList {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.brokerRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px;
+  background: #f9fafb;
+  border-radius: 8px;
+}
+
+.brokerInfo {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.brokerAvatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  overflow: hidden;
+  background: #e5e7eb;
+  flex-shrink: 0;
+}
+
+.brokerAvatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.brokerAvatarPlaceholder {
+  display: block;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(135deg, #d1d5db 0%, #9ca3af 100%);
+}
+
+.brokerDetails {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.brokerName {
+  font-size: 14px;
+  font-weight: 600;
+  color: #111827;
+}
+
+.brokerStats {
+  font-size: 13px;
+  color: #6b7280;
+}
+
+.brokerDeal {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 2px;
+}
+
+.dealValue {
+  font-size: 16px;
+  font-weight: 700;
+  color: #111827;
+}
+
+.dealLabel {
+  font-size: 11px;
+  color: #9ca3af;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+/* Bar Chart */
+.barChartContainer {
+  display: flex;
+  gap: 24px;
+}
+
+.barChartYAxis {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 0 8px 40px 0;
+  height: 200px;
+}
+
+.yAxisLabel {
+  font-size: 11px;
+  color: #9ca3af;
+}
+
+.barChartContent {
+  flex: 1;
+  max-width: 400px;
+}
+
+.barChartSvg {
+  width: 100%;
+  height: 240px;
+}
+
+.barChartXAxis {
+  display: flex;
+  margin-top: 12px;
+}
+
+.xAxisLabel {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-size: 11px;
+  color: #6b7280;
+  text-align: center;
+}
+
+.barChartLegend {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding-left: 40px;
+}
+
+.legendItem {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  color: #374151;
+}
+
+.legendColor {
+  width: 16px;
+  height: 16px;
+  border-radius: 4px;
+}
+
+/* Responsive */
+@media (max-width: 1200px) {
+  .locationCardsGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 900px) {
+  .summaryGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .filtersRow {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .filtersLeft {
+    flex-direction: column;
+    width: 100%;
+  }
+
+  .filtersRight {
+    width: 100%;
+    justify-content: space-between;
+  }
+
+  .filterGroup {
+    min-width: 100%;
+  }
+
+  .viewToggle {
+    flex: 1;
+  }
+
+  .toggleButton {
+    flex: 1;
+    justify-content: center;
+  }
+
+  .downloadButton {
+    flex: 1;
+    justify-content: center;
+  }
+}
+
+@media (max-width: 768px) {
+  .content {
+    padding-top: 60px;
+  }
+
+  .container {
+    padding: 20px 16px;
+  }
+
+  .headerRow {
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .manageButton {
+    width: 100%;
+  }
+
+  .title {
+    font-size: 22px;
+  }
+
+  .locationCardsGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .locationContent {
+    flex-direction: column;
+  }
+
+  .donutContainer {
+    margin: 0 auto;
+  }
+
+  .barChartContainer {
+    flex-direction: column;
+  }
+
+  .barChartLegend {
+    padding-left: 0;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 16px;
+  }
+
+  /* Table responsive */
+  .tableCard {
+    padding: 16px;
+  }
+
+  .metricsTable {
+    font-size: 13px;
+  }
+
+  .metricsTable th,
+  .metricsTable td {
+    padding: 10px 8px;
+  }
+
+  /* Broker list responsive */
+  .brokerRow {
+    padding: 12px;
+  }
+
+  .brokerAvatar {
+    width: 36px;
+    height: 36px;
+  }
+
+  .brokerName {
+    font-size: 13px;
+  }
+
+  .brokerStats {
+    font-size: 12px;
+  }
+
+  .dealValue {
+    font-size: 14px;
+  }
+}
+
+@media (max-width: 480px) {
+  .summaryGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .summaryValue {
+    font-size: 28px;
+  }
+
+  .filtersRight {
+    flex-direction: column;
+  }
+
+  .viewToggle {
+    width: 100%;
+  }
+
+  .downloadButton {
+    width: 100%;
+  }
+
+  /* Broker row stacks on very small screens */
+  .brokerRow {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+  }
+
+  .brokerDeal {
+    align-items: flex-start;
+    flex-direction: row;
+    gap: 8px;
+  }
+
+  .dealLabel {
+    align-self: center;
+  }
+}

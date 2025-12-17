@@ -1,0 +1,175 @@
+.dashboard {
+  min-height: 100vh;
+  background-color: #f5f5f5;
+}
+
+.content {
+  padding-top: 80px; /* Account for fixed top navigation */
+  min-height: calc(100vh - 80px);
+}
+
+.container {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 40px 24px;
+}
+
+.headerWithActions {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 32px;
+}
+
+.headerButtons {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+}
+
+.viewMetricsButton {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 20px;
+  background-color: white;
+  color: #374151;
+  border: 1px solid #d1d5db;
+  border-radius: 6px;
+  font-size: 15px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.viewMetricsButton:hover {
+  background-color: #f9fafb;
+  border-color: #9ca3af;
+}
+
+.viewMetricsButton svg {
+  color: #6b7280;
+}
+
+.addBusinessButton {
+  padding: 12px 24px;
+  background-color: #3b82f6;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.addBusinessButton:hover {
+  background-color: #2563eb;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 8px rgba(59, 130, 246, 0.3);
+}
+
+.addBusinessButton:active {
+  transform: translateY(0);
+}
+
+.errorState {
+  text-align: center;
+  padding: 60px 24px;
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  max-width: 500px;
+  margin: 40px auto;
+}
+
+.errorState h2 {
+  font-size: 24px;
+  color: #d32f2f;
+  margin: 0 0 16px 0;
+}
+
+.errorState p {
+  font-size: 16px;
+  color: #666;
+  margin: 0 0 24px 0;
+}
+
+.retryButton {
+  padding: 12px 24px;
+  background-color: #4a90e2;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-size: 16px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.retryButton:hover {
+  background-color: #357abd;
+}
+
+.connectionStatus {
+  margin-bottom: 16px;
+  padding: 8px 16px;
+  background-color: white;
+  border-radius: 6px;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
+  display: inline-flex;
+  gap: 12px;
+  font-size: 12px;
+  font-weight: 500;
+}
+
+.statusConnected {
+  color: #2e7d32;
+}
+
+.statusConnected::before {
+  content: '●';
+  margin-right: 6px;
+}
+
+.statusPolling {
+  color: #f57c00;
+}
+
+.statusPolling::before {
+  content: '●';
+  margin-right: 6px;
+}
+
+.scrollSentinel {
+  height: 1px;
+  width: 100%;
+  visibility: hidden;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  .content {
+    padding-top: 60px;
+  }
+
+  .container {
+    padding: 24px 16px;
+  }
+
+  .errorState {
+    margin: 24px 16px;
+    padding: 40px 24px;
+  }
+
+  .errorState h2 {
+    font-size: 20px;
+  }
+
+  .errorState p {
+    font-size: 14px;
+  }
+}

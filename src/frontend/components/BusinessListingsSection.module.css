@@ -1,0 +1,106 @@
+.businessListingsSection {
+  margin-bottom: 40px;
+}
+
+.sectionHeader {
+  margin-bottom: 24px;
+}
+
+.sectionTitle {
+  font-size: 24px;
+  font-weight: 600;
+  color: #1a1a1a;
+  margin: 0;
+}
+
+.controlsBar {
+  display: flex;
+  gap: 16px;
+  align-items: center;
+  margin-bottom: 24px;
+  flex-wrap: wrap;
+}
+
+.searchWrapper {
+  flex: 1;
+  min-width: 250px;
+}
+
+.filterWrapper {
+  min-width: 200px;
+}
+
+.clearFiltersButton {
+  padding: 8px 16px;
+  background-color: transparent;
+  color: #4a90e2;
+  border: 1px solid #4a90e2;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.clearFiltersButton:hover {
+  background-color: #4a90e2;
+  color: white;
+}
+
+.businessGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+  margin-bottom: 24px;
+}
+
+.loadingMore {
+  display: flex;
+  justify-content: center;
+  padding: 24px 0;
+}
+
+.endOfList {
+  text-align: center;
+  padding: 24px 0;
+  color: #999;
+  font-size: 14px;
+}
+
+.endOfList p {
+  margin: 0;
+}
+
+/* Tablet: 2-column grid */
+@media (max-width: 1199px) {
+  .businessGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* Mobile: 1-column stack */
+@media (max-width: 768px) {
+  .sectionTitle {
+    font-size: 20px;
+  }
+
+  .controlsBar {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .searchWrapper,
+  .filterWrapper {
+    width: 100%;
+    min-width: unset;
+  }
+
+  .clearFiltersButton {
+    width: 100%;
+  }
+
+  .businessGrid {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+}

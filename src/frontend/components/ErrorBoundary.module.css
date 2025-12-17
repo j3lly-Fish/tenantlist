@@ -1,0 +1,87 @@
+.errorBoundary {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #F8F9FA;
+  padding: 24px;
+}
+
+.errorContainer {
+  max-width: 600px;
+  background: white;
+  border-radius: 8px;
+  padding: 48px 32px;
+  box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
+  text-align: center;
+}
+
+.errorTitle {
+  font-size: 32px;
+  font-weight: 700;
+  color: #DC3545;
+  margin: 0 0 16px 0;
+}
+
+.errorMessage {
+  font-size: 16px;
+  color: #6C757D;
+  margin: 0 0 32px 0;
+  line-height: 1.5;
+}
+
+.errorDetails {
+  text-align: left;
+  margin: 24px 0;
+  padding: 16px;
+  background-color: #F8F9FA;
+  border-radius: 4px;
+  border: 1px solid #DEE2E6;
+}
+
+.errorDetails summary {
+  cursor: pointer;
+  font-weight: 600;
+  color: #212529;
+  margin-bottom: 8px;
+}
+
+.errorStack {
+  margin: 8px 0 0 0;
+  padding: 12px;
+  background-color: #212529;
+  color: #F8F9FA;
+  border-radius: 4px;
+  overflow-x: auto;
+  font-size: 12px;
+  line-height: 1.4;
+}
+
+.errorStack code {
+  font-family: 'Courier New', Courier, monospace;
+}
+
+.reloadButton {
+  background-color: #007BFF;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  padding: 12px 32px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.reloadButton:hover {
+  background-color: #0056B3;
+}
+
+.reloadButton:focus-visible {
+  outline: 3px solid #1E90FF;
+  outline-offset: 2px;
+}
+
+.reloadButton:active {
+  transform: translateY(1px);
+}

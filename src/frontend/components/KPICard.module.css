@@ -1,0 +1,116 @@
+/* KPI Card Component */
+.kpiCard {
+  position: relative;
+  background: white;
+  border-radius: 8px;
+  padding: 24px;
+  box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 140px;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.kpiCard:hover {
+  transform: translateY(-2px);
+  box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.kpiCard.locked {
+  background: linear-gradient(135deg, #F8F9FA 0%, #E9ECEF 100%);
+  opacity: 0.8;
+}
+
+/* Lock overlay */
+.lockOverlay {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  z-index: 1;
+}
+
+.lockIcon {
+  font-size: 20px;
+  opacity: 0.6;
+}
+
+/* Content */
+.kpiContent {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+}
+
+/* Value */
+.kpiValue {
+  font-size: 48px;
+  font-weight: 700;
+  color: #212529;
+  line-height: 1;
+  text-align: center;
+}
+
+.kpiValue.loading {
+  color: #ADB5BD;
+  animation: pulse 1.5s ease-in-out infinite;
+}
+
+.kpiCard.locked .kpiValue {
+  color: #6C757D;
+}
+
+/* Title */
+.kpiTitle {
+  font-size: 14px;
+  font-weight: 400;
+  color: #6C757D;
+  text-align: center;
+  line-height: 1.4;
+}
+
+/* Upgrade badge */
+.upgradeBadge {
+  margin-top: 8px;
+  padding: 4px 12px;
+  background-color: #007BFF;
+  color: white;
+  border-radius: 12px;
+  font-size: 12px;
+  font-weight: 600;
+  text-align: center;
+}
+
+/* Loading animation */
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  .kpiCard {
+    padding: 20px;
+    min-height: 120px;
+  }
+
+  .kpiValue {
+    font-size: 36px;
+  }
+
+  .kpiTitle {
+    font-size: 13px;
+  }
+
+  .upgradeBadge {
+    font-size: 11px;
+    padding: 3px 10px;
+  }
+}

@@ -1,0 +1,20 @@
+/* Category Badge Component */
+.categoryBadge {
+  display: inline-flex;
+  align-items: center;
+  padding: 4px 12px;
+  border-radius: 12px;
+  font-size: 12px;
+  font-weight: 600;
+  background: #E3F2FD;
+  color: #1565C0;
+  white-space: nowrap;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .categoryBadge {
+    font-size: 11px;
+    padding: 3px 10px;
+  }
+}

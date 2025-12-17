@@ -1,0 +1,123 @@
+.businessCard {
+  position: relative;
+  background: white;
+  border-radius: 8px;
+  padding: 16px;
+  box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.1);
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.businessCard:hover {
+  transform: translateY(-2px);
+  box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.businessCard:focus-visible {
+  outline: 3px solid #1E90FF;
+  outline-offset: 2px;
+}
+
+/* Logo */
+.logoContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.logo {
+  width: 64px;
+  height: 64px;
+  object-fit: contain;
+  border-radius: 8px;
+}
+
+/* Header: Name and Category */
+.cardHeader {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  align-items: flex-start;
+}
+
+.businessName {
+  font-size: 18px;
+  font-weight: 600;
+  color: #212529;
+  margin: 0;
+  word-break: break-word;
+}
+
+/* Status badge container */
+.statusContainer {
+  display: flex;
+  align-items: center;
+}
+
+/* Metrics row */
+.metrics {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+/* Actions */
+.actions {
+  display: flex;
+  gap: 12px;
+  margin-top: 8px;
+}
+
+.actionButton {
+  flex: 1;
+  padding: 10px 16px;
+  border: none;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  min-height: 44px; /* Touch-friendly size */
+}
+
+.actionButton.primary {
+  background-color: #007BFF;
+  color: white;
+}
+
+.actionButton.primary:hover {
+  background-color: #0056B3;
+}
+
+.actionButton.secondary {
+  background-color: #6C757D;
+  color: white;
+}
+
+.actionButton.secondary:hover {
+  background-color: #545B62;
+}
+
+.actionButton:focus-visible {
+  outline: 3px solid #1E90FF;
+  outline-offset: 2px;
+}
+
+.actionButton:active {
+  transform: translateY(1px);
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  .actions {
+    flex-direction: column;
+  }
+
+  .actionButton {
+    width: 100%;
+  }
+}

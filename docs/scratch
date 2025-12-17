@@ -1,0 +1,73 @@
+1. All tenants.
+2. Tenants should be allowed to create a business listing if one does not already exist for that brand, such as Starbucks for example. Then the tenant should be able to create a "listing" that shows demain of the tenant so landlords or brokers can supply that demand.
+3. Omit until built. Just show the UI elements and leave the percents at 0.
+4. Open to all tiers.
+5. Simple internal messaging system. Edit the roadmap to reflect that.
+6. Tracking should be available on the pro and premium tiers.
+7. Name it proposals.
+8. Yes, 3 citys is 3 separate listings.
+
+Existing code is anything in the /home/anti/Documents/tenantlist folder. I suspect that we will be reusing the javascript and backend files. 
+
+Visual Assets should match the figma as close as possible. There are additional desgin docs in ~./tenantlist/docs. We will add final design elements at a later stage so you can use placeholders as needed. 
+
+
+1. Option A
+2. Listing title can be anything. Not limited to the name. 
+3. Less than 12 months, 1 year, Mid Term, and 5+ years.
+4. Ensure that industrial is also being used as well. 
+5. Let's change to asset type. 
+
+Also, I want the fields to follow this design. 
+
+
+Meeting Notes Dec 4th
+We should have map only allow listing to be max of 20 miles away. 
+Can select 3 to 5 cities in the counties. 
+Free only county and gets more specific as the plan moves up tier. 
+Map after modals.
+City and state for the map but should auto populate.
+Selecting drawing should add the city in the field. 
+User feedback for map accuracy. 
+Use start date from new listing posting to filter to a range. Location property Invitations
+No industry on new listing page. 
+Business profile will be only place to ask the industry. 
+Remove description from the Listing modal. 
+Subscription model planning. 
+As a tenant should show saved properties and as a landlord should show Tenants.
+Tenant Public Profile slide. Request Admin approval function
+Unify the filter and add map and Table
+Organic design that causes touch points.
+LL can initiate but tenant can not. They can access the find tenant page
+API integration for Market trends.
+AI for analysis? WaltreAI should have AI. 
+Crexi Model afte this site for the maps. 
+Google earth for Map API
+https://docs.google.com/spreadsheets/d/1aHvJznTM7aCf9zjNtx2FURSN8UIRCOCK/edit?gid=359889634#gid=359889634 for data types needed. 
+Industry Cluster score
+Looks for AI visualization 
+We need a way to get data in for properties for brokers and LL. 
+Add the street level image on the map. 
+
+
+figd_avOvrn2GZsF-CBPygMKT6yF7Y28eGFJjCmKcNbzw
+
+export FIGMA_TOKEN=figd_gQV0f_OMM5gYF5xifsbjG2HROHBJNq4h_aGofcQW
+export FIGMA_FILE_KEY=Md1EmqiuOBiFMhqZaz1i5w
+
+docker run -i --rm \
+  -e FIGMA_TOKEN \
+  -e FIGMA_FILE_KEY \
+  figma-mcp
+
+ {
+    "mcpServers": {
+      "figma": {
+        "type": "http",
+        "url": "https://mcp.figma.com/mcp",
+        "headers": {
+          "X-Figma-Token": "figd_gQV0f_OMM5gYF5xifsbjG2HROHBJNq4h_aGofcQW"
+        }
+      }
+    }
+  }

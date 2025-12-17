@@ -1,0 +1,71 @@
+Feature,Starter (Free),Pro ($99/month) ,Premium ($199/month),Enterprise ($999/month)
+Target User,Mom & Pop,"Local Brands (Panther Coffee, Pubbelly Sushi, Motek)","Regional Brands (Pura Vida, Chicken Kitchen, BurgerFi)","National Brands (Nike, Starbucks, McDonalds)"
+Hierarchy,1 Layer - (Everyone acts as admin),2 Layers - (Admin > Collaborater),2 Layers - (Admin > Collaborater),3 Layers - (Admin > Manager > Collaborater)
+Team Access,Admin (1) + 1 Broker per listing,Admin (2) + Broker (1) per listing,Admin (5) + Franchisor (1) AND Broker (1) per listing,Admin (5) +  Manager (10) + Franchisor (1) AND Broker (1) per listing
+Permissions,"🟢 Green Light
+ No approvals necessary (self/broker managed)","🟡 Yellow Light
+Admin approvals required to send QFP's only","🔴 Red Light 
+Admin approvals required to publish locations & send QFPs","🔴 Red Light 
+Admin approvals required to publish locations & send QFPs"
+Locations,Up to 2 listings,Up to 12 listings,Up to 50 listings,Unlimited
+Trend & Insights,Demand data (asset > industry > state),Demand data  (asset > industry > state > county > sqft),Demand data (asset > industry > state > county > city > sqft),Demand data (asset > industry > state > county > city > zip > sqft)
+Features,"Basic Match % scores
+Send QFP's","View broker/tenant contact info
+See property analytics (Pro)","See property analytics (Premium)
+Include 15 second videos into profile
+Receive property matches 1 week earlier","Stealth Mode
+Review similar properties (3)
+Dedicated support agent"
+Dashboard,N/A,Single listing view,Compare 2 listings at a time,"Compare 3 listings at a time 
+Unlock a competitor's location metrics (1 time)"
+Notifications,"Received Messages 
+Property invites",# of daily/weekly page views (anonymous) ,# of daily/weekly page views (see profiles) ,Page viewed (click profile and see property list)
+Kanban (Projects),"List View.
+
+Simple favorites list.","Board View.
+
+Drag-and-drop (To Tour -> Offer -> Signed).","Multi-Site Rollout.
+
+Master view of 50+ active locations.",
+Calendar,"Personal View.
+
+Track your own tour dates.","Team Sync.
+
+Sync with Outlook/Google + Team availability.","Critical Dates.
+
+Alerts for Lease Expiry & Renewal Options.",
+Search & Filter,"Basic Filters.
+
+Price, Size, Type.","Saved Searches.
+
+Auto-notify when matches hit market.","AI Scoring.
+
+Rank sites by ""Best Fit"" & Demographics.",
+Map Visualization,"Pins.
+
+Simple location pins.","Radius Tool.
+
+Drive-time analysis & Amenities view.","Heatmaps.
+
+Competitor density & Foot traffic layers.",
+Profile,"User Bio.
+
+Basic contact info.","Company Card.
+
+Brand logo & Requirement summary.","Anonymous Mode.
+
+Hide identity during initial search.",
+Chat / Msg,"Direct Message.
+
+1-on-1 with listing agent.","Group Threads.
+
+Include your broker/partners in chats.","Audit Logs.
+
+Message history archived for compliance.",
+Doc Center (Vault),"Receive Only.
+
+Download brochures/floorplans.","Collaborate.
+
+Upload LOIs & Redline versions.","Lease Admin.
+
+Abstracted lease data stored permanently.",

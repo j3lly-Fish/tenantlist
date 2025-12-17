@@ -1,0 +1,134 @@
+.propertyListingsSection {
+  margin-bottom: 40px;
+}
+
+.sectionHeader {
+  margin-bottom: 24px;
+}
+
+.sectionTitle {
+  font-size: 24px;
+  font-weight: 600;
+  color: #1a1a1a;
+  margin: 0;
+}
+
+.controlsBar {
+  display: flex;
+  gap: 16px;
+  align-items: center;
+  margin-bottom: 24px;
+  flex-wrap: wrap;
+}
+
+.searchWrapper {
+  flex: 1;
+  min-width: 250px;
+}
+
+.filtersWrapper {
+  display: flex;
+  gap: 12px;
+}
+
+.filtersWrapper > * {
+  min-width: 150px;
+}
+
+.clearFiltersButton {
+  padding: 8px 16px;
+  background-color: transparent;
+  color: #3b82f6;
+  border: 1px solid #3b82f6;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+}
+
+.clearFiltersButton:hover {
+  background-color: #3b82f6;
+  color: white;
+}
+
+.propertyGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+  margin-bottom: 24px;
+}
+
+.loadingMore {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 24px 0;
+  gap: 12px;
+}
+
+.loadingText {
+  color: #6b7280;
+  font-size: 14px;
+  margin: 0;
+}
+
+.endOfList {
+  text-align: center;
+  padding: 24px 0;
+  color: #9ca3af;
+  font-size: 14px;
+}
+
+.endOfList p {
+  margin: 0;
+}
+
+/* Tablet: 2-column grid */
+@media (max-width: 1199px) {
+  .propertyGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .filtersWrapper {
+    flex-wrap: wrap;
+  }
+}
+
+/* Mobile: 1-column stack */
+@media (max-width: 768px) {
+  .sectionTitle {
+    font-size: 20px;
+  }
+
+  .controlsBar {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .searchWrapper {
+    width: 100%;
+    min-width: unset;
+  }
+
+  .filtersWrapper {
+    width: 100%;
+    flex-direction: column;
+  }
+
+  .filtersWrapper > * {
+    width: 100%;
+    min-width: unset;
+  }
+
+  .clearFiltersButton {
+    width: 100%;
+  }
+
+  .propertyGrid {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+}
