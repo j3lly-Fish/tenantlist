@@ -1,9 +1,8 @@
-import React, { useState, useEffect, useCallback, useRef } from 'react';
+import React, { useState, useEffect, useCallback, useRef, useMemo } from 'react';
 import { useAuth } from '@contexts/AuthContext';
 import { TopNavigation } from '@components/TopNavigation';
-import { ConversationList } from '@components/ConversationList';
-import { MessageThread } from '@components/MessageThread';
-import { MessageInput } from '@components/MessageInput';
+import { MessagesTable } from '@components/MessagesTable';
+import { MessageRowData } from '@components/MessagesTableRow';
 import {
   getConversations,
   getMessages,
@@ -11,12 +10,12 @@ import {
   markConversationAsRead,
 } from '@utils/apiClient';
 import { messagingWebSocket } from '@utils/messagingWebsocket';
-import { ConversationWithDetails, Message } from '@types';
+import { ConversationWithDetails, Message, UserRole } from '@types';
 import styles from './Messages.module.css';
 
 /**
  * Messages Page
- * Full messaging interface with conversation list and chat view
+ * Table-based messaging interface with expandable conversation rows
  */
 const Messages: React.FC = () => {
   const { user } = useAuth();
@@ -26,7 +25,6 @@ const Messages: React.FC = () => {
   const [conversations, setConversations] = useState<ConversationWithDetails[]>([]);
   const [selectedConversation, setSelectedConversation] = useState<ConversationWithDetails | null>(null);
   const [messages, setMessages] = useState<Message[]>([]);
-  const [typingUsers, setTypingUsers] = useState<string[]>([]);
 
   // Loading states
   const [loadingConversations, setLoadingConversations] = useState(true);
@@ -42,9 +40,6 @@ const Messages: React.FC = () => {
 
   // WebSocket connection state
   const [isConnected, setIsConnected] = useState(false);
-
-  // Mobile view state
-  const [showSidebar, setShowSidebar] = useState(true);
 
   // Fetch conversations
   const fetchConversations = useCallback(async () => {
@@ -131,21 +126,6 @@ const Messages: React.FC = () => {
       });
     });
 
-    const unsubscribeTypingStart = messagingWebSocket.onTypingStart((data) => {
-      if (data.userId !== currentUserId) {
-        setTypingUsers((prev) => {
-          if (!prev.includes(data.userId)) {
-            return [...prev, data.userId];
-          }
-          return prev;
-        });
-      }
-    });
-
-    const unsubscribeTypingStop = messagingWebSocket.onTypingStop((data) => {
-      setTypingUsers((prev) => prev.filter((id) => id !== data.userId));
-    });
-
     const unsubscribeNewConversation = messagingWebSocket.onNewConversation((data) => {
       setConversations((prev) => [data.conversation, ...prev]);
     });
@@ -162,8 +142,6 @@ const Messages: React.FC = () => {
 
     return () => {
       unsubscribeNewMessage();
-      unsubscribeTypingStart();
-      unsubscribeTypingStop();
       unsubscribeNewConversation();
       unsubscribeUnreadUpdate();
       clearInterval(checkConnection);
@@ -176,13 +154,25 @@ const Messages: React.FC = () => {
     fetchConversations();
   }, [fetchConversations]);
 
-  // Handle conversation selection
+  // Handle conversation selection (expand/collapse)
   const handleSelectConversation = useCallback(
     async (conversation: ConversationWithDetails) => {
+      // If clicking the same conversation, collapse it
+      if (selectedConversation?.id === conversation.id) {
+        messagingWebSocket.leaveConversation(conversation.id);
+        setSelectedConversation(null);
+        setMessages([]);
+        return;
+      }
+
+      // Leave previous conversation
+      if (selectedConversation) {
+        messagingWebSocket.leaveConversation(selectedConversation.id);
+      }
+
       setSelectedConversation(conversation);
       setMessages([]);
       oldestMessageIdRef.current = null;
-      setShowSidebar(false);
 
       // Fetch messages
       await fetchMessages(conversation.id);
@@ -202,19 +192,18 @@ const Messages: React.FC = () => {
         }
       }
     },
-    [fetchMessages]
+    [selectedConversation, fetchMessages]
   );
 
-  // Handle send message
+  // Handle send message from table row
   const handleSendMessage = useCallback(
-    async (content: string, attachments?: any[]) => {
-      if (!selectedConversation) return;
+    async (conversationId: string, content: string) => {
+      if (!content.trim()) return;
 
       try {
         setSendingMessage(true);
-        const { message } = await sendMessageApi(selectedConversation.id, {
+        const { message } = await sendMessageApi(conversationId, {
           content,
-          attachments,
         });
 
         // Message will be added via WebSocket, but add optimistically for better UX
@@ -226,38 +215,55 @@ const Messages: React.FC = () => {
         setSendingMessage(false);
       }
     },
-    [selectedConversation]
+    []
   );
 
-  // Handle load more messages
-  const handleLoadMore = useCallback(() => {
-    if (selectedConversation && oldestMessageIdRef.current && !loadingMessages) {
-      fetchMessages(selectedConversation.id, oldestMessageIdRef.current);
-    }
-  }, [selectedConversation, fetchMessages, loadingMessages]);
+  // Generate property data for each conversation
+  // In a real app, this would come from the API along with conversation data
+  const propertyData = useMemo(() => {
+    const data: { [conversationId: string]: MessageRowData } = {};
 
-  // Handle typing indicators
-  const handleTypingStart = useCallback(() => {
-    if (selectedConversation) {
-      messagingWebSocket.startTyping(selectedConversation.id);
-    }
-  }, [selectedConversation]);
+    conversations.forEach((conv) => {
+      // Find the other participant (broker or landlord)
+      const otherParticipant = conv.participants?.find((p) => p.user_id !== currentUserId);
+      const participantName = otherParticipant?.user?.profile
+        ? `${otherParticipant.user.profile.first_name} ${otherParticipant.user.profile.last_name}`
+        : otherParticipant?.user?.email || 'Unknown';
+      const participantRole = otherParticipant?.user?.role;
 
-  const handleTypingStop = useCallback(() => {
-    if (selectedConversation) {
-      messagingWebSocket.stopTyping(selectedConversation.id);
-    }
-  }, [selectedConversation]);
+      // Determine broker and landlord based on participant roles
+      let broker = '-';
+      let landlord = '-';
 
-  // Handle back button on mobile
-  const handleBack = useCallback(() => {
-    setShowSidebar(true);
-    if (selectedConversation) {
-      messagingWebSocket.leaveConversation(selectedConversation.id);
-    }
-    setSelectedConversation(null);
-    setMessages([]);
-  }, [selectedConversation]);
+      if (participantRole === UserRole.BROKER) {
+        broker = participantName;
+        landlord = 'Property Owner'; // Placeholder
+      } else if (participantRole === UserRole.LANDLORD) {
+        landlord = participantName;
+        broker = 'Direct Contact';
+      } else {
+        broker = participantName;
+      }
+
+      // Extract property info from conversation subject or use defaults
+      // In production, this would come from linked property_listing or demand_listing
+      const propertyName = conv.subject || 'Property Inquiry';
+      const address = '-'; // Would come from property listing
+      const sqft = '-'; // Would come from property listing
+      const location = '-'; // Would come from property listing
+
+      data[conv.id] = {
+        broker,
+        landlord,
+        propertyName,
+        address,
+        sqft,
+        location,
+      };
+    });
+
+    return data;
+  }, [conversations, currentUserId]);
 
   return (
     <div className={styles.messagesPage}>
@@ -282,40 +288,17 @@ const Messages: React.FC = () => {
       )}
 
       <main className={styles.mainContent}>
-        {/* Conversation list sidebar */}
-        <aside className={`${styles.sidebar} ${!showSidebar ? styles.hidden : ''}`}>
-          <ConversationList
-            conversations={conversations}
-            selectedConversationId={selectedConversation?.id}
-            currentUserId={currentUserId}
-            loading={loadingConversations}
-            onSelectConversation={handleSelectConversation}
-          />
-        </aside>
-
-        {/* Chat area */}
-        <section className={`${styles.chatArea} ${showSidebar ? styles.hidden : ''}`}>
-          <MessageThread
-            conversation={selectedConversation}
-            messages={messages}
-            currentUserId={currentUserId}
-            loading={loadingMessages}
-            hasMore={hasMoreMessages}
-            typingUsers={typingUsers}
-            onLoadMore={handleLoadMore}
-            onBack={handleBack}
-          />
-
-          {selectedConversation && (
-            <MessageInput
-              onSend={handleSendMessage}
-              onTypingStart={handleTypingStart}
-              onTypingStop={handleTypingStop}
-              disabled={sendingMessage}
-              placeholder="Type a message..."
-            />
-          )}
-        </section>
+        <MessagesTable
+          conversations={conversations}
+          currentUserId={currentUserId}
+          onSelectConversation={handleSelectConversation}
+          onSendMessage={handleSendMessage}
+          loading={loadingConversations}
+          propertyData={propertyData}
+          expandedConversationId={selectedConversation?.id || null}
+          expandedMessages={messages}
+          loadingMessages={loadingMessages}
+        />
       </main>
     </div>
   );

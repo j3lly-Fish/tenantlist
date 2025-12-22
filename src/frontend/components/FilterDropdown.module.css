@@ -31,6 +31,19 @@
   border-color: #007AFF;
 }
 
+/* Filter Icon */
+.filterIcon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #6B7280;
+  flex-shrink: 0;
+}
+
+.filterIcon svg {
+  display: block;
+}
+
 .buttonText {
   flex: 1;
   text-align: left;

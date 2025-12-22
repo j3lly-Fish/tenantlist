@@ -90,15 +90,17 @@ describe('Authentication Components', () => {
       render(<SignupModal {...mockProps} />);
 
       expect(screen.getByText('Create your account')).toBeInTheDocument();
-      expect(screen.getByText('Tenant')).toBeInTheDocument();
-      expect(screen.getByText('Landlord')).toBeInTheDocument();
-      expect(screen.getByText('Broker')).toBeInTheDocument();
+      // Updated labels per Figma spec
+      expect(screen.getByText('Tenants / Franchisers')).toBeInTheDocument();
+      expect(screen.getByText('Landlords / Asset Managers')).toBeInTheDocument();
+      expect(screen.getByText('Brokerage / Agents')).toBeInTheDocument();
     });
 
     test('allows role selection', () => {
       render(<SignupModal {...mockProps} />);
 
-      const tenantButton = screen.getByText('Tenant').closest('button');
+      // Updated to use new label per Figma spec
+      const tenantButton = screen.getByText('Tenants / Franchisers').closest('button');
       fireEvent.click(tenantButton!);
 
       expect(tenantButton).toHaveClass('selected');

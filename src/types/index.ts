@@ -260,6 +260,11 @@ export interface PropertyListing {
   // Visibility
   is_featured: boolean;
   is_verified: boolean;
+  // Metrics (added for landlord dashboard enhancement)
+  days_on_market: number | null;
+  view_count: number;
+  inquiry_count: number;
+  last_activity_at: Date | null;
   // Timestamps
   created_at: Date;
   updated_at: Date;

@@ -1,0 +1,287 @@
+/* Footer Component Styles */
+
+.footer {
+  background: #0F172A;
+  padding: 64px 32px 32px;
+}
+
+.container {
+  max-width: 1200px;
+  width: 100%;
+  margin: 0 auto;
+}
+
+/* Main Footer Content */
+.content {
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  gap: 64px;
+  margin-bottom: 48px;
+}
+
+/* Brand Section */
+.brandSection {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.logoText {
+  font-size: 20px;
+  font-weight: 700;
+  color: #FFFFFF;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Helvetica', 'Arial', sans-serif;
+}
+
+.tagline {
+  font-size: 15px;
+  font-weight: 400;
+  color: #94A3B8;
+  line-height: 1.6;
+  margin: 0;
+  max-width: 280px;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Helvetica', 'Arial', sans-serif;
+}
+
+/* Links Container */
+.linksContainer {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 40px;
+}
+
+/* Links Section */
+.linksSection {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.sectionTitle {
+  font-size: 14px;
+  font-weight: 600;
+  color: #F1F5F9;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Helvetica', 'Arial', sans-serif;
+}
+
+.linksList {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.link {
+  font-size: 15px;
+  font-weight: 400;
+  color: #94A3B8;
+  text-decoration: none;
+  transition: color 0.2s ease;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Helvetica', 'Arial', sans-serif;
+}
+
+.link:hover {
+  color: #FFFFFF;
+}
+
+.link:focus {
+  outline: 2px solid #3B82F6;
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+/* Divider */
+.divider {
+  height: 1px;
+  background: #1E293B;
+  margin-bottom: 24px;
+}
+
+/* Bottom Bar */
+.bottomBar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.copyright {
+  font-size: 14px;
+  font-weight: 400;
+  color: #64748B;
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Helvetica', 'Arial', sans-serif;
+}
+
+/* Social Links */
+.socialLinks {
+  display: flex;
+  gap: 16px;
+}
+
+.socialLink {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  color: #94A3B8;
+  background: #1E293B;
+  border-radius: 10px;
+  transition: all 0.2s ease;
+}
+
+.socialLink:hover {
+  color: #FFFFFF;
+  background: #334155;
+}
+
+.socialLink:focus {
+  outline: 2px solid #3B82F6;
+  outline-offset: 2px;
+}
+
+/* Responsive Design */
+@media (max-width: 1024px) {
+  .footer {
+    padding: 56px 24px 28px;
+  }
+
+  .content {
+    gap: 48px;
+  }
+
+  .linksContainer {
+    gap: 32px;
+  }
+}
+
+@media (max-width: 768px) {
+  .footer {
+    padding: 48px 20px 24px;
+  }
+
+  .content {
+    grid-template-columns: 1fr;
+    gap: 40px;
+  }
+
+  .brandSection {
+    align-items: center;
+    text-align: center;
+  }
+
+  .tagline {
+    max-width: 100%;
+  }
+
+  .linksContainer {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+    text-align: center;
+  }
+
+  .linksSection {
+    align-items: center;
+    gap: 16px;
+  }
+
+  .sectionTitle {
+    font-size: 13px;
+  }
+
+  .linksList {
+    gap: 10px;
+  }
+
+  .link {
+    font-size: 14px;
+  }
+
+  .bottomBar {
+    flex-direction: column;
+    gap: 20px;
+    text-align: center;
+  }
+
+  .copyright {
+    font-size: 13px;
+  }
+}
+
+@media (max-width: 480px) {
+  .footer {
+    padding: 40px 16px 20px;
+  }
+
+  .content {
+    gap: 32px;
+    margin-bottom: 32px;
+  }
+
+  .logo svg {
+    width: 36px;
+    height: 36px;
+  }
+
+  .logoText {
+    font-size: 18px;
+  }
+
+  .tagline {
+    font-size: 14px;
+  }
+
+  .linksContainer {
+    grid-template-columns: 1fr;
+    gap: 28px;
+  }
+
+  .linksSection {
+    gap: 14px;
+  }
+
+  .sectionTitle {
+    font-size: 12px;
+  }
+
+  .linksList {
+    gap: 8px;
+  }
+
+  .link {
+    font-size: 14px;
+  }
+
+  .divider {
+    margin-bottom: 20px;
+  }
+
+  .bottomBar {
+    gap: 16px;
+  }
+
+  .copyright {
+    font-size: 12px;
+  }
+
+  .socialLink {
+    width: 36px;
+    height: 36px;
+  }
+
+  .socialLink svg {
+    width: 18px;
+    height: 18px;
+  }
+}

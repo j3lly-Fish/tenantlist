@@ -1,0 +1,48 @@
+/* Favorites Icon Component */
+.favoritesIcon {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  padding: 0;
+  background: transparent;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  color: #666;
+  transition: background-color 0.2s, color 0.2s;
+}
+
+.favoritesIcon:hover {
+  background: #F5F5F5;
+  color: #333;
+}
+
+.favoritesIcon:focus {
+  outline: 2px solid #007AFF;
+  outline-offset: 2px;
+}
+
+.favoritesIcon.active {
+  color: #FF3B30;
+  background: #FFEBEA;
+}
+
+.favoritesIcon.active:hover {
+  background: #FFD4D1;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .favoritesIcon {
+    width: 36px;
+    height: 36px;
+  }
+
+  .favoritesIcon svg {
+    width: 20px;
+    height: 20px;
+  }
+}

@@ -9,14 +9,18 @@ export { EmptyState } from './EmptyState';
 export { ErrorBoundary } from './ErrorBoundary';
 export { FilterDropdown } from './FilterDropdown';
 export { KPICard } from './KPICard';
+export { KPICardsSection } from './KPICardsSection';
 export { LoadingSpinner } from './LoadingSpinner';
 export { Logo } from './Logo';
+export { FavoritesIcon } from './FavoritesIcon';
+export { NotificationsIcon } from './NotificationsIcon';
 export { MessageIcon } from './MessageIcon';
 export { MetricBadge } from './MetricBadge';
 export { NavigationTabs } from './NavigationTabs';
 export { PerformanceKPIs } from './PerformanceKPIs';
 export { PlaceholderPage } from './PlaceholderPage';
 export { default as ProtectedRoute } from './ProtectedRoute';
+export { PublicNavigation } from './PublicNavigation';
 export { SearchInput } from './SearchInput';
 export { StatusBadge } from './StatusBadge';
 export { ThreeDotsMenu } from './ThreeDotsMenu';
@@ -50,12 +54,29 @@ export { PropertyCard } from './PropertyCard';
 export { PropertyCardSkeleton } from './PropertyCardSkeleton';
 export { PropertyListingsSection } from './PropertyListingsSection';
 export { PropertyListingModal } from './PropertyListingModal';
+export { DocumentationSection } from './DocumentationSection';
+export type { Document, DocumentationSectionProps } from './DocumentationSection';
+export { QFPModal } from './QFPModal';
+export { PropertyGallery } from './PropertyGallery';
+export type { GalleryItem, PropertyGalleryProps } from './PropertyGallery';
+export { ContactAgentSidebar } from './ContactAgentSidebar';
+export type { AgentInfo, ContactAgentSidebarProps } from './ContactAgentSidebar';
 
 // Messaging components
 export { ConversationList } from './ConversationList';
 export { MessageThread } from './MessageThread';
 export { MessageInput } from './MessageInput';
+export { MessagesTable } from './MessagesTable';
+export { MessagesTableRow } from './MessagesTableRow';
 
 // Property matching components
 export { PropertyMatchCard } from './PropertyMatchCard';
 export { PropertyMatchesSection } from './PropertyMatchesSection';
+
+// Landing page components
+export { HeroSection } from './LandingPage/HeroSection';
+export { HowItWorks } from './LandingPage/HowItWorks';
+export { BenefitsTabs } from './LandingPage/BenefitsTabs';
+export { WhyChoose } from './LandingPage/WhyChoose';
+export { Testimonials } from './LandingPage/Testimonials';
+export { Footer } from './LandingPage/Footer';

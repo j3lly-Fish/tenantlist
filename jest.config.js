@@ -31,13 +31,20 @@ module.exports = {
       testMatch: ['<rootDir>/src/frontend/__tests__/**/*.test.tsx'],
       setupFilesAfterEnv: ['<rootDir>/src/frontend/__tests__/setupTests.ts'],
       transform: {
-        '^.+\\.tsx?$': 'ts-jest',
+        '^.+\\.tsx?$': ['ts-jest', {
+          tsconfig: '<rootDir>/tsconfig.json',
+          useESM: false,
+        }],
       },
       moduleNameMapper: {
         '\\.(css|less|scss|sass)$': 'identity-obj-proxy',
         '^@components/(.*)$': '<rootDir>/src/frontend/components/$1',
         '^@pages/(.*)$': '<rootDir>/src/frontend/pages/$1',
         '^@hooks/(.*)$': '<rootDir>/src/frontend/hooks/$1',
+        '^@utils/apiClient$': '<rootDir>/src/frontend/__mocks__/apiClient.ts',
+        '^@utils/websocketClient$': '<rootDir>/src/frontend/__mocks__/websocketClient.ts',
+        '^@utils/messagingWebsocket$': '<rootDir>/src/frontend/__mocks__/messagingWebsocket.ts',
+        '^@utils/pollingService$': '<rootDir>/src/frontend/__mocks__/pollingService.ts',
         '^@utils/(.*)$': '<rootDir>/src/frontend/utils/$1',
         '^@contexts/(.*)$': '<rootDir>/src/frontend/contexts/$1',
         '^@types$': '<rootDir>/src/types/index.ts',

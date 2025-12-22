@@ -1,0 +1,41 @@
+/* KPI Cards Section Container */
+.kpiCardsSection {
+  width: 100%;
+  margin-bottom: 32px;
+}
+
+/* KPI Cards Grid Layout */
+.kpiCardsGrid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 24px;
+}
+
+/* Responsive design */
+
+/* Tablet: 2 columns */
+@media (max-width: 1024px) {
+  .kpiCardsGrid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+  }
+}
+
+/* Mobile: 2 columns (smaller gap) */
+@media (max-width: 640px) {
+  .kpiCardsSection {
+    margin-bottom: 24px;
+  }
+
+  .kpiCardsGrid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+  }
+}
+
+/* Very small screens: still 2 columns but more compact */
+@media (max-width: 375px) {
+  .kpiCardsGrid {
+    gap: 12px;
+  }
+}

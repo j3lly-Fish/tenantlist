@@ -1,21 +1,34 @@
-import React, { useState } from 'react';
+import React, { useState, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { LoginModal } from '../components/LoginModal';
 import { SignupModal } from '../components/SignupModal';
 import { ProfileCompletionModal } from '../components/ProfileCompletionModal';
+import { PublicNavigation } from '../components/PublicNavigation';
+import {
+  HeroSection,
+  HowItWorks,
+  BenefitsTabs,
+  WhyChoose,
+  Testimonials,
+  Footer,
+} from '../components/LandingPage';
 import { useAuth } from '@contexts/AuthContext';
+import styles from './Login.module.css';
+
+type UserRole = 'tenant' | 'landlord' | 'broker';
 
 /**
  * Login Page
- * Entry point for authentication
- * Displays login and signup modals with profile completion flow
+ * Full marketing landing page with authentication modals
+ * Displays: PublicNavigation > Hero > HowItWorks > Benefits > WhyChoose > Testimonials > Footer
  */
 const Login: React.FC = () => {
-  const [showLogin, setShowLogin] = useState(true);
+  const [showLogin, setShowLogin] = useState(false);
   const [showSignup, setShowSignup] = useState(false);
   const [showProfileCompletion, setShowProfileCompletion] = useState(false);
   const [showForgotPassword, setShowForgotPassword] = useState(false);
   const [signupData, setSignupData] = useState<{ email: string; role: string; userId: string } | null>(null);
+  const [initialSignupRole, setInitialSignupRole] = useState<UserRole | null>(null);
   const navigate = useNavigate();
   const { setUser } = useAuth();
 
@@ -89,73 +102,98 @@ const Login: React.FC = () => {
     }
   };
 
-  const handleSwitchToSignup = () => {
-    setShowLogin(false);
-    setShowSignup(true);
-  };
-
-  const handleSwitchToLogin = () => {
+  // Navigation callbacks
+  const handleSignIn = useCallback(() => {
     setShowSignup(false);
     setShowLogin(true);
-  };
+    setInitialSignupRole(null);
+  }, []);
 
-  const handleSwitchToForgotPassword = () => {
+  const handleGetStarted = useCallback(() => {
+    setShowLogin(false);
+    setInitialSignupRole(null);
+    setShowSignup(true);
+  }, []);
+
+  // Switch modal handlers
+  const handleSwitchToSignup = useCallback(() => {
+    setShowLogin(false);
+    setInitialSignupRole(null);
+    setShowSignup(true);
+  }, []);
+
+  const handleSwitchToLogin = useCallback(() => {
+    setShowSignup(false);
+    setInitialSignupRole(null);
+    setShowLogin(true);
+  }, []);
+
+  const handleSwitchToForgotPassword = useCallback(() => {
     setShowLogin(false);
     setShowForgotPassword(true);
-  };
+  }, []);
+
+  // Hero section CTA callbacks with role pre-selection
+  const handleFindSpace = useCallback(() => {
+    setShowLogin(false);
+    setInitialSignupRole('tenant');
+    setShowSignup(true);
+  }, []);
+
+  const handleListProperty = useCallback(() => {
+    setShowLogin(false);
+    setInitialSignupRole('landlord');
+    setShowSignup(true);
+  }, []);
+
+  // Benefits section callback
+  const handleBenefitsGetStarted = useCallback(() => {
+    setShowLogin(false);
+    setInitialSignupRole(null);
+    setShowSignup(true);
+  }, []);
 
   return (
-    <div style={{
-      display: 'flex',
-      flexDirection: 'column',
-      justifyContent: 'center',
-      alignItems: 'center',
-      minHeight: '100vh',
-      background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
-      padding: '20px',
-    }}>
-      <div style={{
-        textAlign: 'center',
-        color: 'white',
-        marginBottom: '40px',
-      }}>
-        <h1 style={{
-          fontSize: '48px',
-          fontWeight: 'bold',
-          margin: '0 0 16px 0',
-        }}>ZYX Platform</h1>
-        <p style={{
-          fontSize: '18px',
-          opacity: 0.9,
-        }}>
-          Demand-first commercial real estate marketplace
-        </p>
-      </div>
+    <div className={styles.landingPage}>
+      {/* Public Navigation Header */}
+      <PublicNavigation
+        onSignIn={handleSignIn}
+        onGetStarted={handleGetStarted}
+      />
 
-      <button
-        onClick={() => setShowLogin(true)}
-        style={{
-          padding: '16px 48px',
-          fontSize: '18px',
-          fontWeight: '600',
-          color: '#667eea',
-          background: 'white',
-          border: 'none',
-          borderRadius: '8px',
-          cursor: 'pointer',
-          boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)',
-          transition: 'transform 0.2s',
-        }}
-        onMouseEnter={(e) => {
-          e.currentTarget.style.transform = 'translateY(-2px)';
-        }}
-        onMouseLeave={(e) => {
-          e.currentTarget.style.transform = 'translateY(0)';
-        }}
-      >
-        Get Started
-      </button>
+      {/* Main Content */}
+      <main className={styles.mainContent}>
+        {/* Hero Section */}
+        <HeroSection
+          onFindSpace={handleFindSpace}
+          onListProperty={handleListProperty}
+        />
 
+        {/* How It Works Section */}
+        <div id="how-it-works">
+          <HowItWorks />
+        </div>
+
+        {/* Benefits Tabs Section */}
+        <div id="benefits">
+          <BenefitsTabs onGetStarted={handleBenefitsGetStarted} />
+        </div>
+
+        {/* Why Choose ZYX Section */}
+        <div id="pricing">
+          <WhyChoose />
+        </div>
+
+        {/* Testimonials Section */}
+        <div id="testimonials">
+          <Testimonials />
+        </div>
+      </main>
+
+      {/* Footer */}
+      <Footer />
+
+      {/* Authentication Modals */}
       <LoginModal
         isOpen={showLogin}
         onClose={() => setShowLogin(false)}
@@ -169,6 +207,7 @@ const Login: React.FC = () => {
         onClose={() => setShowSignup(false)}
         onSwitchToLogin={handleSwitchToLogin}
         onSignupSuccess={handleSignupSuccess}
+        initialRole={initialSignupRole}
       />
 
       {signupData && (
@@ -182,46 +221,22 @@ const Login: React.FC = () => {
       )}
 
       {showForgotPassword && (
-        <div style={{
-          position: 'fixed',
-          top: 0,
-          left: 0,
-          right: 0,
-          bottom: 0,
-          background: 'rgba(0, 0, 0, 0.5)',
-          display: 'flex',
-          justifyContent: 'center',
-          alignItems: 'center',
-          zIndex: 1000,
-        }}
-        onClick={() => setShowForgotPassword(false)}
+        <div
+          className={styles.modalBackdrop}
+          onClick={() => setShowForgotPassword(false)}
         >
           <div
-            style={{
-              background: 'white',
-              padding: '32px',
-              borderRadius: '8px',
-              maxWidth: '400px',
-              width: '100%',
-            }}
+            className={styles.modalContainer}
             onClick={(e) => e.stopPropagation()}
           >
-            <h2>Password Reset</h2>
-            <p>Password reset functionality coming soon</p>
+            <h2 className={styles.modalTitle}>Password Reset</h2>
+            <p className={styles.modalText}>Password reset functionality coming soon</p>
             <button
               onClick={() => {
                 setShowForgotPassword(false);
                 setShowLogin(true);
               }}
-              style={{
-                marginTop: '16px',
-                padding: '8px 16px',
-                background: '#667eea',
-                color: 'white',
-                border: 'none',
-                borderRadius: '4px',
-                cursor: 'pointer',
-              }}
+              className={styles.modalButton}
             >
               Back to Login
             </button>

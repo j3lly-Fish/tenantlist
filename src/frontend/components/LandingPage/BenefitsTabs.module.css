@@ -1,0 +1,330 @@
+/* BenefitsTabs Component Styles */
+
+.section {
+  position: relative;
+  padding: 100px 32px;
+  background: linear-gradient(135deg, #F8FAFC 0%, #EEF2FF 50%, #F0F9FF 100%);
+}
+
+.container {
+  max-width: 1200px;
+  width: 100%;
+  margin: 0 auto;
+}
+
+/* Grid Layout */
+.grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 64px;
+  align-items: start;
+}
+
+/* Left Column */
+.leftColumn {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  position: sticky;
+  top: 120px;
+}
+
+/* Title */
+.title {
+  font-size: 48px;
+  font-weight: 700;
+  color: #0F172A;
+  line-height: 1.2;
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Helvetica', 'Arial', sans-serif;
+}
+
+/* Description */
+.description {
+  font-size: 18px;
+  font-weight: 400;
+  color: #64748B;
+  line-height: 1.7;
+  margin: 0;
+  max-width: 440px;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Helvetica', 'Arial', sans-serif;
+}
+
+/* CTA Button */
+.ctaButton {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 16px 32px;
+  font-size: 16px;
+  font-weight: 600;
+  color: #FFFFFF;
+  background: #0F172A;
+  border: 2px solid #0F172A;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  width: fit-content;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Helvetica', 'Arial', sans-serif;
+}
+
+.ctaButton:hover {
+  background: #1E293B;
+  border-color: #1E293B;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(15, 23, 42, 0.25);
+}
+
+.ctaButton:active {
+  transform: translateY(0);
+}
+
+.ctaButton:focus {
+  outline: 2px solid #007AFF;
+  outline-offset: 2px;
+}
+
+/* Right Column */
+.rightColumn {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+/* Tab List */
+.tabList {
+  display: flex;
+  gap: 8px;
+  padding: 6px;
+  background: #FFFFFF;
+  border-radius: 14px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+  margin-bottom: 32px;
+}
+
+/* Tab Button */
+.tab {
+  flex: 1;
+  padding: 14px 24px;
+  font-size: 15px;
+  font-weight: 500;
+  color: #64748B;
+  background: transparent;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Helvetica', 'Arial', sans-serif;
+}
+
+.tab:hover {
+  color: #0F172A;
+  background: #F1F5F9;
+}
+
+.tab:focus {
+  outline: 2px solid #007AFF;
+  outline-offset: -2px;
+}
+
+.tabActive {
+  color: #FFFFFF;
+  background: #0F172A;
+}
+
+.tabActive:hover {
+  color: #FFFFFF;
+  background: #1E293B;
+}
+
+/* Tab Panel */
+.tabPanel {
+  background: #FFFFFF;
+  border-radius: 20px;
+  padding: 32px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  border: 1px solid #E2E8F0;
+}
+
+.tabPanel[hidden] {
+  display: none;
+}
+
+/* Benefits List */
+.benefitsList {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+/* Benefit Item */
+.benefitItem {
+  display: flex;
+  gap: 16px;
+  align-items: flex-start;
+}
+
+/* Benefit Icon */
+.benefitIcon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  background: linear-gradient(135deg, #DCFCE7 0%, #D1FAE5 100%);
+  border-radius: 10px;
+  color: #16A34A;
+  flex-shrink: 0;
+}
+
+/* Benefit Content */
+.benefitContent {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+/* Benefit Title */
+.benefitTitle {
+  font-size: 16px;
+  font-weight: 600;
+  color: #0F172A;
+  margin: 0;
+  line-height: 1.4;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Helvetica', 'Arial', sans-serif;
+}
+
+/* Benefit Description */
+.benefitDescription {
+  font-size: 14px;
+  font-weight: 400;
+  color: #64748B;
+  margin: 0;
+  line-height: 1.5;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Helvetica', 'Arial', sans-serif;
+}
+
+/* Responsive Design */
+@media (max-width: 1024px) {
+  .section {
+    padding: 80px 24px;
+  }
+
+  .grid {
+    gap: 48px;
+  }
+
+  .title {
+    font-size: 40px;
+  }
+
+  .description {
+    font-size: 17px;
+  }
+
+  .leftColumn {
+    position: static;
+  }
+}
+
+@media (max-width: 768px) {
+  .section {
+    padding: 64px 20px;
+  }
+
+  .grid {
+    grid-template-columns: 1fr;
+    gap: 40px;
+  }
+
+  .leftColumn {
+    text-align: center;
+    align-items: center;
+  }
+
+  .title {
+    font-size: 32px;
+  }
+
+  .description {
+    font-size: 16px;
+    max-width: 100%;
+  }
+
+  .ctaButton {
+    width: 100%;
+    max-width: 300px;
+    justify-content: center;
+  }
+
+  .tabList {
+    padding: 4px;
+  }
+
+  .tab {
+    padding: 12px 16px;
+    font-size: 14px;
+  }
+
+  .tabPanel {
+    padding: 24px;
+  }
+
+  .benefitsList {
+    gap: 20px;
+  }
+}
+
+@media (max-width: 480px) {
+  .section {
+    padding: 48px 16px;
+  }
+
+  .title {
+    font-size: 28px;
+  }
+
+  .description {
+    font-size: 15px;
+  }
+
+  .ctaButton {
+    padding: 14px 24px;
+    font-size: 15px;
+  }
+
+  .tabList {
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .tab {
+    padding: 12px 20px;
+  }
+
+  .tabPanel {
+    padding: 20px;
+    border-radius: 16px;
+  }
+
+  .benefitIcon {
+    width: 32px;
+    height: 32px;
+  }
+
+  .benefitIcon svg {
+    width: 16px;
+    height: 16px;
+  }
+
+  .benefitTitle {
+    font-size: 15px;
+  }
+
+  .benefitDescription {
+    font-size: 13px;
+  }
+}

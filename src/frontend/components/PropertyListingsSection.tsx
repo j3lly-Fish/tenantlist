@@ -35,7 +35,8 @@ interface PropertyListingsSectionProps {
  *
  * Displays the property listings with search and filter controls
  * - Section header with property count
- * - Search input and status/type filters
+ * - Search input with "Search Listings" placeholder
+ * - Status/type filters with filter icons
  * - Grid of property cards
  * - Empty state when no properties
  * - Loading states for initial load and infinite scroll
@@ -119,7 +120,7 @@ export const PropertyListingsSection: React.FC<PropertyListingsSectionProps> = (
       <div className={styles.controlsBar}>
         <div className={styles.searchWrapper}>
           <SearchInput
-            placeholder="Search properties..."
+            placeholder="Search Listings"
             value={searchQuery}
             onChange={onSearchChange}
             onClear={onClearFilters}

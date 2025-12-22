@@ -18,6 +18,7 @@ import { createMessagingTablesMigration } from './016-create-messaging-tables';
 import { createPropertyMatchesMigration } from './017-create-property-matches-table';
 import { createNotificationPreferencesMigration } from './018-create-notification-preferences-table';
 import { createSubscriptionsTablesMigration } from './019-create-subscriptions-tables';
+import { addPropertyMetricsMigration } from './020-add-property-metrics';
 
 // Export all migrations in order
 export const migrations: Migration[] = [
@@ -40,4 +41,5 @@ export const migrations: Migration[] = [
   createPropertyMatchesMigration,
   createNotificationPreferencesMigration,
   createSubscriptionsTablesMigration,
+  addPropertyMetricsMigration,
 ];

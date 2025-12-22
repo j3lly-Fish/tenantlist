@@ -2,6 +2,7 @@ import React, { useState, useEffect, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { TopNavigation } from '@components/TopNavigation';
 import { DashboardHeader } from '@components/DashboardHeader';
+import { KPICardsSection } from '@components/KPICardsSection';
 import { BusinessListingsSection } from '@components/BusinessListingsSection';
 import { ConnectionIndicator } from '@components/ConnectionIndicator';
 import { BusinessProfileModal } from '@components/BusinessProfileModal';
@@ -14,7 +15,7 @@ import { getDashboardData, getBusinesses } from '@utils/apiClient';
 import { useBusinessFilter } from '@hooks/useBusinessFilter';
 import { useInfiniteScroll } from '@hooks/useInfiniteScroll';
 import { useDashboardWebSocket } from '@hooks/useDashboardWebSocket';
-import { Business } from '@types';
+import { Business, DashboardKPIs } from '@types';
 import styles from './Dashboard.module.css';
 
 /**
@@ -23,6 +24,7 @@ import styles from './Dashboard.module.css';
  * Main tenant dashboard displaying:
  * - Top navigation bar
  * - Dashboard header with title and subtitle
+ * - KPI cards section (4 key metrics)
  * - Business listings with search, filter, and infinite scroll
  * - Connection indicator showing WebSocket status
  * - Empty state when no businesses
@@ -41,6 +43,12 @@ const Dashboard: React.FC = () => {
 
   // State management
   const [businesses, setBusinesses] = useState<Business[]>([]);
+  const [kpis, setKpis] = useState<DashboardKPIs>({
+    activeBusinesses: 0,
+    responseRate: '0%',
+    landlordViews: 0,
+    messagesTotal: 0,
+  });
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [currentPage, setCurrentPage] = useState(1);
@@ -71,6 +79,15 @@ const Dashboard: React.FC = () => {
   } = useBusinessFilter(businesses);
 
   /**
+   * Parse response rate from string (e.g., "75%") to number
+   */
+  const parseResponseRate = (rate: string | number): number => {
+    if (typeof rate === 'number') return rate;
+    const parsed = parseInt(rate.replace('%', ''), 10);
+    return isNaN(parsed) ? 0 : parsed;
+  };
+
+  /**
    * Load initial dashboard data
    */
   useEffect(() => {
@@ -82,6 +99,12 @@ const Dashboard: React.FC = () => {
         const data = await getDashboardData();
 
         setBusinesses(data.businesses || []);
+        setKpis(data.kpis || {
+          activeBusinesses: 0,
+          responseRate: '0%',
+          landlordViews: 0,
+          messagesTotal: 0,
+        });
         setHasMore(data.total > (data.businesses?.length || 0));
       } catch (err: any) {
         console.error('Failed to load dashboard data:', err);
@@ -127,6 +150,11 @@ const Dashboard: React.FC = () => {
   /**
    * WebSocket event handlers
    */
+  const handleKPIUpdate = useCallback((updatedKPIs: DashboardKPIs) => {
+    console.log('KPI update received:', updatedKPIs);
+    setKpis(updatedKPIs);
+  }, []);
+
   const handleBusinessUpdate = useCallback((updatedBusiness: Business) => {
     console.log('Business update received:', updatedBusiness);
     setBusinesses((prev) =>
@@ -148,7 +176,7 @@ const Dashboard: React.FC = () => {
    * Set up WebSocket connection for real-time updates
    */
   const { isConnected, isFallbackPolling } = useDashboardWebSocket(
-    undefined, // No KPI updates needed
+    handleKPIUpdate,
     handleBusinessUpdate,
     handleBusinessCreated,
     handleBusinessDeleted
@@ -205,6 +233,7 @@ const Dashboard: React.FC = () => {
     // Reload dashboard data to reflect changes
     const dashboardData = await getDashboardData();
     setBusinesses(dashboardData.businesses || []);
+    setKpis(dashboardData.kpis);
   }, []);
 
   /**
@@ -225,6 +254,7 @@ const Dashboard: React.FC = () => {
     // Reload dashboard data to reflect changes
     const dashboardData = await getDashboardData();
     setBusinesses(dashboardData.businesses || []);
+    setKpis(dashboardData.kpis);
   }, []);
 
   const handleViewPerformance = useCallback(
@@ -294,6 +324,7 @@ const Dashboard: React.FC = () => {
     try {
       const data = await getDashboardData();
       setBusinesses(data.businesses || []);
+      setKpis(data.kpis);
     } catch (err) {
       console.error('Failed to reload dashboard:', err);
     }
@@ -313,6 +344,7 @@ const Dashboard: React.FC = () => {
     try {
       const data = await getDashboardData();
       setBusinesses(data.businesses || []);
+      setKpis(data.kpis);
     } catch (err) {
       console.error('Failed to reload dashboard:', err);
     }
@@ -382,6 +414,15 @@ const Dashboard: React.FC = () => {
               </button>
             </div>
           </div>
+
+          {/* KPI Cards Section */}
+          <KPICardsSection
+            activeBusinesses={kpis.activeBusinesses}
+            performance={kpis.messagesTotal}
+            responseRate={parseResponseRate(kpis.responseRate)}
+            landlordViews={kpis.landlordViews}
+            loading={loading}
+          />
 
           {/* Business listings section */}
           <BusinessListingsSection

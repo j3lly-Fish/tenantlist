@@ -1,0 +1,109 @@
+/**
+ * Login Page Styles
+ * Full marketing landing page layout with responsive design
+ */
+
+.landingPage {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  background: #ffffff;
+}
+
+.mainContent {
+  flex: 1;
+  padding-top: 64px; /* Account for sticky navigation height */
+}
+
+/* Smooth scrolling for anchor navigation */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Forgot Password Modal Overlay */
+.modalBackdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.modalContainer {
+  background: white;
+  padding: 32px;
+  border-radius: 12px;
+  max-width: 400px;
+  width: 90%;
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+}
+
+.modalTitle {
+  margin: 0 0 12px 0;
+  font-size: 24px;
+  font-weight: 700;
+  color: #0f172a;
+}
+
+.modalText {
+  margin: 0 0 24px 0;
+  font-size: 14px;
+  color: #64748b;
+  line-height: 1.5;
+}
+
+.modalButton {
+  padding: 12px 24px;
+  font-size: 14px;
+  font-weight: 600;
+  color: white;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.modalButton:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+}
+
+.modalButton:active {
+  transform: translateY(0);
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .mainContent {
+    padding-top: 56px; /* Smaller nav height on mobile */
+  }
+
+  .modalContainer {
+    padding: 24px;
+  }
+
+  .modalTitle {
+    font-size: 20px;
+  }
+}
+
+/* Focus styles for accessibility */
+.modalButton:focus {
+  outline: 2px solid #667eea;
+  outline-offset: 2px;
+}
+
+.modalButton:focus:not(:focus-visible) {
+  outline: none;
+}
+
+.modalButton:focus-visible {
+  outline: 2px solid #667eea;
+  outline-offset: 2px;
+}

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { PasswordStrengthIndicator } from './PasswordStrengthIndicator';
 import './AuthModals.css';
 
@@ -7,28 +7,185 @@ interface SignupModalProps {
   onClose: () => void;
   onSwitchToLogin: () => void;
   onSignupSuccess: (data: { email: string; role: string; userId: string }) => void;
+  initialRole?: UserRole | null;
 }
 
 type UserRole = 'tenant' | 'landlord' | 'broker';
+
+// SVG Icons for role cards
+const PersonIcon = () => (
+  <svg
+    data-testid="role-icon-person"
+    width="24"
+    height="24"
+    viewBox="0 0 24 24"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+    className="role-icon"
+  >
+    <path
+      d="M12 12C14.7614 12 17 9.76142 17 7C17 4.23858 14.7614 2 12 2C9.23858 2 7 4.23858 7 7C7 9.76142 9.23858 12 12 12Z"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+    <path
+      d="M20.59 22C20.59 18.13 16.74 15 12 15C7.26 15 3.41 18.13 3.41 22"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+  </svg>
+);
+
+const BuildingIcon = () => (
+  <svg
+    data-testid="role-icon-building"
+    width="24"
+    height="24"
+    viewBox="0 0 24 24"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+    className="role-icon"
+  >
+    <path
+      d="M3 21H21"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+    <path
+      d="M5 21V5C5 4.46957 5.21071 3.96086 5.58579 3.58579C5.96086 3.21071 6.46957 3 7 3H17C17.5304 3 18.0391 3.21071 18.4142 3.58579C18.7893 3.96086 19 4.46957 19 5V21"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+    <path
+      d="M9 21V15H15V21"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+    <path
+      d="M9 7H9.01"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+    <path
+      d="M15 7H15.01"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+    <path
+      d="M9 11H9.01"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+    <path
+      d="M15 11H15.01"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+  </svg>
+);
+
+const BriefcaseIcon = () => (
+  <svg
+    data-testid="role-icon-briefcase"
+    width="24"
+    height="24"
+    viewBox="0 0 24 24"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+    className="role-icon"
+  >
+    <path
+      d="M20 7H4C2.89543 7 2 7.89543 2 9V19C2 20.1046 2.89543 21 4 21H20C21.1046 21 22 20.1046 22 19V9C22 7.89543 21.1046 7 20 7Z"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+    <path
+      d="M16 21V5C16 4.46957 15.7893 3.96086 15.4142 3.58579C15.0391 3.21071 14.5304 3 14 3H10C9.46957 3 8.96086 3.21071 8.58579 3.58579C8.21071 3.96086 8 4.46957 8 5V21"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+  </svg>
+);
 
 export const SignupModal: React.FC<SignupModalProps> = ({
   isOpen,
   onClose,
   onSwitchToLogin,
-  onSignupSuccess
+  onSignupSuccess,
+  initialRole = null
 }) => {
-  const [selectedRole, setSelectedRole] = useState<UserRole | null>(null);
+  const [selectedRole, setSelectedRole] = useState<UserRole | null>(initialRole);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [errors, setErrors] = useState<{ email?: string; password?: string; role?: string; general?: string }>({});
   const [isLoading, setIsLoading] = useState(false);
 
+  // Update selectedRole when initialRole changes
+  useEffect(() => {
+    if (initialRole) {
+      setSelectedRole(initialRole);
+    }
+  }, [initialRole]);
+
+  // Reset form when modal opens
+  useEffect(() => {
+    if (isOpen) {
+      setSelectedRole(initialRole);
+      setEmail('');
+      setPassword('');
+      setErrors({});
+    }
+  }, [isOpen, initialRole]);
+
   if (!isOpen) return null;
 
-  const roles = [
-    { value: 'tenant', title: 'Tenant', subtitle: 'Looking for commercial space' },
-    { value: 'landlord', title: 'Landlord', subtitle: 'List and manage properties' },
-    { value: 'broker', title: 'Broker', subtitle: 'Represent tenants and landlords' }
+  // Updated roles with new labels, descriptions, and icons per Figma spec
+  const roles: Array<{
+    value: UserRole;
+    title: string;
+    subtitle: string;
+    icon: React.ReactNode;
+  }> = [
+    {
+      value: 'tenant',
+      title: 'Tenants / Franchisers',
+      subtitle: 'List your brands and CRE demands',
+      icon: <PersonIcon />
+    },
+    {
+      value: 'landlord',
+      title: 'Landlords / Asset Managers',
+      subtitle: 'Manage vacancies and properties',
+      icon: <BuildingIcon />
+    },
+    {
+      value: 'broker',
+      title: 'Brokerage / Agents',
+      subtitle: 'Expand your network and deal pipeline',
+      icon: <BriefcaseIcon />
+    }
   ];
 
   const validateForm = (): boolean => {
@@ -137,7 +294,61 @@ export const SignupModal: React.FC<SignupModalProps> = ({
             </div>
           )}
 
-          <div className="form-section">
+          {/* Role Selection Section - Now ABOVE credentials */}
+          <div className="form-section" data-testid="role-selection-section">
+            <h3 className="section-label">Select your role</h3>
+            {errors.role && (
+              <span className="error-message" role="alert">
+                {errors.role}
+              </span>
+            )}
+            <div className="role-cards">
+              {roles.map((role) => (
+                <button
+                  key={role.value}
+                  type="button"
+                  data-testid={`role-card-${role.value}`}
+                  className={`role-card role-card-styled ${selectedRole === role.value ? 'selected' : ''}`}
+                  onClick={() => setSelectedRole(role.value)}
+                  aria-pressed={selectedRole === role.value}
+                >
+                  <div className="role-icon-wrapper">
+                    {role.icon}
+                  </div>
+                  <div className="role-content">
+                    <div className="role-title">{role.title}</div>
+                    <div className="role-subtitle">{role.subtitle}</div>
+                  </div>
+                  <div className="role-check">
+                    {selectedRole === role.value && (
+                      <svg
+                        width="20"
+                        height="20"
+                        viewBox="0 0 20 20"
+                        fill="none"
+                        xmlns="http://www.w3.org/2000/svg"
+                        className="check-icon"
+                      >
+                        <circle cx="10" cy="10" r="10" fill="#007AFF" />
+                        <path
+                          d="M6 10L8.5 12.5L14 7"
+                          stroke="white"
+                          strokeWidth="2"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                        />
+                      </svg>
+                    )}
+                  </div>
+                </button>
+              ))}
+            </div>
+          </div>
+
+          <div className="form-divider" />
+
+          {/* Credentials Section - Now BELOW role selection */}
+          <div className="form-section" data-testid="credentials-section">
             <div className="form-group">
               <label htmlFor="signup-email" className="sr-only">Email</label>
               <input
@@ -177,36 +388,6 @@ export const SignupModal: React.FC<SignupModalProps> = ({
                   {errors.password}
                 </span>
               )}
-            </div>
-          </div>
-
-          <div className="form-divider" />
-
-          <div className="form-section">
-            <h3 className="section-label">Select your role</h3>
-            {errors.role && (
-              <span className="error-message" role="alert">
-                {errors.role}
-              </span>
-            )}
-            <div className="role-cards">
-              {roles.map((role) => (
-                <button
-                  key={role.value}
-                  type="button"
-                  className={`role-card ${selectedRole === role.value ? 'selected' : ''}`}
-                  onClick={() => setSelectedRole(role.value as UserRole)}
-                  aria-pressed={selectedRole === role.value}
-                >
-                  <div className="role-radio">
-                    <div className={`radio-button ${selectedRole === role.value ? 'filled' : ''}`} />
-                  </div>
-                  <div className="role-content">
-                    <div className="role-title">{role.title}</div>
-                    <div className="role-subtitle">{role.subtitle}</div>
-                  </div>
-                </button>
-              ))}
             </div>
           </div>
 

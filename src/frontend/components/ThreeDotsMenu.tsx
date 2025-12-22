@@ -15,7 +15,7 @@ interface ThreeDotsMenuProps {
  * ThreeDotsMenu Component
  *
  * Three-dot icon button with dropdown menu for business actions
- * - Stealth mode toggle (disabled for non-Enterprise tiers)
+ * - Stealth mode toggle switch (disabled for non-Enterprise tiers)
  * - Edit Business
  * - Delete Business
  *
@@ -24,6 +24,7 @@ interface ThreeDotsMenuProps {
  * - Click outside to close
  * - event.stopPropagation to prevent card click
  * - Positioned in top-right corner of parent card
+ * - Visual toggle switch for stealth mode (on/off state)
  */
 export const ThreeDotsMenu: React.FC<ThreeDotsMenuProps> = ({
   businessId,
@@ -142,13 +143,13 @@ export const ThreeDotsMenu: React.FC<ThreeDotsMenuProps> = ({
         aria-haspopup="true"
         aria-expanded={isOpen}
       >
-        <span className={styles.dotsIcon}>⋮</span>
+        <span className={styles.dotsIcon}>&#8942;</span>
       </button>
 
       {isOpen && (
         <div className={styles.dropdown} role="menu">
           <button
-            className={`${styles.menuItem} ${!isEnterpriseUser ? styles.disabled : ''} ${
+            className={`${styles.menuItem} ${styles.stealthMenuItem} ${!isEnterpriseUser ? styles.disabled : ''} ${
               focusedIndex === 0 ? styles.focused : ''
             }`}
             onClick={handleStealthModeClick}
@@ -157,16 +158,20 @@ export const ThreeDotsMenu: React.FC<ThreeDotsMenuProps> = ({
             aria-label={`Stealth mode ${stealthModeEnabled ? 'enabled' : 'disabled'}`}
             title={!isEnterpriseUser ? 'Enterprise feature' : ''}
           >
-            <input
-              type="checkbox"
-              checked={stealthModeEnabled}
-              disabled={!isEnterpriseUser}
-              onChange={() => {}}
-              onClick={(e) => e.stopPropagation()}
-              aria-hidden="true"
-            />
-            <span>Stealth mode</span>
-            {!isEnterpriseUser && <span className={styles.badge}>Enterprise</span>}
+            <span className={styles.menuItemLabel}>Stealth mode</span>
+            <div className={styles.toggleContainer}>
+              {/* Toggle switch component */}
+              <div
+                data-testid="stealth-mode-toggle"
+                className={`${styles.toggleSwitch} ${stealthModeEnabled ? styles.toggleOn : styles.toggleOff} ${!isEnterpriseUser ? styles.toggleDisabled : ''}`}
+                aria-hidden="true"
+              >
+                <div className={styles.toggleTrack}>
+                  <div className={styles.toggleThumb} />
+                </div>
+              </div>
+              {!isEnterpriseUser && <span className={styles.badge}>Enterprise</span>}
+            </div>
           </button>
 
           <button

@@ -39,6 +39,13 @@
   flex-shrink: 0;
 }
 
+/* Icon group for favorites, notifications, and messages */
+.iconGroup {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
 .loading {
   color: #666;
   font-size: 14px;
@@ -55,6 +62,10 @@
   .rightSection {
     gap: 12px;
   }
+
+  .iconGroup {
+    gap: 2px;
+  }
 }
 
 @media (max-width: 768px) {
@@ -70,5 +81,9 @@
 
   .rightSection {
     gap: 8px;
+  }
+
+  .iconGroup {
+    gap: 0;
   }
 }

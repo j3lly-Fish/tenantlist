@@ -24,8 +24,15 @@
   cursor: pointer;
   padding: 0;
   margin-bottom: 24px;
-  display: inline-block;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
   transition: color 0.2s;
+}
+
+.backLink::before {
+  content: '\2190';
+  font-size: 16px;
 }
 
 .backLink:hover {
@@ -33,41 +40,37 @@
   text-decoration: underline;
 }
 
-/* Property header */
-.propertyHeader {
+/* Main Layout - Gallery + Sidebar */
+.mainLayout {
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 32px;
+  grid-template-columns: 1fr 320px;
+  gap: 24px;
   margin-bottom: 32px;
-  background: white;
-  border-radius: 12px;
-  overflow: hidden;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
 }
 
-/* Photo section */
-.photoSection {
+.mainColumn {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
   position: relative;
-  height: 400px;
-  overflow: hidden;
 }
 
-.mainPhoto {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
+.sidebarColumn {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
 }
 
+/* Status badge - positioned relative to main column */
 .statusBadge {
-  position: absolute;
-  top: 16px;
-  left: 16px;
+  display: inline-block;
   padding: 6px 12px;
   border-radius: 6px;
   font-size: 13px;
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.5px;
+  width: fit-content;
 }
 
 .statusActive {
@@ -90,11 +93,12 @@
   color: #6b7280;
 }
 
-/* Info section */
-.infoSection {
+/* Property Info Section - below gallery */
+.propertyInfoSection {
+  background: white;
+  border-radius: 12px;
   padding: 24px;
-  display: flex;
-  flex-direction: column;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
 }
 
 .titleRow {
@@ -160,7 +164,7 @@
 /* Performance metrics */
 .performanceMetrics {
   display: flex;
-  gap: 32px;
+  gap: 16px;
   margin-bottom: 24px;
 }
 
@@ -172,6 +176,7 @@
   padding: 12px 20px;
   background-color: #f9fafb;
   border-radius: 8px;
+  flex: 1;
 }
 
 .performanceValue {
@@ -307,7 +312,7 @@
   text-decoration: underline;
 }
 
-/* Tags */
+/* Tags - Legacy badge style */
 .tagsList {
   display: flex;
   flex-wrap: wrap;
@@ -331,6 +336,37 @@
   font-size: 13px;
   border-radius: 9999px;
   border: 1px solid #bfdbfe;
+}
+
+/* Amenities - Checkmark list with two-column layout */
+.amenitiesCheckmarkList {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px 24px;
+}
+
+.amenityCheckmarkItem {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.checkmarkIcon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  color: #22C55E;
+}
+
+.checkmarkIcon svg {
+  display: block;
+}
+
+.amenityText {
+  font-size: 14px;
+  color: #374151;
+  line-height: 1.4;
 }
 
 /* Error state */
@@ -372,8 +408,47 @@
   background-color: #2563eb;
 }
 
+/* Legacy styles - kept for backward compatibility */
+.propertyHeader {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 32px;
+  margin-bottom: 32px;
+  background: white;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+.photoSection {
+  position: relative;
+  height: 400px;
+  overflow: hidden;
+}
+
+.mainPhoto {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.infoSection {
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+}
+
 /* Responsive */
 @media (max-width: 1024px) {
+  .mainLayout {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+
+  .sidebarColumn {
+    order: -1;
+  }
+
   .propertyHeader {
     grid-template-columns: 1fr;
   }
@@ -389,6 +464,10 @@
   .detailCard:first-child {
     grid-column: span 1;
   }
+
+  .amenitiesCheckmarkList {
+    grid-template-columns: repeat(2, 1fr);
+  }
 }
 
 @media (max-width: 768px) {
@@ -398,6 +477,10 @@
 
   .content {
     padding-top: 70px;
+  }
+
+  .mainLayout {
+    gap: 16px;
   }
 
   .titleRow {
@@ -416,12 +499,16 @@
 
   .performanceMetrics {
     flex-wrap: wrap;
-    gap: 12px;
+    gap: 8px;
   }
 
   .performanceMetric {
-    flex: 1;
+    padding: 10px 12px;
     min-width: 80px;
+  }
+
+  .performanceValue {
+    font-size: 20px;
   }
 
   .actions {
@@ -431,6 +518,7 @@
   .actionButton {
     width: 100%;
     justify-content: center;
+    text-align: center;
   }
 
   .photoSection {
@@ -439,5 +527,40 @@
 
   .infoSection {
     padding: 20px;
+  }
+
+  .propertyInfoSection {
+    padding: 20px;
+  }
+
+  .detailsGrid {
+    gap: 16px;
+  }
+
+  .detailCard {
+    padding: 20px;
+  }
+
+  /* Single column for amenities on mobile */
+  .amenitiesCheckmarkList {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 480px) {
+  .container {
+    padding: 16px 12px;
+  }
+
+  .propertyTitle {
+    font-size: 18px;
+  }
+
+  .metricValue {
+    font-size: 18px;
+  }
+
+  .performanceValue {
+    font-size: 18px;
   }
 }

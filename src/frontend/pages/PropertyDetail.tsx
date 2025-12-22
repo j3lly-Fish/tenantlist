@@ -1,27 +1,33 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { TopNavigation } from '@components/TopNavigation';
 import { LoadingSpinner } from '@components/LoadingSpinner';
 import { PropertyListingModal } from '@components/PropertyListingModal';
+import { PropertyGallery, GalleryItem } from '@components/PropertyGallery';
+import { ContactAgentSidebar, AgentInfo } from '@components/ContactAgentSidebar';
+import { DocumentationSection, Document, DEFAULT_DOCUMENTS } from '@components/DocumentationSection';
+import { QFPModal } from '@components/QFPModal';
 import { useAuth } from '@contexts/AuthContext';
 import {
   getPropertyListing,
-  updatePropertyListing,
   updatePropertyListingStatus,
   deletePropertyListing,
+  getBusinesses,
 } from '@utils/apiClient';
-import { PropertyListing, PropertyListingStatus, PropertyType } from '@types';
+import { PropertyListing, PropertyListingStatus, PropertyType, Business } from '@types';
 import styles from './PropertyDetail.module.css';
 
 /**
  * PropertyDetail Page
  *
  * Shows a specific property listing with all details:
- * - Property header with photo and basic info
+ * - Property gallery with hero image and thumbnails
  * - Status badge and key metrics
  * - Full property details (location, features, pricing)
- * - Contact information
- * - Action buttons (edit, update status, delete)
+ * - Contact agent sidebar with action buttons
+ * - Documentation section with PDF links
+ * - Amenities displayed as checkmark list in two columns
+ * - QFP Modal for sending proposals
  */
 const PropertyDetail: React.FC = () => {
   const { id: propertyId } = useParams<{ id: string }>();
@@ -29,9 +35,11 @@ const PropertyDetail: React.FC = () => {
   const { user } = useAuth();
 
   const [property, setProperty] = useState<PropertyListing | null>(null);
+  const [businesses, setBusinesses] = useState<Business[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [showEditModal, setShowEditModal] = useState(false);
+  const [showQFPModal, setShowQFPModal] = useState(false);
 
   // Load property data
   useEffect(() => {
@@ -54,6 +62,22 @@ const PropertyDetail: React.FC = () => {
 
     loadProperty();
   }, [propertyId]);
+
+  // Load user's businesses for QFP modal
+  useEffect(() => {
+    const loadBusinesses = async () => {
+      try {
+        const response = await getBusinesses();
+        setBusinesses(response.businesses || []);
+      } catch (err) {
+        console.error('Failed to load businesses:', err);
+      }
+    };
+
+    if (user) {
+      loadBusinesses();
+    }
+  }, [user]);
 
   // Format helpers
   const formatPrice = (price: number | null): string => {
@@ -160,6 +184,33 @@ const PropertyDetail: React.FC = () => {
     }
   };
 
+  // Handle Send Message
+  const handleSendMessage = () => {
+    // Navigate to messages or open a message compose modal
+    navigate('/messages');
+  };
+
+  // Handle Send QFP
+  const handleSendQFP = () => {
+    setShowQFPModal(true);
+  };
+
+  // Handle Decline
+  const handleDecline = () => {
+    // In a real app, this would send a decline notification
+    if (window.confirm('Are you sure you want to decline this property?')) {
+      navigate('/properties');
+    }
+  };
+
+  // Handle QFP Submit
+  const handleQFPSubmit = (data: any) => {
+    console.log('QFP submitted:', data);
+    // In a real app, this would send the QFP to the server
+    alert('QFP sent successfully!');
+    setShowQFPModal(false);
+  };
+
   if (loading) {
     return (
       <div className={styles.propertyDetail}>
@@ -191,8 +242,35 @@ const PropertyDetail: React.FC = () => {
     );
   }
 
-  const defaultPhotoUrl = `data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='800' height='400' viewBox='0 0 800 400'%3E%3Crect width='800' height='400' fill='%23e5e7eb'/%3E%3Ctext x='400' y='200' font-family='Arial, sans-serif' font-size='64' fill='%239ca3af' text-anchor='middle' dominant-baseline='middle'%3E🏢%3C/text%3E%3C/svg%3E`;
-  const photoUrl = property.photos?.[0]?.url || defaultPhotoUrl;
+  // Transform property photos to gallery items
+  const galleryItems: GalleryItem[] = property.photos?.map((photo) => ({
+    url: photo.url,
+    caption: photo.caption,
+    isVideo: photo.url.includes('.mp4') || photo.url.includes('.webm'),
+  })) || [];
+
+  // Get documents from property or use defaults for demo
+  const documents: Document[] = property.documents?.map((doc) => ({
+    name: doc.name,
+    url: doc.url,
+  })) || DEFAULT_DOCUMENTS;
+
+  // Get agent info from property contact details
+  const agentInfo: AgentInfo = {
+    name: property.contact_name || 'Property Agent',
+    company: 'Commercial Real Estate', // Could come from user profile
+    email: property.contact_email || undefined,
+    phone: property.contact_phone || undefined,
+  };
+
+  // Broker info for QFP modal
+  const brokerInfo = {
+    name: property.contact_name || 'Property Agent',
+    company: 'Commercial Real Estate',
+    email: property.contact_email || 'contact@example.com',
+    phone: property.contact_phone || '(555) 555-5555',
+  };
+
   const statusInfo = formatStatus(property.status);
 
   return (
@@ -206,93 +284,99 @@ const PropertyDetail: React.FC = () => {
             className={styles.backLink}
             onClick={() => navigate('/properties')}
           >
-            ← Back to All Properties
+            Back to All Properties
           </button>
 
-          {/* Property header */}
-          <div className={styles.propertyHeader}>
-            {/* Photo section */}
-            <div className={styles.photoSection}>
-              <img
-                src={photoUrl}
-                alt={property.title}
-                className={styles.mainPhoto}
-                onError={(e) => {
-                  (e.target as HTMLImageElement).src = defaultPhotoUrl;
-                }}
-              />
+          {/* Main content layout - Gallery + Sidebar */}
+          <div className={styles.mainLayout}>
+            {/* Left column - Gallery and Property Info */}
+            <div className={styles.mainColumn}>
+              {/* Property Gallery */}
+              <PropertyGallery items={galleryItems} propertyTitle={property.title} />
+
+              {/* Status badge */}
               <span className={`${styles.statusBadge} ${statusInfo.className}`}>
                 {statusInfo.label}
               </span>
+
+              {/* Property Info Section */}
+              <div className={styles.propertyInfoSection}>
+                <div className={styles.titleRow}>
+                  <h1 className={styles.propertyTitle}>{property.title}</h1>
+                  <span className={styles.typeBadge}>
+                    {formatPropertyType(property.property_type)}
+                  </span>
+                </div>
+
+                <p className={styles.location}>
+                  {property.address}, {property.city}, {property.state} {property.zip_code}
+                </p>
+
+                <div className={styles.keyMetrics}>
+                  <div className={styles.metric}>
+                    <span className={styles.metricValue}>{formatSqft(property.sqft)}</span>
+                    <span className={styles.metricLabel}>Size</span>
+                  </div>
+                  <div className={styles.metric}>
+                    <span className={styles.metricValue}>{formatPrice(property.asking_price)}</span>
+                    <span className={styles.metricLabel}>Asking Price</span>
+                  </div>
+                  {property.price_per_sqft && (
+                    <div className={styles.metric}>
+                      <span className={styles.metricValue}>${property.price_per_sqft}/SF</span>
+                      <span className={styles.metricLabel}>Price per SF</span>
+                    </div>
+                  )}
+                </div>
+
+                {/* Performance metrics */}
+                <div className={styles.performanceMetrics}>
+                  <div className={styles.performanceMetric}>
+                    <span className={styles.performanceValue}>{property.viewsCount || 0}</span>
+                    <span className={styles.performanceLabel}>Views</span>
+                  </div>
+                  <div className={styles.performanceMetric}>
+                    <span className={styles.performanceValue}>{property.inquiriesCount || 0}</span>
+                    <span className={styles.performanceLabel}>Inquiries</span>
+                  </div>
+                  <div className={styles.performanceMetric}>
+                    <span className={styles.performanceValue}>{property.matchesCount || 0}</span>
+                    <span className={styles.performanceLabel}>Matches</span>
+                  </div>
+                </div>
+
+                {/* Action buttons for property owner */}
+                <div className={styles.actions}>
+                  <button
+                    className={`${styles.actionButton} ${styles.primary}`}
+                    onClick={() => setShowEditModal(true)}
+                  >
+                    Edit Listing
+                  </button>
+                  <button
+                    className={`${styles.actionButton} ${styles.secondary}`}
+                    onClick={handleUpdateStatus}
+                  >
+                    Update Status
+                  </button>
+                  <button
+                    className={`${styles.actionButton} ${styles.danger}`}
+                    onClick={handleDelete}
+                  >
+                    Delete
+                  </button>
+                </div>
+              </div>
             </div>
 
-            {/* Info section */}
-            <div className={styles.infoSection}>
-              <div className={styles.titleRow}>
-                <h1 className={styles.propertyTitle}>{property.title}</h1>
-                <span className={styles.typeBadge}>
-                  {formatPropertyType(property.property_type)}
-                </span>
-              </div>
-
-              <p className={styles.location}>
-                📍 {property.address}, {property.city}, {property.state} {property.zip_code}
-              </p>
-
-              <div className={styles.keyMetrics}>
-                <div className={styles.metric}>
-                  <span className={styles.metricValue}>{formatSqft(property.sqft)}</span>
-                  <span className={styles.metricLabel}>Size</span>
-                </div>
-                <div className={styles.metric}>
-                  <span className={styles.metricValue}>{formatPrice(property.asking_price)}</span>
-                  <span className={styles.metricLabel}>Asking Price</span>
-                </div>
-                {property.price_per_sqft && (
-                  <div className={styles.metric}>
-                    <span className={styles.metricValue}>${property.price_per_sqft}/SF</span>
-                    <span className={styles.metricLabel}>Price per SF</span>
-                  </div>
-                )}
-              </div>
-
-              {/* Performance metrics */}
-              <div className={styles.performanceMetrics}>
-                <div className={styles.performanceMetric}>
-                  <span className={styles.performanceValue}>{property.viewsCount || 0}</span>
-                  <span className={styles.performanceLabel}>Views</span>
-                </div>
-                <div className={styles.performanceMetric}>
-                  <span className={styles.performanceValue}>{property.inquiriesCount || 0}</span>
-                  <span className={styles.performanceLabel}>Inquiries</span>
-                </div>
-                <div className={styles.performanceMetric}>
-                  <span className={styles.performanceValue}>{property.matchesCount || 0}</span>
-                  <span className={styles.performanceLabel}>Matches</span>
-                </div>
-              </div>
-
-              {/* Action buttons */}
-              <div className={styles.actions}>
-                <button
-                  className={`${styles.actionButton} ${styles.primary}`}
-                  onClick={() => setShowEditModal(true)}
-                >
-                  Edit Listing
-                </button>
-                <button
-                  className={`${styles.actionButton} ${styles.secondary}`}
-                  onClick={handleUpdateStatus}
-                >
-                  Update Status
-                </button>
-                <button
-                  className={`${styles.actionButton} ${styles.danger}`}
-                  onClick={handleDelete}
-                >
-                  Delete
-                </button>
-              </div>
+            {/* Right column - Contact Agent Sidebar */}
+            <div className={styles.sidebarColumn}>
+              <ContactAgentSidebar
+                agent={agentInfo}
+                onSendMessage={handleSendMessage}
+                onSendQFP={handleSendQFP}
+                onDecline={handleDecline}
+              />
             </div>
           </div>
 
@@ -386,13 +470,32 @@ const PropertyDetail: React.FC = () => {
               </div>
             </div>
 
-            {/* Amenities */}
+            {/* Documentation Section */}
+            <DocumentationSection documents={documents} />
+
+            {/* Amenities - Checkmark list with two-column layout */}
             {property.amenities && property.amenities.length > 0 && (
-              <div className={styles.detailCard}>
+              <div className={styles.detailCard} data-testid="amenities-section">
                 <h2 className={styles.cardTitle}>Amenities</h2>
-                <div className={styles.tagsList}>
+                <div className={styles.amenitiesCheckmarkList}>
                   {property.amenities.map((amenity, index) => (
-                    <span key={index} className={styles.tag}>{amenity}</span>
+                    <div key={index} className={styles.amenityCheckmarkItem}>
+                      <span className={styles.checkmarkIcon} aria-hidden="true">
+                        <svg
+                          width="20"
+                          height="20"
+                          viewBox="0 0 20 20"
+                          fill="none"
+                          xmlns="http://www.w3.org/2000/svg"
+                        >
+                          <path
+                            d="M10 0C4.48 0 0 4.48 0 10C0 15.52 4.48 20 10 20C15.52 20 20 15.52 20 10C20 4.48 15.52 0 10 0ZM8 15L3 10L4.41 8.59L8 12.17L15.59 4.58L17 6L8 15Z"
+                            fill="#22C55E"
+                          />
+                        </svg>
+                      </span>
+                      <span className={styles.amenityText}>{amenity}</span>
+                    </div>
                   ))}
                 </div>
               </div>
@@ -409,37 +512,6 @@ const PropertyDetail: React.FC = () => {
                 </div>
               </div>
             )}
-
-            {/* Contact Information */}
-            {(property.contact_name || property.contact_email || property.contact_phone) && (
-              <div className={styles.detailCard}>
-                <h2 className={styles.cardTitle}>Contact Information</h2>
-                <div className={styles.detailsList}>
-                  {property.contact_name && (
-                    <div className={styles.detailItem}>
-                      <span className={styles.detailLabel}>Contact Name</span>
-                      <span className={styles.detailValue}>{property.contact_name}</span>
-                    </div>
-                  )}
-                  {property.contact_email && (
-                    <div className={styles.detailItem}>
-                      <span className={styles.detailLabel}>Email</span>
-                      <span className={styles.detailValue}>
-                        <a href={`mailto:${property.contact_email}`}>{property.contact_email}</a>
-                      </span>
-                    </div>
-                  )}
-                  {property.contact_phone && (
-                    <div className={styles.detailItem}>
-                      <span className={styles.detailLabel}>Phone</span>
-                      <span className={styles.detailValue}>
-                        <a href={`tel:${property.contact_phone}`}>{property.contact_phone}</a>
-                      </span>
-                    </div>
-                  )}
-                </div>
-              </div>
-            )}
           </div>
         </div>
       </main>
@@ -450,6 +522,16 @@ const PropertyDetail: React.FC = () => {
         onClose={() => setShowEditModal(false)}
         onListingCreated={handleEditSave}
         editListing={property}
+      />
+
+      {/* QFP Modal */}
+      <QFPModal
+        isOpen={showQFPModal}
+        onClose={() => setShowQFPModal(false)}
+        onSubmit={handleQFPSubmit}
+        property={property}
+        businesses={businesses}
+        brokerInfo={brokerInfo}
       />
     </div>
   );
