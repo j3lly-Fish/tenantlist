@@ -29,8 +29,17 @@ const ProtectedRoute: React.FC<ProtectedRouteProps> = ({
   const { isAuthenticated, isLoading, role } = useAuth();
   const location = useLocation();
 
+  console.log('🔒 ProtectedRoute check:', {
+    path: location.pathname,
+    isAuthenticated,
+    isLoading,
+    userRole: role,
+    requiredRoles: roles,
+  });
+
   // Show loading state while checking authentication
   if (isLoading) {
+    console.log('⏳ Still loading auth...');
     return (
       <div style={{
         display: 'flex',
@@ -47,6 +56,7 @@ const ProtectedRoute: React.FC<ProtectedRouteProps> = ({
 
   // Not authenticated - redirect to login
   if (!isAuthenticated) {
+    console.log('❌ Not authenticated, redirecting to:', redirectTo);
     return <Navigate to={redirectTo} state={{ from: location }} replace />;
   }
 
@@ -54,11 +64,15 @@ const ProtectedRoute: React.FC<ProtectedRouteProps> = ({
   if (roles && roles.length > 0 && role) {
     if (!roles.includes(role)) {
       // User has wrong role - redirect to appropriate dashboard
-      return <Navigate to={getRoleDashboard(role)} replace />;
+      const targetDashboard = getRoleDashboard(role);
+      console.log('❌ Wrong role! User has:', role, 'but needs one of:', roles, '- Redirecting to:', targetDashboard);
+      return <Navigate to={targetDashboard} replace />;
     }
+    console.log('✅ Role check passed!');
   }
 
   // User is authenticated and has correct role
+  console.log('✅ Access granted to:', location.pathname);
   return <>{children}</>;
 };
 
@@ -70,9 +84,9 @@ function getRoleDashboard(role: UserRole): string {
     case UserRole.TENANT:
       return '/dashboard';
     case UserRole.LANDLORD:
-      return '/landlord-dashboard'; // Placeholder for future implementation
+      return '/landlord-dashboard';
     case UserRole.BROKER:
-      return '/broker-dashboard'; // Placeholder for future implementation
+      return '/broker-dashboard';
     default:
       return '/';
   }

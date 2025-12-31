@@ -3,9 +3,11 @@ import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-d
 import { AuthProvider } from '@contexts/AuthContext';
 import { ErrorBoundary } from '@components/ErrorBoundary';
 import ProtectedRoute from '@components/ProtectedRoute';
+import { UserRole } from '@types';
 import Login from '@pages/Login';
 import Dashboard from '@pages/Dashboard';
 import LandlordDashboard from '@pages/LandlordDashboard';
+import BrokerDashboard from '@pages/BrokerDashboard';
 import BusinessDetail from '@pages/BusinessDetail';
 import PropertyDetail from '@pages/PropertyDetail';
 import Messages from '@pages/Messages';
@@ -14,6 +16,7 @@ import Settings from '@pages/Settings';
 import Profile from '@pages/Profile';
 import Applications from '@pages/Applications';
 import MetricsDashboard from '@pages/MetricsDashboard';
+import Notifications from '@pages/Notifications';
 import './index.css';
 
 /**
@@ -51,13 +54,28 @@ function App() {
                 </ProtectedRoute>
               }
             />
+            {/* Landlord Dashboard - New route */}
             <Route
-              path="/properties"
+              path="/landlord-dashboard"
               element={
                 <ProtectedRoute>
                   <LandlordDashboard />
                 </ProtectedRoute>
               }
+            />
+            {/* Broker Dashboard - BROKER role only */}
+            <Route
+              path="/broker-dashboard"
+              element={
+                <ProtectedRoute roles={[UserRole.BROKER]}>
+                  <BrokerDashboard />
+                </ProtectedRoute>
+              }
+            />
+            {/* Backward compatibility redirect for /properties */}
+            <Route
+              path="/properties"
+              element={<Navigate to="/landlord-dashboard" replace />}
             />
             <Route
               path="/property/:id"
@@ -72,6 +90,14 @@ function App() {
               element={
                 <ProtectedRoute>
                   <Messages />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/notifications"
+              element={
+                <ProtectedRoute>
+                  <Notifications />
                 </ProtectedRoute>
               }
             />

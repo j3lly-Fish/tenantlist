@@ -1,29 +1,33 @@
+/* Dashboard Header Component - Figma Design System */
 .dashboardHeader {
-  margin-bottom: 32px;
+  margin-bottom: var(--spacing-32);
 }
 
 .title {
-  font-size: 32px;
-  font-weight: 600;
-  color: #1a1a1a;
-  margin: 0 0 8px 0;
-  line-height: 1.2;
+  font-size: var(--font-size-24);
+  font-weight: var(--font-weight-medium);
+  color: var(--zyx-gray-700);
+  margin: 0 0 var(--spacing-8) 0;
+  line-height: var(--line-height-28);
+  letter-spacing: var(--letter-spacing-tight);
 }
 
 .subtitle {
-  font-size: 16px;
-  color: #666;
+  font-size: var(--font-size-16);
+  font-weight: var(--font-weight-regular);
+  color: var(--zyx-gray-600);
   margin: 0;
-  line-height: 1.5;
+  line-height: var(--line-height-24);
+  letter-spacing: var(--letter-spacing-normal);
 }
 
 /* Responsive design */
 @media (max-width: 768px) {
   .title {
-    font-size: 24px;
+    font-size: var(--font-size-18);
   }
 
   .subtitle {
-    font-size: 14px;
+    font-size: var(--font-size-14);
   }
 }

@@ -1,6 +1,7 @@
+/* Dashboard Page - Figma Design System */
 .dashboard {
   min-height: 100vh;
-  background-color: #f5f5f5;
+  background-color: var(--zyx-gray-100);
 }
 
 .content {
@@ -9,67 +10,67 @@
 }
 
 .container {
-  max-width: 1400px;
+  max-width: var(--container-max-width);
   margin: 0 auto;
-  padding: 40px 24px;
+  padding: var(--spacing-32) var(--spacing-64);
 }
 
 .headerWithActions {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 32px;
+  margin-bottom: var(--spacing-32);
 }
 
 .headerButtons {
   display: flex;
-  gap: 12px;
+  gap: var(--spacing-12);
   align-items: center;
 }
 
 .viewMetricsButton {
   display: flex;
   align-items: center;
-  gap: 8px;
-  padding: 12px 20px;
-  background-color: white;
-  color: #374151;
-  border: 1px solid #d1d5db;
-  border-radius: 6px;
-  font-size: 15px;
-  font-weight: 500;
+  gap: var(--spacing-8);
+  padding: var(--spacing-12) var(--spacing-20);
+  background-color: var(--zyx-white);
+  color: var(--zyx-gray-600);
+  border: var(--border-width-thin) solid var(--border-color-default);
+  border-radius: var(--button-radius);
+  font-size: var(--font-size-14);
+  font-weight: var(--font-weight-medium);
   cursor: pointer;
-  transition: all 0.2s;
+  transition: all var(--transition-fast);
 }
 
 .viewMetricsButton:hover {
-  background-color: #f9fafb;
-  border-color: #9ca3af;
+  background-color: var(--zyx-gray-100);
+  border-color: var(--zyx-gray-400);
 }
 
 .viewMetricsButton svg {
-  color: #6b7280;
+  color: var(--zyx-gray-500);
 }
 
 .addBusinessButton {
-  padding: 12px 24px;
-  background-color: #3b82f6;
-  color: white;
+  padding: var(--spacing-12) var(--spacing-24);
+  background-color: var(--zyx-gray-700);
+  color: var(--zyx-white);
   border: none;
-  border-radius: 6px;
-  font-size: 16px;
-  font-weight: 600;
+  border-radius: var(--button-radius);
+  font-size: var(--font-size-16);
+  font-weight: var(--font-weight-semibold);
   cursor: pointer;
-  transition: all 0.2s;
+  transition: all var(--transition-fast);
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: var(--spacing-8);
 }
 
 .addBusinessButton:hover {
-  background-color: #2563eb;
+  background-color: var(--zyx-gray-600);
   transform: translateY(-1px);
-  box-shadow: 0 4px 8px rgba(59, 130, 246, 0.3);
+  box-shadow: var(--shadow-card);
 }
 
 .addBusinessButton:active {
@@ -78,70 +79,71 @@
 
 .errorState {
   text-align: center;
-  padding: 60px 24px;
-  background-color: white;
-  border-radius: 8px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  padding: var(--spacing-64) var(--spacing-24);
+  background-color: var(--zyx-white);
+  border-radius: var(--radius-12);
+  border: var(--border-width-thin) solid var(--border-color-light);
   max-width: 500px;
-  margin: 40px auto;
+  margin: var(--spacing-32) auto;
 }
 
 .errorState h2 {
-  font-size: 24px;
-  color: #d32f2f;
-  margin: 0 0 16px 0;
+  font-size: var(--font-size-24);
+  font-weight: var(--font-weight-semibold);
+  color: var(--zyx-error);
+  margin: 0 0 var(--spacing-16) 0;
 }
 
 .errorState p {
-  font-size: 16px;
-  color: #666;
-  margin: 0 0 24px 0;
+  font-size: var(--font-size-16);
+  color: var(--zyx-gray-600);
+  margin: 0 0 var(--spacing-24) 0;
 }
 
 .retryButton {
-  padding: 12px 24px;
-  background-color: #4a90e2;
-  color: white;
+  padding: var(--spacing-12) var(--spacing-24);
+  background-color: var(--zyx-info);
+  color: var(--zyx-white);
   border: none;
-  border-radius: 6px;
-  font-size: 16px;
-  font-weight: 500;
+  border-radius: var(--button-radius);
+  font-size: var(--font-size-16);
+  font-weight: var(--font-weight-medium);
   cursor: pointer;
-  transition: background-color 0.2s ease;
+  transition: background-color var(--transition-fast);
 }
 
 .retryButton:hover {
-  background-color: #357abd;
+  background-color: var(--zyx-gray-600);
 }
 
 .connectionStatus {
-  margin-bottom: 16px;
-  padding: 8px 16px;
-  background-color: white;
-  border-radius: 6px;
-  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
+  margin-bottom: var(--spacing-16);
+  padding: var(--spacing-8) var(--spacing-16);
+  background-color: var(--zyx-white);
+  border-radius: var(--radius-8);
+  border: var(--border-width-thin) solid var(--border-color-light);
   display: inline-flex;
-  gap: 12px;
-  font-size: 12px;
-  font-weight: 500;
+  gap: var(--spacing-12);
+  font-size: var(--font-size-12);
+  font-weight: var(--font-weight-medium);
 }
 
 .statusConnected {
-  color: #2e7d32;
+  color: var(--zyx-success);
 }
 
 .statusConnected::before {
   content: '●';
-  margin-right: 6px;
+  margin-right: var(--spacing-8);
 }
 
 .statusPolling {
-  color: #f57c00;
+  color: var(--zyx-warning);
 }
 
 .statusPolling::before {
   content: '●';
-  margin-right: 6px;
+  margin-right: var(--spacing-8);
 }
 
 .scrollSentinel {
@@ -157,19 +159,19 @@
   }
 
   .container {
-    padding: 24px 16px;
+    padding: var(--spacing-24) var(--spacing-20);
   }
 
   .errorState {
-    margin: 24px 16px;
-    padding: 40px 24px;
+    margin: var(--spacing-24) var(--spacing-16);
+    padding: var(--spacing-40) var(--spacing-24);
   }
 
   .errorState h2 {
-    font-size: 20px;
+    font-size: var(--font-size-18);
   }
 
   .errorState p {
-    font-size: 14px;
+    font-size: var(--font-size-14);
   }
 }

@@ -19,6 +19,7 @@ import {
   BillingTransaction,
   SubscriptionTier,
 } from '@types';
+import { getEnv } from '@utils/env';
 
 /**
  * API Client Configuration
@@ -32,7 +33,7 @@ class ApiClient {
   constructor() {
     // Get base URL from environment variables
     // Empty string means relative URLs (works with nginx proxy in Docker)
-    const baseURL = import.meta.env.VITE_API_BASE_URL ?? '';
+    const baseURL = getEnv().VITE_API_BASE_URL ?? '';
 
     // Create axios instance with default configuration
     this.client = axios.create({
@@ -136,7 +137,7 @@ class ApiClient {
     const errorMessage = errorData?.error || errorData?.message || error.message || 'An error occurred';
 
     // Log error in development
-    if (import.meta.env.DEV) {
+    if (getEnv().DEV) {
       console.error('API Error:', {
         url: error.config?.url,
         method: error.config?.method,
@@ -468,6 +469,162 @@ export const getPropertyDashboardStats = async (): Promise<{
   }>('/api/property-listings/dashboard');
   if (!response.success || !response.data) {
     throw new Error(response.error || 'Failed to fetch dashboard stats');
+  }
+  return response.data;
+};
+
+/**
+ * Landlord Dashboard API with KPIs and trends
+ */
+
+export interface TrendData {
+  value: number;
+  direction: 'up' | 'down' | 'neutral';
+  period: string;
+}
+
+export interface KPIMetric {
+  value: number;
+  trend: TrendData;
+}
+
+export interface PropertyKPIData {
+  totalListings: KPIMetric;
+  activeListings: KPIMetric;
+  avgDaysOnMarket: KPIMetric;
+  responseRate: KPIMetric;
+}
+
+export interface LandlordDashboardData {
+  kpis: PropertyKPIData;
+  properties: PropertyListing[];
+  total: number;
+  hasMore: boolean;
+}
+
+/**
+ * Get full landlord dashboard data with KPIs and properties
+ */
+export const getLandlordDashboard = async (params?: {
+  page?: number;
+  limit?: number;
+}): Promise<LandlordDashboardData> => {
+  const response = await apiClient.get<LandlordDashboardData>(
+    '/api/dashboard/landlord',
+    params
+  );
+  if (!response.success || !response.data) {
+    throw new Error(response.error || 'Failed to fetch landlord dashboard');
+  }
+  return response.data;
+};
+
+/**
+ * Get landlord KPIs only (for polling updates)
+ */
+export const getLandlordKPIs = async (): Promise<PropertyKPIData> => {
+  const response = await apiClient.get<PropertyKPIData>('/api/dashboard/landlord/kpis');
+  if (!response.success || !response.data) {
+    throw new Error(response.error || 'Failed to fetch landlord KPIs');
+  }
+  return response.data;
+};
+
+/**
+ * Broker Dashboard API methods
+ */
+
+/**
+ * Get broker KPIs only (for polling updates)
+ */
+export const getBrokerKPIs = async (): Promise<any> => {
+  const response = await apiClient.get<any>('/api/dashboard/broker/kpis');
+  if (!response.success || !response.data) {
+    throw new Error(response.error || 'Failed to fetch broker KPIs');
+  }
+  return response.data;
+};
+
+/**
+ * Get broker profile for authenticated user
+ */
+export const getBrokerProfile = async (): Promise<any> => {
+  const response = await apiClient.get<any>('/api/broker/profile');
+  if (!response.success || !response.data) {
+    throw new Error(response.error || 'Failed to fetch broker profile');
+  }
+  return response.data;
+};
+
+/**
+ * Create broker profile
+ */
+export const createBrokerProfile = async (data: any): Promise<any> => {
+  const response = await apiClient.post<any>('/api/broker/profile', data);
+  if (!response.success || !response.data) {
+    throw new Error(response.error || 'Failed to create broker profile');
+  }
+  return response.data;
+};
+
+/**
+ * Update broker profile
+ */
+export const updateBrokerProfile = async (data: any): Promise<any> => {
+  const response = await apiClient.put<any>('/api/broker/profile', data);
+  if (!response.success || !response.data) {
+    throw new Error(response.error || 'Failed to update broker profile');
+  }
+  return response.data;
+};
+
+/**
+ * Get paginated tenant demands
+ */
+export const getTenantDemands = async (params?: {
+  page?: number;
+  limit?: number;
+  location?: string;
+  propertyType?: string;
+  minSqft?: number;
+  maxSqft?: number;
+}): Promise<any> => {
+  const response = await apiClient.get<any>('/api/broker/demands', params);
+  if (!response.success || !response.data) {
+    throw new Error(response.error || 'Failed to fetch tenant demands');
+  }
+  return response.data;
+};
+
+/**
+ * Get paginated property listings for broker
+ */
+export const getBrokerProperties = async (params?: {
+  page?: number;
+  limit?: number;
+  location?: string;
+  propertyType?: string;
+  minSqft?: number;
+  maxSqft?: number;
+}): Promise<any> => {
+  const response = await apiClient.get<any>('/api/broker/properties', params);
+  if (!response.success || !response.data) {
+    throw new Error(response.error || 'Failed to fetch properties');
+  }
+  return response.data;
+};
+
+/**
+ * Get broker deals
+ */
+export const getBrokerDeals = async (params?: {
+  page?: number;
+  limit?: number;
+  status?: string;
+}): Promise<any> => {
+  const response = await apiClient.get<any>('/api/broker/deals', params);
+  if (!response.success || !response.data) {
+    throw new Error(response.error || 'Failed to fetch broker deals');
   }
   return response.data;
 };

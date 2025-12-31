@@ -6,6 +6,7 @@ import '@testing-library/jest-dom';
 globalThis.importMeta = {
   env: {
     VITE_API_BASE_URL: '',
+    VITE_WS_BASE_URL: '',
     MODE: 'test',
     DEV: false,
     PROD: false,
@@ -19,6 +20,7 @@ Object.defineProperty(globalThis, 'import', {
     meta: {
       env: {
         VITE_API_BASE_URL: '',
+        VITE_WS_BASE_URL: '',
         MODE: 'test',
         DEV: false,
         PROD: false,

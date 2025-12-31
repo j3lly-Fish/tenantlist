@@ -1,25 +1,27 @@
+/* Business Card Component - Figma Design System */
 .businessCard {
   position: relative;
-  background: white;
-  border-radius: 8px;
-  padding: 16px;
-  box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.1);
+  background: var(--zyx-white);
+  border-radius: var(--radius-12);
+  padding: var(--spacing-16);
+  border: var(--border-width-thin) solid var(--border-color-light);
   cursor: pointer;
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  transition: transform var(--transition-fast), box-shadow var(--transition-fast);
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: var(--spacing-12);
   overflow: hidden;
 }
 
 .businessCard:hover {
   transform: translateY(-2px);
-  box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.15);
+  box-shadow: var(--shadow-card-hover);
 }
 
 .businessCard:focus-visible {
-  outline: 3px solid #1E90FF;
+  outline: 2px solid var(--zyx-info);
   outline-offset: 2px;
+  box-shadow: var(--shadow-focus);
 }
 
 /* Card with cover image variant */
@@ -30,11 +32,11 @@
 /* ===== Cover Image Section ===== */
 .coverImageContainer {
   position: relative;
-  width: calc(100% + 32px);
-  margin: -16px -16px 0 -16px;
+  width: calc(100% + calc(var(--spacing-16) * 2));
+  margin: calc(var(--spacing-16) * -1) calc(var(--spacing-16) * -1) 0 calc(var(--spacing-16) * -1);
   height: 160px;
   overflow: hidden;
-  border-radius: 8px 8px 0 0;
+  border-radius: var(--radius-12) var(--radius-12) 0 0;
 }
 
 .coverImage {
@@ -64,29 +66,29 @@
 /* Logo overlay in bottom-left corner */
 .logoOverlay {
   position: absolute;
-  bottom: 12px;
-  left: 12px;
-  z-index: 2;
-  background: white;
-  border-radius: 8px;
-  padding: 4px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+  bottom: var(--spacing-12);
+  left: var(--spacing-12);
+  z-index: var(--z-dropdown);
+  background: var(--zyx-white);
+  border-radius: var(--radius-8);
+  padding: var(--spacing-4);
+  box-shadow: var(--shadow-card);
 }
 
 .overlayLogo {
   width: 48px;
   height: 48px;
   object-fit: contain;
-  border-radius: 6px;
+  border-radius: var(--radius-4);
   display: block;
 }
 
 /* Status badge overlay in top-right corner */
 .statusOverlay {
   position: absolute;
-  top: 12px;
-  right: 12px;
-  z-index: 2;
+  top: var(--spacing-12);
+  right: var(--spacing-12);
+  z-index: var(--z-dropdown);
 }
 
 /* ===== Standard Logo (no cover image) ===== */
@@ -94,30 +96,32 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  margin-bottom: 8px;
+  margin-bottom: var(--spacing-8);
 }
 
 .logo {
   width: 64px;
   height: 64px;
   object-fit: contain;
-  border-radius: 8px;
+  border-radius: var(--radius-8);
 }
 
 /* ===== Header: Name and Category ===== */
 .cardHeader {
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: var(--spacing-8);
   align-items: flex-start;
 }
 
 .businessName {
-  font-size: 18px;
-  font-weight: 600;
-  color: #212529;
+  font-size: var(--font-size-18);
+  font-weight: var(--font-weight-semibold);
+  color: var(--zyx-gray-700);
   margin: 0;
   word-break: break-word;
+  line-height: var(--line-height-28);
+  letter-spacing: var(--letter-spacing-wide);
 }
 
 /* Status badge container (standard layout) */
@@ -130,49 +134,52 @@
 .metrics {
   display: flex;
   flex-wrap: wrap;
-  gap: 8px;
+  gap: var(--spacing-8);
 }
 
 /* ===== Actions ===== */
 .actions {
   display: flex;
-  gap: 12px;
-  margin-top: 8px;
+  gap: var(--spacing-12);
+  margin-top: var(--spacing-8);
 }
 
 .actionButton {
   flex: 1;
-  padding: 10px 16px;
+  padding: var(--button-padding-y) var(--button-padding-x);
   border: none;
-  border-radius: 6px;
-  font-size: 14px;
-  font-weight: 600;
+  border-radius: var(--button-radius);
+  font-size: var(--font-size-14);
+  font-weight: var(--font-weight-semibold);
   cursor: pointer;
-  transition: all 0.2s ease;
-  min-height: 44px; /* Touch-friendly size */
+  transition: all var(--transition-fast);
+  min-height: var(--button-height-lg); /* Touch-friendly size */
 }
 
 .actionButton.primary {
-  background-color: #007BFF;
-  color: white;
+  background-color: var(--zyx-gray-700);
+  color: var(--zyx-white);
 }
 
 .actionButton.primary:hover {
-  background-color: #0056B3;
+  background-color: var(--zyx-gray-600);
 }
 
 .actionButton.secondary {
-  background-color: #6C757D;
-  color: white;
+  background-color: var(--zyx-white);
+  color: var(--zyx-gray-600);
+  border: var(--border-width-thin) solid var(--zyx-gray-600);
 }
 
 .actionButton.secondary:hover {
-  background-color: #545B62;
+  background-color: var(--zyx-gray-100);
+  border-color: var(--zyx-gray-700);
 }
 
 .actionButton:focus-visible {
-  outline: 3px solid #1E90FF;
+  outline: 2px solid var(--zyx-info);
   outline-offset: 2px;
+  box-shadow: var(--shadow-focus);
 }
 
 .actionButton:active {
@@ -206,9 +213,9 @@
   }
 
   .logoOverlay {
-    bottom: 8px;
-    left: 8px;
-    padding: 3px;
+    bottom: var(--spacing-8);
+    left: var(--spacing-8);
+    padding: var(--spacing-4);
   }
 
   .overlayLogo {
@@ -217,7 +224,7 @@
   }
 
   .statusOverlay {
-    top: 8px;
-    right: 8px;
+    top: var(--spacing-8);
+    right: var(--spacing-8);
   }
 }

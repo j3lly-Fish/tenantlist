@@ -1,34 +1,35 @@
-/* Status Badge Component */
+/* Status Badge Component - Figma Design System */
 .statusBadge {
   display: inline-flex;
   align-items: center;
-  padding: 4px 12px;
-  border-radius: 12px;
-  font-size: 12px;
-  font-weight: 600;
+  padding: var(--badge-padding-y) var(--badge-padding-x);
+  border-radius: var(--badge-radius);
+  font-size: var(--badge-font-size);
+  font-weight: var(--badge-font-weight);
   text-transform: capitalize;
   white-space: nowrap;
+  line-height: 1;
 }
 
 .statusBadge.active {
-  background: #D4EDDA;
-  color: #155724;
+  background: var(--zyx-success-light);
+  color: var(--zyx-success);
 }
 
 .statusBadge.pending {
-  background: #FFF3CD;
-  color: #856404;
+  background: var(--zyx-warning-light);
+  color: var(--zyx-warning);
 }
 
 .statusBadge.stealth {
-  background: #E2E3E5;
-  color: #383D41;
+  background: var(--zyx-gray-200);
+  color: var(--zyx-gray-600);
 }
 
 /* Responsive Design */
 @media (max-width: 768px) {
   .statusBadge {
-    font-size: 11px;
-    padding: 3px 10px;
+    font-size: var(--font-size-12);
+    padding: var(--spacing-4) var(--spacing-12);
   }
 }

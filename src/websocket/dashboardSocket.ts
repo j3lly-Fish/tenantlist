@@ -1,7 +1,9 @@
 import { Server as HttpServer } from 'http';
 import { Server as SocketIOServer, Socket } from 'socket.io';
 import jwt from 'jsonwebtoken';
-import { DashboardKPIs, Business } from '../types';
+import { DashboardKPIs, Business, PropertyListing } from '../types';
+import { PropertyKPIData } from '../services/PropertyKPIService';
+import { BrokerDeal } from '../services/BrokerDashboardEventService';
 
 /**
  * Interface for decoded JWT token
@@ -142,9 +144,9 @@ export class DashboardSocketServer {
   }
 
   /**
-   * Emit KPI update event to a specific user
+   * Emit KPI update event to a specific user (tenant dashboard)
    */
-  public emitKPIUpdate(userId: string, kpis: DashboardKPIs): void {
+  public emitKPIUpdate(userId: string, kpis: DashboardKPIs | PropertyKPIData): void {
     const userRoom = `user:${userId}`;
     this.namespace.to(userRoom).emit('kpi:update', {
       kpis,
@@ -199,6 +201,81 @@ export class DashboardSocketServer {
       timestamp: new Date().toISOString(),
     });
     console.log(`Emitted metrics:updated to room ${userRoom}`);
+  }
+
+  /**
+   * Emit property created event to a specific user
+   */
+  public emitPropertyCreated(userId: string, property: PropertyListing): void {
+    const userRoom = `user:${userId}`;
+    this.namespace.to(userRoom).emit('property:created', {
+      property,
+      timestamp: new Date().toISOString(),
+    });
+    console.log(`Emitted property:created to room ${userRoom}`);
+  }
+
+  /**
+   * Emit property updated event to a specific user
+   */
+  public emitPropertyUpdated(userId: string, propertyId: string, property: PropertyListing): void {
+    const userRoom = `user:${userId}`;
+    this.namespace.to(userRoom).emit('property:updated', {
+      propertyId,
+      property,
+      timestamp: new Date().toISOString(),
+    });
+    console.log(`Emitted property:updated to room ${userRoom}`);
+  }
+
+  /**
+   * Emit property deleted event to a specific user
+   */
+  public emitPropertyDeleted(userId: string, propertyId: string): void {
+    const userRoom = `user:${userId}`;
+    this.namespace.to(userRoom).emit('property:deleted', {
+      propertyId,
+      timestamp: new Date().toISOString(),
+    });
+    console.log(`Emitted property:deleted to room ${userRoom}`);
+  }
+
+  /**
+   * Emit property status changed event to a specific user
+   */
+  public emitStatusChanged(userId: string, propertyId: string, oldStatus: string, newStatus: string): void {
+    const userRoom = `user:${userId}`;
+    this.namespace.to(userRoom).emit('property:status-changed', {
+      propertyId,
+      oldStatus,
+      newStatus,
+      timestamp: new Date().toISOString(),
+    });
+    console.log(`Emitted property:status-changed to room ${userRoom}`);
+  }
+
+  /**
+   * Emit broker deal created event to a specific user
+   */
+  public emitBrokerDealCreated(userId: string, deal: BrokerDeal): void {
+    const userRoom = `user:${userId}`;
+    this.namespace.to(userRoom).emit('broker:deal-created', {
+      deal,
+      timestamp: new Date().toISOString(),
+    });
+    console.log(`Emitted broker:deal-created to room ${userRoom}`);
+  }
+
+  /**
+   * Emit broker deal updated event to a specific user
+   */
+  public emitBrokerDealUpdated(userId: string, deal: BrokerDeal): void {
+    const userRoom = `user:${userId}`;
+    this.namespace.to(userRoom).emit('broker:deal-updated', {
+      deal,
+      timestamp: new Date().toISOString(),
+    });
+    console.log(`Emitted broker:deal-updated to room ${userRoom}`);
   }
 
   /**

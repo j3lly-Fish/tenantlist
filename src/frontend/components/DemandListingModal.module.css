@@ -1,4 +1,4 @@
-/* Demand Listing Modal Styles */
+/* Demand Listing Modal Styles - Figma Design System */
 
 .modalBackdrop {
   position: fixed;
@@ -10,69 +10,69 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  z-index: 1000;
-  padding: 20px;
+  z-index: var(--z-modal-backdrop);
+  padding: var(--spacing-20);
 }
 
 .modalContainer {
-  background: white;
-  border-radius: 12px;
+  background: var(--zyx-white);
+  border-radius: var(--radius-12);
   max-width: 800px;
   width: 100%;
   max-height: 90vh;
   overflow-y: auto;
-  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+  box-shadow: var(--shadow-modal);
 }
 
 .modalHeader {
-  padding: 20px 24px;
-  border-bottom: 1px solid #e5e7eb;
+  padding: var(--spacing-20) var(--spacing-24);
+  border-bottom: var(--border-width-thin) solid var(--border-color-default);
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
   position: sticky;
   top: 0;
-  background: white;
+  background: var(--zyx-white);
   z-index: 1;
 }
 
 .modalTitle {
-  font-size: 20px;
-  font-weight: 600;
-  color: #111827;
-  margin: 0 0 4px 0;
+  font-size: var(--font-size-18);
+  font-weight: var(--font-weight-semibold);
+  color: var(--zyx-gray-700);
+  margin: 0 0 var(--spacing-4) 0;
 }
 
 .modalSubtitle {
-  font-size: 14px;
-  color: #6b7280;
+  font-size: var(--font-size-14);
+  color: var(--zyx-gray-500);
   margin: 0;
 }
 
 .closeButton {
   background: none;
   border: none;
-  padding: 4px;
+  padding: var(--spacing-4);
   cursor: pointer;
-  color: #6b7280;
-  border-radius: 4px;
-  transition: all 0.2s;
+  color: var(--zyx-gray-500);
+  border-radius: var(--radius-4);
+  transition: all var(--transition-normal);
 }
 
 .closeButton:hover {
-  color: #111827;
-  background-color: #f3f4f6;
+  color: var(--zyx-gray-700);
+  background-color: var(--zyx-gray-200);
 }
 
 .modalContent {
-  padding: 24px;
+  padding: var(--spacing-24);
 }
 
 /* Form Grid */
 .formGrid {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 16px;
+  gap: var(--spacing-16);
 }
 
 .formGroup {
@@ -85,96 +85,111 @@
 }
 
 .helpText {
-  font-size: 12px;
-  color: #6b7280;
-  margin-top: 4px;
+  font-size: var(--font-size-12);
+  color: var(--zyx-gray-500);
+  margin-top: var(--spacing-4);
 }
 
 .label {
-  font-size: 13px;
-  font-weight: 500;
-  color: #374151;
-  margin-bottom: 6px;
+  font-size: var(--font-size-14);
+  font-weight: var(--font-weight-medium);
+  color: var(--zyx-gray-600);
+  margin-bottom: var(--spacing-8);
 }
 
 .input,
 .select {
-  padding: 10px 12px;
-  font-size: 14px;
-  border: 1px solid #d1d5db;
-  border-radius: 6px;
-  transition: all 0.2s;
+  padding: var(--spacing-10) var(--spacing-12);
+  font-size: var(--font-size-14);
+  border: var(--border-width-thin) solid var(--border-color-default);
+  border-radius: var(--radius-8);
+  transition: all var(--transition-normal);
   font-family: inherit;
-  background: white;
+  background: var(--zyx-white);
+  color: var(--zyx-gray-700);
 }
 
 .input:focus,
 .select:focus {
   outline: none;
-  border-color: #3b82f6;
-  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+  border-color: var(--zyx-info);
+  box-shadow: var(--shadow-focus);
 }
 
 .inputError {
-  border-color: #ef4444;
+  border-color: var(--zyx-error);
 }
 
 .errorText {
-  font-size: 12px;
-  color: #ef4444;
-  margin-top: 4px;
+  font-size: var(--font-size-12);
+  color: var(--zyx-error);
+  margin-top: var(--spacing-4);
 }
 
 .errorMessage {
-  padding: 12px;
-  background-color: #fee2e2;
-  border: 1px solid #fecaca;
-  border-radius: 6px;
-  color: #dc2626;
-  font-size: 14px;
-  margin-top: 16px;
+  padding: var(--spacing-12);
+  background-color: var(--zyx-error-light);
+  border: var(--border-width-thin) solid var(--zyx-error-light);
+  border-radius: var(--radius-8);
+  color: var(--zyx-error);
+  font-size: var(--font-size-14);
+  margin-top: var(--spacing-16);
 }
 
 /* Actions */
 .actions {
   display: flex;
-  gap: 12px;
-  margin-top: 24px;
-  padding-top: 20px;
-  border-top: 1px solid #e5e7eb;
+  gap: var(--spacing-12);
+  margin-top: var(--spacing-24);
+  padding-top: var(--spacing-20);
+  border-top: var(--border-width-thin) solid var(--border-color-default);
 }
 
 .cancelButton,
 .submitButton {
   flex: 1;
-  padding: 12px 20px;
-  font-size: 14px;
-  font-weight: 500;
-  border-radius: 8px;
+  padding: var(--spacing-12) var(--spacing-20);
+  font-size: var(--font-size-16);
+  font-weight: var(--font-weight-semibold);
+  border-radius: var(--button-radius);
   cursor: pointer;
-  transition: all 0.2s;
+  transition: all var(--transition-normal);
   font-family: inherit;
+  min-height: var(--button-height-lg);
 }
 
 .cancelButton {
-  background-color: white;
-  border: 1px solid #d1d5db;
-  color: #374151;
+  background-color: var(--zyx-white);
+  border: var(--border-width-thin) solid var(--border-color-default);
+  color: var(--zyx-gray-600);
 }
 
 .cancelButton:hover:not(:disabled) {
-  background-color: #f9fafb;
-  border-color: #9ca3af;
+  background-color: var(--zyx-gray-100);
+  border-color: var(--zyx-gray-400);
 }
 
 .submitButton {
-  background-color: #111827;
+  background-color: var(--zyx-gray-700);
   border: none;
-  color: white;
+  color: var(--zyx-white);
 }
 
 .submitButton:hover:not(:disabled) {
-  background-color: #1f2937;
+  background-color: var(--zyx-gray-600);
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-card);
+}
+
+.submitButton:active:not(:disabled) {
+  transform: translateY(0);
+}
+
+.submitButton:focus-visible,
+.cancelButton:focus-visible {
+  outline: 2px solid var(--zyx-info);
+  outline-offset: 2px;
+  box-shadow: var(--shadow-focus);
 }
 
 .cancelButton:disabled,
@@ -185,16 +200,16 @@
 
 /* Step 2: Corporate Toggle */
 .corporateToggle {
-  margin-bottom: 24px;
+  margin-bottom: var(--spacing-24);
 }
 
 .toggleLabel {
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: var(--spacing-12);
   cursor: pointer;
-  font-size: 14px;
-  color: #374151;
+  font-size: var(--font-size-14);
+  color: var(--zyx-gray-600);
 }
 
 .toggleSwitch {
@@ -216,8 +231,8 @@
   left: 0;
   right: 0;
   bottom: 0;
-  background-color: #d1d5db;
-  transition: 0.3s;
+  background-color: var(--border-color-default);
+  transition: var(--transition-slow);
   border-radius: 24px;
 }
 
@@ -228,13 +243,13 @@
   width: 18px;
   left: 3px;
   bottom: 3px;
-  background-color: white;
-  transition: 0.3s;
-  border-radius: 50%;
+  background-color: var(--zyx-white);
+  transition: var(--transition-slow);
+  border-radius: var(--radius-circle);
 }
 
 .toggleSwitch input:checked + .toggleSlider {
-  background-color: #3b82f6;
+  background-color: var(--zyx-gray-700);
 }
 
 .toggleSwitch input:checked + .toggleSlider::before {
@@ -244,24 +259,24 @@
 .toggleIcon {
   display: flex;
   align-items: center;
-  color: #6b7280;
+  color: var(--zyx-gray-500);
 }
 
 /* Step 2: Features Grid */
 .featuresGrid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 12px;
+  gap: var(--spacing-12);
 }
 
 .featureCheckbox {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: var(--spacing-8);
   cursor: pointer;
-  font-size: 13px;
-  color: #374151;
-  padding: 4px 0;
+  font-size: var(--font-size-14);
+  color: var(--zyx-gray-600);
+  padding: var(--spacing-4) 0;
 }
 
 .featureCheckbox input {
@@ -273,32 +288,32 @@
 .checkmark {
   width: 18px;
   height: 18px;
-  border: 1px solid #d1d5db;
-  border-radius: 4px;
+  border: var(--border-width-thin) solid var(--border-color-default);
+  border-radius: var(--radius-4);
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: all 0.2s;
+  transition: all var(--transition-normal);
   flex-shrink: 0;
 }
 
 .featureCheckbox input:checked + .checkmark {
-  background-color: #3b82f6;
-  border-color: #3b82f6;
+  background-color: var(--zyx-gray-700);
+  border-color: var(--zyx-gray-700);
 }
 
 .featureCheckbox input:checked + .checkmark::after {
   content: "";
   width: 5px;
   height: 9px;
-  border: solid white;
+  border: solid var(--zyx-white);
   border-width: 0 2px 2px 0;
   transform: rotate(45deg);
   margin-bottom: 2px;
 }
 
 .featureCheckbox:hover .checkmark {
-  border-color: #9ca3af;
+  border-color: var(--zyx-gray-400);
 }
 
 .featureLabel {
@@ -309,7 +324,7 @@
 @media (max-width: 768px) {
   .modalContainer {
     max-width: 100%;
-    margin: 10px;
+    margin: var(--spacing-10);
   }
 
   .formGrid {

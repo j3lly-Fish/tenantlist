@@ -3,11 +3,15 @@ import { useNavigate } from 'react-router-dom';
 import { TopNavigation } from '@components/TopNavigation';
 import { PropertyListingsSection } from '@components/PropertyListingsSection';
 import { PropertyListingModal } from '@components/PropertyListingModal';
-import { KPICard } from '@components/KPICard';
+import { KPICard, TrendData } from '@components/KPICard';
+import { ConnectionIndicator, ConnectionStatus } from '@components/ConnectionIndicator';
 import { useAuth } from '@contexts/AuthContext';
+import { useInfiniteScroll } from '@hooks/useInfiniteScroll';
+import { usePropertyDashboardWebSocket } from '@hooks/usePropertyDashboardWebSocket';
 import {
   getMyPropertyListings,
   getPropertyDashboardStats,
+  getLandlordKPIs,
   deletePropertyListing,
   updatePropertyListingStatus,
   createPropertyListing,
@@ -22,13 +26,17 @@ import styles from './LandlordDashboard.module.css';
  *
  * Main dashboard for landlords and brokers displaying:
  * - Top navigation bar
- * - KPI cards showing property stats
- * - Property listings with search, filter, and pagination
+ * - Connection status indicator (top-right of dashboard header)
+ * - KPI cards showing property stats with trend indicators
+ * - Property listings with search, filter, and infinite scroll
  * - Property listing creation modal
  *
  * Features:
  * - Loads property listings and stats on mount
+ * - Displays KPIs with trend data (up/down arrows)
+ * - Real-time updates via WebSocket with fallback to polling
  * - Client-side search and filtering
+ * - Infinite scroll for property listings (20 per page)
  * - Create, edit, and delete property listings
  * - Status management (active, pending, leased, off market)
  */
@@ -45,7 +53,7 @@ const LandlordDashboard: React.FC = () => {
   const [isLoadingMore, setIsLoadingMore] = useState(false);
   const [totalCount, setTotalCount] = useState(0);
 
-  // Dashboard stats
+  // Dashboard stats (legacy format)
   const [stats, setStats] = useState({
     total: 0,
     active: 0,
@@ -55,6 +63,14 @@ const LandlordDashboard: React.FC = () => {
     totalViews: 0,
     totalInquiries: 0,
   });
+
+  // KPI data with trends
+  const [kpiData, setKpiData] = useState<{
+    totalListings?: { value: number; trend?: TrendData };
+    activeListings?: { value: number; trend?: TrendData };
+    avgDaysOnMarket?: { value: number; trend?: TrendData };
+    responseRate?: { value: number; trend?: TrendData };
+  } | null>(null);
 
   // Modal state
   const [showPropertyModal, setShowPropertyModal] = useState(false);
@@ -74,14 +90,23 @@ const LandlordDashboard: React.FC = () => {
   } = usePropertyFilter(properties);
 
   /**
-   * Load dashboard stats
+   * Load dashboard stats with KPIs and trends
    */
   const loadStats = useCallback(async () => {
     try {
-      const dashboardStats = await getPropertyDashboardStats();
-      setStats(dashboardStats);
+      // Try to load enhanced KPIs with trends
+      try {
+        const kpis = await getLandlordKPIs();
+        setKpiData(kpis);
+      } catch (kpiError) {
+        // Fallback to legacy stats API if new endpoint not available
+        console.log('KPI endpoint not available, using legacy stats');
+        const dashboardStats = await getPropertyDashboardStats();
+        setStats(dashboardStats);
+      }
     } catch (err: any) {
       console.error('Failed to load stats:', err);
+      // Don't set error state here, let the dashboard continue to work
     }
   }, []);
 
@@ -108,7 +133,8 @@ const LandlordDashboard: React.FC = () => {
   }, []);
 
   /**
-   * Load more properties (pagination)
+   * Load more properties (infinite scroll)
+   * Automatically triggered when sentinel element becomes visible
    */
   const loadMoreProperties = useCallback(async () => {
     if (isLoadingMore || !hasMore) return;
@@ -128,6 +154,95 @@ const LandlordDashboard: React.FC = () => {
       setIsLoadingMore(false);
     }
   }, [currentPage, hasMore, isLoadingMore]);
+
+  /**
+   * Set up infinite scroll with Intersection Observer
+   * Triggers loadMoreProperties when sentinel element is ~200px from viewport
+   */
+  const { sentinelRef } = useInfiniteScroll(loadMoreProperties, hasMore, isLoadingMore);
+
+  /**
+   * Handle KPI update event from WebSocket
+   */
+  const handleKPIUpdate = useCallback((kpis: any) => {
+    console.log('Received KPI update via WebSocket:', kpis);
+    setKpiData(kpis);
+  }, []);
+
+  /**
+   * Handle property created event from WebSocket
+   */
+  const handlePropertyCreated = useCallback((property: PropertyListing) => {
+    console.log('Received property created event:', property);
+    setProperties((prev) => [property, ...prev]);
+    setTotalCount((prev) => prev + 1);
+    // Refresh stats to get updated KPIs
+    loadStats();
+  }, [loadStats]);
+
+  /**
+   * Handle property updated event from WebSocket
+   */
+  const handlePropertyUpdated = useCallback((propertyId: string, updatedProperty: PropertyListing) => {
+    console.log('Received property updated event:', propertyId, updatedProperty);
+    setProperties((prev) =>
+      prev.map((p) => (p.id === propertyId ? updatedProperty : p))
+    );
+  }, []);
+
+  /**
+   * Handle property deleted event from WebSocket
+   */
+  const handlePropertyDeleted = useCallback((propertyId: string) => {
+    console.log('Received property deleted event:', propertyId);
+    setProperties((prev) => prev.filter((p) => p.id !== propertyId));
+    setTotalCount((prev) => Math.max(0, prev - 1));
+    // Refresh stats to get updated KPIs
+    loadStats();
+  }, [loadStats]);
+
+  /**
+   * Handle property status changed event from WebSocket
+   */
+  const handleStatusChanged = useCallback((propertyId: string, oldStatus: string, newStatus: string) => {
+    console.log('Received status changed event:', propertyId, oldStatus, newStatus);
+    setProperties((prev) =>
+      prev.map((p) => (p.id === propertyId ? { ...p, status: newStatus as PropertyListingStatus } : p))
+    );
+    // Refresh stats to get updated KPIs (status change affects activeListings)
+    loadStats();
+  }, [loadStats]);
+
+  /**
+   * WebSocket connection for real-time updates
+   */
+  const { connectionStatus, isConnected, isPolling, isReconnecting } = usePropertyDashboardWebSocket(
+    user?.userId,
+    true, // enabled
+    {
+      onKPIUpdate: handleKPIUpdate,
+      onPropertyCreated: handlePropertyCreated,
+      onPropertyUpdated: handlePropertyUpdated,
+      onPropertyDeleted: handlePropertyDeleted,
+      onStatusChanged: handleStatusChanged,
+    }
+  );
+
+  /**
+   * Determine connection status for indicator
+   */
+  const getConnectionStatus = useCallback((): ConnectionStatus => {
+    if (isPolling) {
+      return 'polling';
+    }
+    if (isReconnecting) {
+      return 'reconnecting';
+    }
+    if (isConnected) {
+      return 'connected';
+    }
+    return 'disconnected';
+  }, [isConnected, isPolling, isReconnecting]);
 
   /**
    * Initial data load
@@ -268,13 +383,33 @@ const LandlordDashboard: React.FC = () => {
     );
   }
 
+  // Determine which KPI values to use (new KPI data if available, fallback to legacy stats)
+  const displayKPIs = kpiData ? {
+    totalListings: kpiData.totalListings?.value ?? stats.total,
+    active: kpiData.activeListings?.value ?? stats.active,
+    totalViews: stats.totalViews,
+    totalInquiries: stats.totalInquiries,
+    trends: {
+      totalListings: kpiData.totalListings?.trend,
+      activeListings: kpiData.activeListings?.trend,
+      avgDaysOnMarket: kpiData.avgDaysOnMarket?.trend,
+      responseRate: kpiData.responseRate?.trend,
+    }
+  } : {
+    totalListings: stats.total,
+    active: stats.active,
+    totalViews: stats.totalViews,
+    totalInquiries: stats.totalInquiries,
+    trends: {}
+  };
+
   return (
     <div className={styles.dashboard}>
       <TopNavigation tier="Free Plan" />
 
       <main className={styles.content}>
         <div className={styles.container}>
-          {/* Dashboard header with Add Property button */}
+          {/* Dashboard header with Add Property button and Connection Indicator */}
           <div className={styles.headerSection}>
             <div className={styles.headerText}>
               <h1 className={styles.pageTitle}>Property Listings</h1>
@@ -282,31 +417,36 @@ const LandlordDashboard: React.FC = () => {
                 Manage your commercial real estate listings
               </p>
             </div>
-            <button className={styles.addPropertyButton} onClick={handleAddProperty}>
-              + Add Property
-            </button>
+            <div className={styles.headerActions}>
+              <ConnectionIndicator connectionStatus={getConnectionStatus()} />
+              <button className={styles.addPropertyButton} onClick={handleAddProperty}>
+                + Add Property
+              </button>
+            </div>
           </div>
 
-          {/* KPI Cards */}
+          {/* KPI Cards with trend indicators */}
           <div className={styles.kpiGrid}>
             <KPICard
               title="Total Listings"
-              value={stats.total}
+              value={displayKPIs.totalListings}
               loading={loading}
+              trend={displayKPIs.trends.totalListings}
             />
             <KPICard
               title="Active"
-              value={stats.active}
+              value={displayKPIs.active}
               loading={loading}
+              trend={displayKPIs.trends.activeListings}
             />
             <KPICard
               title="Total Views"
-              value={stats.totalViews}
+              value={displayKPIs.totalViews}
               loading={loading}
             />
             <KPICard
               title="Inquiries"
-              value={stats.totalInquiries}
+              value={displayKPIs.totalInquiries}
               loading={loading}
             />
           </div>
@@ -332,6 +472,15 @@ const LandlordDashboard: React.FC = () => {
             isLoadingMore={isLoadingMore}
             totalCount={totalCount}
           />
+
+          {/* Infinite scroll sentinel - triggers loading when user scrolls near bottom */}
+          {hasMore && !hasActiveFilters && (
+            <div
+              ref={sentinelRef}
+              className={styles.scrollSentinel}
+              aria-hidden="true"
+            />
+          )}
         </div>
       </main>
 

@@ -1,28 +1,29 @@
-/* Tier Badge Component */
+/* Tier Badge Component - Figma Design System */
 .tierBadge {
   display: inline-flex;
   align-items: center;
-  padding: 6px 12px;
-  border-radius: 16px;
-  font-size: 13px;
-  font-weight: 600;
+  padding: var(--spacing-8) var(--spacing-12);
+  border-radius: var(--radius-full);
+  font-size: var(--font-size-14);
+  font-weight: var(--font-weight-semibold);
   white-space: nowrap;
-  border: 1px solid transparent;
-  transition: all 0.2s;
+  border: var(--border-width-thin) solid transparent;
+  transition: all var(--transition-fast);
+  line-height: 1;
 }
 
 /* Free tier styling */
 .tierBadge.free {
-  background: #F5F5F5;
-  color: #666;
-  border-color: #E0E0E0;
+  background: var(--zyx-gray-100);
+  color: var(--zyx-gray-600);
+  border-color: var(--border-color-light);
 }
 
 /* Starter tier styling */
 .tierBadge.starter {
-  background: #E3F2FD;
-  color: #1976D2;
-  border-color: #90CAF9;
+  background: var(--zyx-info-light);
+  color: var(--zyx-info);
+  border-color: var(--zyx-info);
 }
 
 /* Pro tier styling */
@@ -35,8 +36,8 @@
 /* Responsive Design */
 @media (max-width: 768px) {
   .tierBadge {
-    font-size: 12px;
-    padding: 4px 10px;
+    font-size: var(--font-size-12);
+    padding: var(--spacing-4) var(--spacing-12);
   }
 }
 

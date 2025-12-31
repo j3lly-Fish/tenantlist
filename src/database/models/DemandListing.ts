@@ -173,4 +173,76 @@ export class DemandListingModel {
 
     return (result.rowCount || 0) > 0;
   }
+
+  /**
+   * Find paginated demand listings with optional filters
+   * Used by brokers to browse all tenant demands
+   *
+   * @param limit - Number of listings to return
+   * @param offset - Offset for pagination
+   * @param filters - Optional filters (location, propertyType, minSqft, maxSqft)
+   * @returns Paginated listings and total count
+   */
+  async findPaginated(
+    limit: number = 20,
+    offset: number = 0,
+    filters?: {
+      location?: string;
+      propertyType?: string;
+      minSqft?: number;
+      maxSqft?: number;
+    }
+  ): Promise<{ listings: DemandListing[]; total: number }> {
+    let query = `SELECT * FROM demand_listings WHERE status = 'active'`;
+    let countQuery = `SELECT COUNT(*) FROM demand_listings WHERE status = 'active'`;
+    const params: any[] = [];
+    let paramIndex = 1;
+
+    // Add location filter (city or state)
+    if (filters?.location) {
+      query += ` AND (city ILIKE $${paramIndex} OR state ILIKE $${paramIndex})`;
+      countQuery += ` AND (city ILIKE $${paramIndex} OR state ILIKE $${paramIndex})`;
+      params.push(`%${filters.location}%`);
+      paramIndex++;
+    }
+
+    // Add property type filter (asset_type)
+    if (filters?.propertyType) {
+      query += ` AND asset_type = $${paramIndex}`;
+      countQuery += ` AND asset_type = $${paramIndex}`;
+      params.push(filters.propertyType);
+      paramIndex++;
+    }
+
+    // Add min square footage filter
+    if (filters?.minSqft) {
+      query += ` AND (sqft_max IS NULL OR sqft_max >= $${paramIndex})`;
+      countQuery += ` AND (sqft_max IS NULL OR sqft_max >= $${paramIndex})`;
+      params.push(filters.minSqft);
+      paramIndex++;
+    }
+
+    // Add max square footage filter
+    if (filters?.maxSqft) {
+      query += ` AND (sqft_min IS NULL OR sqft_min <= $${paramIndex})`;
+      countQuery += ` AND (sqft_min IS NULL OR sqft_min <= $${paramIndex})`;
+      params.push(filters.maxSqft);
+      paramIndex++;
+    }
+
+    // Add ordering and pagination
+    query += ` ORDER BY created_at DESC LIMIT $${paramIndex} OFFSET $${paramIndex + 1}`;
+    params.push(limit, offset);
+
+    // Execute both queries
+    const [listingsResult, countResult] = await Promise.all([
+      this.pool.query(query, params),
+      this.pool.query(countQuery, params.slice(0, paramIndex - 1)),
+    ]);
+
+    return {
+      listings: listingsResult.rows,
+      total: parseInt(countResult.rows[0].count, 10),
+    };
+  }
 }

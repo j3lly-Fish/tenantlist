@@ -17,6 +17,7 @@ export const updatePropertyListing = jest.fn();
 export const updatePropertyListingStatus = jest.fn();
 export const deletePropertyListing = jest.fn();
 export const getPropertyDashboardStats = jest.fn();
+export const getLandlordKPIs = jest.fn();
 export const getFeaturedPropertyListings = jest.fn();
 export const getRecentPropertyListings = jest.fn();
 export const getConversations = jest.fn();

@@ -1,20 +1,21 @@
-/* Category Badge Component */
+/* Category Badge Component - Figma Design System */
 .categoryBadge {
   display: inline-flex;
   align-items: center;
-  padding: 4px 12px;
-  border-radius: 12px;
-  font-size: 12px;
-  font-weight: 600;
-  background: #E3F2FD;
-  color: #1565C0;
+  padding: var(--badge-padding-y) var(--badge-padding-x);
+  border-radius: var(--badge-radius);
+  font-size: var(--badge-font-size);
+  font-weight: var(--badge-font-weight);
+  background: var(--zyx-info-light);
+  color: var(--zyx-info);
   white-space: nowrap;
+  line-height: 1;
 }
 
 /* Responsive Design */
 @media (max-width: 768px) {
   .categoryBadge {
-    font-size: 11px;
-    padding: 3px 10px;
+    font-size: var(--font-size-12);
+    padding: var(--spacing-4) var(--spacing-12);
   }
 }

@@ -1,0 +1,256 @@
+/* Broker Dashboard Page - Figma Design System */
+.dashboard {
+  min-height: 100vh;
+  background-color: var(--zyx-gray-100);
+}
+
+.content {
+  padding-top: 80px; /* Account for fixed top navigation */
+  min-height: calc(100vh - 80px);
+}
+
+.container {
+  max-width: var(--container-max-width);
+  margin: 0 auto;
+  padding: var(--spacing-32) var(--spacing-64);
+}
+
+/* Header section */
+.headerSection {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: var(--spacing-32);
+  gap: var(--spacing-24);
+}
+
+.headerText {
+  flex: 1;
+}
+
+.pageTitle {
+  font-size: var(--font-size-28);
+  font-weight: var(--font-weight-bold);
+  color: var(--zyx-gray-700);
+  margin: 0 0 var(--spacing-8) 0;
+  line-height: var(--line-height-36);
+}
+
+.pageSubtitle {
+  font-size: var(--font-size-16);
+  color: var(--zyx-gray-600);
+  margin: 0;
+  line-height: var(--line-height-24);
+}
+
+/* Header actions container for Connection Indicator and Profile button */
+.headerActions {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-16);
+}
+
+.profileButton {
+  padding: var(--spacing-12) var(--spacing-24);
+  background-color: var(--zyx-gray-700);
+  color: var(--zyx-white);
+  border: none;
+  border-radius: var(--button-radius);
+  font-size: var(--font-size-16);
+  font-weight: var(--font-weight-semibold);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  white-space: nowrap;
+  min-height: var(--button-height-lg);
+}
+
+.profileButton:hover {
+  background-color: var(--zyx-gray-600);
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-card);
+}
+
+.profileButton:active {
+  transform: translateY(0);
+}
+
+.profileButton:focus-visible {
+  outline: 2px solid var(--zyx-info);
+  outline-offset: 2px;
+  box-shadow: var(--shadow-focus);
+}
+
+/* KPI Grid */
+.kpiGrid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: var(--spacing-24);
+  margin-bottom: var(--spacing-32);
+}
+
+/* Dual View Section */
+.dualViewSection {
+  margin-top: var(--spacing-32);
+}
+
+.viewToggle {
+  display: flex;
+  gap: var(--spacing-8);
+  margin-bottom: var(--spacing-24);
+  padding: var(--spacing-4);
+  background-color: var(--zyx-white);
+  border-radius: var(--button-radius);
+  box-shadow: var(--shadow-xs);
+  width: fit-content;
+}
+
+.toggleButton {
+  padding: var(--spacing-12) var(--spacing-24);
+  background-color: transparent;
+  color: var(--zyx-gray-600);
+  border: none;
+  border-radius: calc(var(--button-radius) - 2px);
+  font-size: var(--font-size-16);
+  font-weight: var(--font-weight-medium);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  white-space: nowrap;
+}
+
+.toggleButton:hover {
+  background-color: var(--zyx-gray-200);
+  color: var(--zyx-gray-700);
+}
+
+.toggleButton.active {
+  background-color: var(--zyx-gray-700);
+  color: var(--zyx-white);
+  font-weight: var(--font-weight-semibold);
+}
+
+.toggleButton:focus-visible {
+  outline: 2px solid var(--zyx-info);
+  outline-offset: 2px;
+}
+
+.viewContent {
+  background-color: var(--zyx-white);
+  border-radius: var(--card-radius);
+  padding: var(--spacing-32);
+  box-shadow: var(--shadow-card);
+  min-height: 400px;
+}
+
+.placeholderContent {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 300px;
+  text-align: center;
+  color: var(--zyx-gray-500);
+}
+
+.placeholderContent p {
+  font-size: var(--font-size-18);
+  font-weight: var(--font-weight-medium);
+  margin: 0 0 var(--spacing-8) 0;
+}
+
+.placeholderSubtext {
+  font-size: var(--font-size-14);
+  color: var(--zyx-gray-400);
+  font-weight: var(--font-weight-normal);
+}
+
+/* Error state */
+.errorState {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: var(--spacing-64) var(--spacing-24);
+  text-align: center;
+}
+
+.errorState h2 {
+  font-size: var(--font-size-24);
+  font-weight: var(--font-weight-semibold);
+  color: var(--zyx-gray-700);
+  margin: 0 0 var(--spacing-12) 0;
+}
+
+.errorState p {
+  font-size: var(--font-size-16);
+  color: var(--zyx-gray-600);
+  margin: 0 0 var(--spacing-24) 0;
+}
+
+.retryButton {
+  padding: var(--spacing-12) var(--spacing-24);
+  background-color: var(--zyx-gray-700);
+  color: var(--zyx-white);
+  border: none;
+  border-radius: var(--button-radius);
+  font-size: var(--font-size-16);
+  font-weight: var(--font-weight-semibold);
+  cursor: pointer;
+  transition: background-color var(--transition-fast);
+}
+
+.retryButton:hover {
+  background-color: var(--zyx-gray-600);
+}
+
+/* Responsive design */
+@media (max-width: 1200px) {
+  .kpiGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 768px) {
+  .content {
+    padding-top: 70px;
+  }
+
+  .container {
+    padding: var(--spacing-24) var(--spacing-20);
+  }
+
+  .headerSection {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .headerActions {
+    flex-direction: column-reverse;
+    gap: var(--spacing-12);
+  }
+
+  .pageTitle {
+    font-size: var(--font-size-24);
+  }
+
+  .profileButton {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .kpiGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .viewToggle {
+    width: 100%;
+  }
+
+  .toggleButton {
+    flex: 1;
+    text-align: center;
+  }
+
+  .viewContent {
+    padding: var(--spacing-20);
+  }
+}

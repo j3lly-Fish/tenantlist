@@ -1,27 +1,32 @@
 import React from 'react';
 import styles from './ConnectionIndicator.module.css';
 
+export type ConnectionStatus = 'connected' | 'disconnected' | 'reconnecting' | 'polling';
+
 interface ConnectionIndicatorProps {
-  connectionState: 'connected' | 'disconnected' | 'reconnecting';
+  connectionStatus: ConnectionStatus;
 }
 
 /**
  * ConnectionIndicator Component
  *
  * Displays WebSocket connection status with colored dot indicator
- * - Connected: Green dot (solid)
- * - Reconnecting: Yellow dot (pulsing)
- * - Disconnected: Red dot (solid)
+ * - Connected: Green dot, "Live"
+ * - Reconnecting: Yellow dot, "Reconnecting..."
+ * - Polling: Blue dot, "Polling"
+ * - Disconnected: Red dot, "Disconnected"
  *
- * Fixed position in top-right corner with tooltip on hover
+ * Can be positioned in top-right corner of dashboard header
  */
-export const ConnectionIndicator: React.FC<ConnectionIndicatorProps> = ({ connectionState }) => {
+export const ConnectionIndicator: React.FC<ConnectionIndicatorProps> = ({ connectionStatus }) => {
   const getStatusText = () => {
-    switch (connectionState) {
+    switch (connectionStatus) {
       case 'connected':
-        return 'Connected';
+        return 'Live';
       case 'reconnecting':
         return 'Reconnecting...';
+      case 'polling':
+        return 'Polling';
       case 'disconnected':
         return 'Disconnected';
       default:
@@ -30,11 +35,13 @@ export const ConnectionIndicator: React.FC<ConnectionIndicatorProps> = ({ connec
   };
 
   const getStatusClass = () => {
-    switch (connectionState) {
+    switch (connectionStatus) {
       case 'connected':
         return styles.connected;
       case 'reconnecting':
         return styles.reconnecting;
+      case 'polling':
+        return styles.polling;
       case 'disconnected':
         return styles.disconnected;
       default:

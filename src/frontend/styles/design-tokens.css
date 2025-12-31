@@ -1,0 +1,257 @@
+/**
+ * Design Tokens - Figma Design System
+ *
+ * This file contains all design tokens extracted from the Figma design.
+ * Use these CSS custom properties for consistent styling across the application.
+ *
+ * Last Updated: 2025-12-23
+ * Source: Waltre Figma Design (Tenant Dashboard)
+ */
+
+:root {
+  /* ========================================
+     BRAND COLORS - From Figma Color Palette
+     ======================================== */
+
+  --zyx-white: #FFFFFF;
+  --zyx-gray-100: #F9FAFB;
+  --zyx-gray-200: #EFF2F6;
+  --zyx-gray-400: #8091A5;
+  --zyx-gray-500: #5A6A7D;
+  --zyx-gray-600: #313541;
+  --zyx-gray-700: #16181E;
+
+  /* ========================================
+     SEMANTIC COLORS
+     ======================================== */
+
+  /* Primary/Info Colors */
+  --zyx-info: #4177FF;
+  --zyx-info-light: #F3F9FF;
+
+  /* Status Colors */
+  --zyx-success: #10B981;
+  --zyx-success-light: #D1FAE5;
+
+  --zyx-warning: #F59E0B;
+  --zyx-warning-light: #FEF3C7;
+
+  --zyx-error: #EF4444;
+  --zyx-error-light: #FEE2E2;
+
+  /* Additional Grays (iOS/Apple Design System) */
+  --zyx-gray-tertiary: #C7C7CC;
+  --zyx-gray-quaternary: #D1D1D6;
+  --zyx-gray-quinary: #E5E5EA;
+
+  /* ========================================
+     TYPOGRAPHY - SF Pro Font Stack
+     ======================================== */
+
+  /* Font Family */
+  --font-family-primary: 'SF Pro', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
+  --font-family-mono: 'SF Mono', ui-monospace, 'Cascadia Code', 'Source Code Pro', Menlo, Monaco, 'Courier New', monospace;
+
+  /* Font Sizes - Figma Design Scale */
+  --font-size-12: 12px;
+  --font-size-14: 14px;
+  --font-size-16: 16px;
+  --font-size-18: 18px;
+  --font-size-24: 24px;
+  --font-size-28: 28px;
+  --font-size-36: 36px;
+  --font-size-48: 48px;
+
+  /* Font Weights */
+  --font-weight-regular: 400;
+  --font-weight-medium: 500;
+  --font-weight-semibold: 590;
+  --font-weight-bold: 700;
+
+  /* Line Heights */
+  --line-height-tight: 1;
+  --line-height-normal: 1.4;
+  --line-height-relaxed: 1.5;
+  --line-height-loose: 1.75;
+
+  /* Fixed Line Heights */
+  --line-height-24: 24px;
+  --line-height-28: 28px;
+  --line-height-36: 36px;
+
+  /* Letter Spacing */
+  --letter-spacing-tight: 0px;
+  --letter-spacing-normal: 0.1px;
+  --letter-spacing-wide: 0.15px;
+
+  /* ========================================
+     SPACING SCALE - 8px Grid System
+     ======================================== */
+
+  --spacing-0: 0px;
+  --spacing-4: 4px;
+  --spacing-8: 8px;
+  --spacing-10: 10px;
+  --spacing-12: 12px;
+  --spacing-16: 16px;
+  --spacing-20: 20px;
+  --spacing-24: 24px;
+  --spacing-32: 32px;
+  --spacing-40: 40px;
+  --spacing-48: 48px;
+  --spacing-56: 56px;
+  --spacing-64: 64px;
+  --spacing-80: 80px;
+  --spacing-96: 96px;
+
+  /* ========================================
+     BORDER RADIUS - Rounded Corners
+     ======================================== */
+
+  --radius-0: 0px;
+  --radius-4: 4px;
+  --radius-8: 8px;
+  --radius-12: 12px;
+  --radius-16: 16px;
+  --radius-20: 20px;
+  --radius-24: 24px;
+  --radius-full: 50px;
+  --radius-circle: 50%;
+
+  /* ========================================
+     BORDERS
+     ======================================== */
+
+  --border-width-thin: 1px;
+  --border-width-medium: 2px;
+  --border-width-thick: 4px;
+
+  --border-color-light: var(--zyx-gray-200);
+  --border-color-default: var(--zyx-gray-quinary);
+  --border-color-medium: var(--zyx-gray-400);
+  --border-color-dark: var(--zyx-gray-600);
+
+  /* ========================================
+     SHADOWS - Elevation System
+     ======================================== */
+
+  /* Card Shadows */
+  --shadow-xs: 0px 1px 2px rgba(0, 0, 0, 0.05);
+  --shadow-sm: 0px 2px 4px rgba(0, 0, 0, 0.06);
+  --shadow-card: 0px 4px 12px rgba(0, 0, 0, 0.08);
+  --shadow-card-hover: 0px 8px 16px rgba(0, 0, 0, 0.12);
+  --shadow-lg: 0px 12px 24px rgba(0, 0, 0, 0.10);
+
+  /* Modal/Overlay Shadows */
+  --shadow-modal: 0px 10px 40px rgba(0, 0, 0, 0.15);
+  --shadow-dropdown: 0px 4px 16px rgba(0, 0, 0, 0.12);
+
+  /* Focus Shadows */
+  --shadow-focus: 0 0 0 3px rgba(65, 119, 255, 0.25);
+
+  /* ========================================
+     Z-INDEX SCALE
+     ======================================== */
+
+  --z-base: 0;
+  --z-dropdown: 100;
+  --z-sticky: 200;
+  --z-fixed: 300;
+  --z-modal-backdrop: 400;
+  --z-modal: 500;
+  --z-popover: 600;
+  --z-tooltip: 700;
+
+  /* ========================================
+     TRANSITIONS & ANIMATIONS
+     ======================================== */
+
+  --transition-fast: 150ms ease;
+  --transition-normal: 250ms ease;
+  --transition-slow: 350ms ease;
+
+  --ease-in-out: cubic-bezier(0.4, 0, 0.2, 1);
+  --ease-out: cubic-bezier(0, 0, 0.2, 1);
+  --ease-in: cubic-bezier(0.4, 0, 1, 1);
+
+  /* ========================================
+     COMPONENT-SPECIFIC TOKENS
+     ======================================== */
+
+  /* Cards */
+  --card-background: var(--zyx-white);
+  --card-border: var(--border-width-thin) solid var(--border-color-light);
+  --card-radius: var(--radius-12);
+  --card-padding: var(--spacing-16);
+  --card-padding-large: var(--spacing-24);
+
+  /* Buttons */
+  --button-height-sm: 32px;
+  --button-height-md: 40px;
+  --button-height-lg: 48px;
+  --button-padding-x: var(--spacing-24);
+  --button-padding-y: var(--spacing-10);
+  --button-radius: var(--radius-8);
+
+  /* Inputs */
+  --input-height: 40px;
+  --input-padding-x: var(--spacing-16);
+  --input-padding-y: var(--spacing-8);
+  --input-background: var(--zyx-gray-100);
+  --input-border: var(--border-width-thin) solid var(--border-color-default);
+  --input-radius: var(--radius-4);
+  --input-placeholder-color: var(--zyx-gray-quaternary);
+
+  /* Badges */
+  --badge-height: 20px;
+  --badge-padding-x: 12px;
+  --badge-padding-y: 4px;
+  --badge-radius: var(--radius-full);
+  --badge-font-size: var(--font-size-12);
+  --badge-font-weight: var(--font-weight-semibold);
+
+  /* ========================================
+     RESPONSIVE BREAKPOINTS
+     ======================================== */
+
+  --breakpoint-mobile: 480px;
+  --breakpoint-tablet: 768px;
+  --breakpoint-desktop: 1024px;
+  --breakpoint-desktop-lg: 1280px;
+  --breakpoint-desktop-xl: 1440px;
+  --breakpoint-desktop-2xl: 1920px;
+
+  /* ========================================
+     LAYOUT
+     ======================================== */
+
+  --container-max-width: 1312px; /* 1376px - 64px padding */
+  --container-padding-x: var(--spacing-64);
+  --container-padding-x-mobile: var(--spacing-20);
+
+  --section-spacing: var(--spacing-32);
+  --section-spacing-large: var(--spacing-48);
+}
+
+/* ========================================
+   REDUCED MOTION PREFERENCES
+   ======================================== */
+
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --transition-fast: 0ms;
+    --transition-normal: 0ms;
+    --transition-slow: 0ms;
+  }
+}
+
+/* ========================================
+   DARK MODE SUPPORT (Future-proofing)
+   ======================================== */
+
+@media (prefers-color-scheme: dark) {
+  /*
+   * Dark mode tokens can be added here when needed.
+   * Currently, the design system is light-mode only.
+   */
+}

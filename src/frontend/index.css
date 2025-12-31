@@ -1,51 +1,93 @@
+/* Import Figma Design Tokens */
+@import './styles/design-tokens.css';
+
+/* ========================================
+   SF PRO FONT FAMILY - Apple Design
+   ======================================== */
+
+@font-face {
+  font-family: 'SF Pro';
+  src: url('/fonts/sf-pro/SF-Pro-Text-Regular.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'SF Pro';
+  src: url('/fonts/sf-pro/SF-Pro-Text-Medium.woff2') format('woff2');
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'SF Pro';
+  src: url('/fonts/sf-pro/SF-Pro-Text-Semibold.woff2') format('woff2');
+  font-weight: 590;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'SF Pro';
+  src: url('/fonts/sf-pro/SF-Pro-Text-Bold.woff2') format('woff2');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
 /* Global Styles */
 :root {
-  /* Color scheme */
-  --color-primary: #3b82f6;
-  --color-primary-dark: #2563eb;
-  --color-secondary: #6b7280;
-  --color-success: #10b981;
-  --color-warning: #f59e0b;
-  --color-error: #ef4444;
-  --color-background: #ffffff;
-  --color-surface: #f9fafb;
-  --color-border: #e5e7eb;
-  --color-text-primary: #111827;
-  --color-text-secondary: #6b7280;
+  /* ========================================
+     LEGACY VARIABLE MAPPING
+     Map old variables to new Figma tokens for backward compatibility
+     ======================================== */
 
-  /* Typography */
-  --font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  --font-size-base: 16px;
-  --font-weight-normal: 400;
-  --font-weight-medium: 500;
-  --font-weight-semibold: 600;
-  --font-weight-bold: 700;
+  /* Color scheme - Mapped to Figma colors */
+  --color-primary: var(--zyx-info);
+  --color-primary-dark: #2563eb; /* Keep for now, can map to darker blue variant */
+  --color-secondary: var(--zyx-gray-600);
+  --color-success: var(--zyx-success);
+  --color-warning: var(--zyx-warning);
+  --color-error: var(--zyx-error);
+  --color-background: var(--zyx-white);
+  --color-surface: var(--zyx-gray-100);
+  --color-border: var(--zyx-gray-200);
+  --color-text-primary: var(--zyx-gray-700);
+  --color-text-secondary: var(--zyx-gray-600);
 
-  /* Spacing */
-  --spacing-xs: 0.25rem;
-  --spacing-sm: 0.5rem;
-  --spacing-md: 1rem;
-  --spacing-lg: 1.5rem;
-  --spacing-xl: 2rem;
-  --spacing-2xl: 3rem;
+  /* Typography - Mapped to Figma typography */
+  --font-family: var(--font-family-primary);
+  --font-size-base: var(--font-size-16);
+  --font-weight-normal: var(--font-weight-regular);
+  --font-weight-medium: var(--font-weight-medium);
+  --font-weight-semibold: var(--font-weight-semibold);
+  --font-weight-bold: var(--font-weight-bold);
 
-  /* Border radius */
-  --border-radius-sm: 0.25rem;
-  --border-radius-md: 0.5rem;
-  --border-radius-lg: 0.75rem;
-  --border-radius-full: 9999px;
+  /* Spacing - Mapped to Figma spacing scale */
+  --spacing-xs: var(--spacing-4);
+  --spacing-sm: var(--spacing-8);
+  --spacing-md: var(--spacing-16);
+  --spacing-lg: var(--spacing-24);
+  --spacing-xl: var(--spacing-32);
+  --spacing-2xl: var(--spacing-48);
 
-  /* Shadows */
-  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
-  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
-  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  /* Border radius - Mapped to Figma border radius */
+  --border-radius-sm: var(--radius-4);
+  --border-radius-md: var(--radius-8);
+  --border-radius-lg: var(--radius-12);
+  --border-radius-full: var(--radius-full);
 
-  /* Transitions */
-  --transition-fast: 150ms ease-in-out;
-  --transition-normal: 250ms ease-in-out;
-  --transition-slow: 350ms ease-in-out;
+  /* Shadows - Mapped to Figma shadows */
+  --shadow-sm: var(--shadow-xs);
+  --shadow-md: var(--shadow-card);
+  --shadow-lg: var(--shadow-card-hover);
+
+  /* Transitions - Mapped to Figma transitions */
+  --transition-fast: var(--transition-fast);
+  --transition-normal: var(--transition-normal);
+  --transition-slow: var(--transition-slow);
 }
 
 /* CSS Reset */
@@ -59,16 +101,16 @@
 
 html {
   font-size: var(--font-size-base);
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
 }
 
 body {
-  font-family: var(--font-family);
-  color: var(--color-text-primary);
-  background-color: var(--color-background);
-  line-height: 1.5;
+  font-family: var(--font-family-primary);
+  color: var(--zyx-gray-700);
+  background-color: var(--zyx-gray-100);
+  line-height: var(--line-height-relaxed);
   min-height: 100vh;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 #root {
@@ -88,10 +130,11 @@ body {
   border-width: 0;
 }
 
-/* Focus styles */
+/* Focus styles - Figma Blue */
 *:focus-visible {
-  outline: 2px solid var(--color-primary);
+  outline: 2px solid var(--zyx-info);
   outline-offset: 2px;
+  box-shadow: var(--shadow-focus);
 }
 
 /* Links */

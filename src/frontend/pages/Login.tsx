@@ -30,10 +30,42 @@ const Login: React.FC = () => {
   const [signupData, setSignupData] = useState<{ email: string; role: string; userId: string } | null>(null);
   const [initialSignupRole, setInitialSignupRole] = useState<UserRole | null>(null);
   const navigate = useNavigate();
-  const { setUser } = useAuth();
+  const { user, isAuthenticated, setUser } = useAuth();
+
+  // Redirect authenticated users to their appropriate dashboard
+  React.useEffect(() => {
+    if (isAuthenticated && user) {
+      console.log('✅ User is authenticated, redirecting to dashboard...');
+      console.log('👤 User data:', user);
+      console.log('👤 User role:', user.role);
+      console.log('👤 User role type:', typeof user.role);
+
+      const roleString = typeof user.role === 'string' ? user.role : user.role?.toString();
+      console.log('👤 Role as string:', roleString);
+
+      if (user.role === 'tenant' || roleString === 'tenant') {
+        console.log('🚀 Redirecting to tenant dashboard');
+        navigate('/dashboard', { replace: true });
+      } else if (user.role === 'landlord' || roleString === 'landlord') {
+        console.log('🚀 Redirecting to landlord dashboard');
+        navigate('/landlord-dashboard', { replace: true });
+      } else if (user.role === 'broker' || roleString === 'broker') {
+        console.log('🚀 Redirecting to broker dashboard');
+        navigate('/broker-dashboard', { replace: true });
+      } else {
+        console.error('❌ Unknown role, not redirecting:', user.role);
+      }
+    }
+  }, [isAuthenticated, user, navigate]);
 
   const handleLoginSuccess = async (user: any) => {
-    // LoginModal already handled the API call, just update context
+    console.log('🔐 Login Success! User data:', user);
+    console.log('👤 User role:', user.role);
+
+    // Close login modal
+    setShowLogin(false);
+
+    // Update context - useEffect will handle navigation
     setUser({
       userId: user.id,
       email: user.email,
@@ -43,14 +75,7 @@ const Login: React.FC = () => {
       photoUrl: user.profile?.photo_url,
     });
 
-    // Navigate based on role
-    if (user.role === 'tenant') {
-      navigate('/dashboard');
-    } else if (user.role === 'landlord') {
-      navigate('/landlord/dashboard');
-    } else if (user.role === 'broker') {
-      navigate('/broker/dashboard');
-    }
+    console.log('✅ AuthContext updated, waiting for redirect...');
   };
 
   const handleSignupSuccess = (data: { email: string; role: string; userId: string }) => {
@@ -62,6 +87,7 @@ const Login: React.FC = () => {
 
   const handleProfileCompleted = async () => {
     // Profile completed, fetch user data and log them in
+    console.log('🔄 Profile completed, fetching user data...');
     try {
       const response = await fetch('/api/auth/me', {
         method: 'GET',
@@ -69,10 +95,16 @@ const Login: React.FC = () => {
       });
 
       const data = await response.json();
+      console.log('📥 Received user data:', data);
 
       if (response.ok && data.data?.user) {
         const user = data.data.user;
+        console.log('👤 User role after profile completion:', user.role);
 
+        // Close the profile completion modal
+        setShowProfileCompletion(false);
+
+        // Update context - useEffect will handle navigation
         setUser({
           userId: user.id,
           email: user.email,
@@ -82,21 +114,15 @@ const Login: React.FC = () => {
           photoUrl: user.profile?.photo_url,
         });
 
-        // Navigate based on role
-        if (user.role === 'tenant') {
-          navigate('/dashboard');
-        } else if (user.role === 'landlord') {
-          navigate('/landlord/dashboard');
-        } else if (user.role === 'broker') {
-          navigate('/broker/dashboard');
-        }
+        console.log('✅ AuthContext updated, waiting for redirect...');
       } else {
+        console.error('❌ Failed to fetch user data:', data);
         // Fallback: close modal and show login
         setShowProfileCompletion(false);
         setShowLogin(true);
       }
     } catch (error) {
-      console.error('Error fetching user after profile completion:', error);
+      console.error('❌ Error fetching user after profile completion:', error);
       setShowProfileCompletion(false);
       setShowLogin(true);
     }

@@ -1,4 +1,4 @@
-/* QFP Modal Styles */
+/* QFP Modal Styles - Figma Design System */
 
 .modalBackdrop {
   position: fixed;
@@ -10,68 +10,68 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  z-index: 1000;
-  padding: 20px;
+  z-index: var(--z-modal-backdrop);
+  padding: var(--spacing-20);
 }
 
 .modalContainer {
-  background: white;
-  border-radius: 12px;
+  background: var(--zyx-white);
+  border-radius: var(--radius-12);
   max-width: 800px;
   width: 100%;
   max-height: 90vh;
   overflow-y: auto;
-  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+  box-shadow: var(--shadow-modal);
 }
 
 .modalHeader {
-  padding: 20px 24px;
-  border-bottom: 1px solid #e5e7eb;
+  padding: var(--spacing-20) var(--spacing-24);
+  border-bottom: var(--border-width-thin) solid var(--border-color-default);
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
   position: sticky;
   top: 0;
-  background: white;
+  background: var(--zyx-white);
   z-index: 1;
-  border-radius: 12px 12px 0 0;
+  border-radius: var(--radius-12) var(--radius-12) 0 0;
 }
 
 .modalTitle {
-  font-size: 20px;
-  font-weight: 600;
-  color: #111827;
-  margin: 0 0 4px 0;
+  font-size: var(--font-size-18);
+  font-weight: var(--font-weight-semibold);
+  color: var(--zyx-gray-700);
+  margin: 0 0 var(--spacing-4) 0;
 }
 
 .modalSubtitle {
-  font-size: 14px;
-  color: #6b7280;
+  font-size: var(--font-size-14);
+  color: var(--zyx-gray-500);
   margin: 0;
 }
 
 .closeButton {
   background: none;
   border: none;
-  padding: 4px;
+  padding: var(--spacing-4);
   cursor: pointer;
-  color: #6b7280;
-  border-radius: 4px;
-  transition: all 0.2s;
+  color: var(--zyx-gray-500);
+  border-radius: var(--radius-4);
+  transition: all var(--transition-normal);
 }
 
 .closeButton:hover {
-  color: #111827;
-  background-color: #f3f4f6;
+  color: var(--zyx-gray-700);
+  background-color: var(--zyx-gray-200);
 }
 
 .modalContent {
-  padding: 24px;
+  padding: var(--spacing-24);
 }
 
 /* Sections */
 .section {
-  margin-bottom: 28px;
+  margin-bottom: var(--spacing-32);
 }
 
 .section:last-of-type {
@@ -79,19 +79,19 @@
 }
 
 .sectionTitle {
-  font-size: 14px;
-  font-weight: 600;
-  color: #111827;
-  margin: 0 0 16px 0;
-  padding-bottom: 8px;
-  border-bottom: 1px solid #e5e7eb;
+  font-size: var(--font-size-14);
+  font-weight: var(--font-weight-semibold);
+  color: var(--zyx-gray-700);
+  margin: 0 0 var(--spacing-16) 0;
+  padding-bottom: var(--spacing-8);
+  border-bottom: var(--border-width-thin) solid var(--border-color-default);
 }
 
 /* Form Grid - 2 column layout */
 .formGrid {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 16px;
+  gap: var(--spacing-16);
 }
 
 .formGroup {
@@ -104,99 +104,99 @@
 }
 
 .label {
-  font-size: 13px;
-  font-weight: 500;
-  color: #374151;
-  margin-bottom: 6px;
+  font-size: var(--font-size-14);
+  font-weight: var(--font-weight-medium);
+  color: var(--zyx-gray-600);
+  margin-bottom: var(--spacing-8);
 }
 
 .input,
 .select {
-  padding: 10px 12px;
-  font-size: 14px;
-  border: 1px solid #d1d5db;
-  border-radius: 6px;
-  transition: all 0.2s;
+  padding: var(--spacing-10) var(--spacing-12);
+  font-size: var(--font-size-14);
+  border: var(--border-width-thin) solid var(--border-color-default);
+  border-radius: var(--radius-8);
+  transition: all var(--transition-normal);
   font-family: inherit;
-  background: white;
-  color: #111827;
+  background: var(--zyx-white);
+  color: var(--zyx-gray-700);
 }
 
 .input::placeholder {
-  color: #9ca3af;
+  color: var(--zyx-gray-400);
 }
 
 .input:focus,
 .select:focus,
 .textarea:focus {
   outline: none;
-  border-color: #3b82f6;
-  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+  border-color: var(--zyx-info);
+  box-shadow: var(--shadow-focus);
 }
 
 .textarea {
-  padding: 10px 12px;
-  font-size: 14px;
-  border: 1px solid #d1d5db;
-  border-radius: 6px;
-  transition: all 0.2s;
+  padding: var(--spacing-10) var(--spacing-12);
+  font-size: var(--font-size-14);
+  border: var(--border-width-thin) solid var(--border-color-default);
+  border-radius: var(--radius-8);
+  transition: all var(--transition-normal);
   font-family: inherit;
-  background: white;
-  color: #111827;
+  background: var(--zyx-white);
+  color: var(--zyx-gray-700);
   resize: vertical;
   min-height: 100px;
 }
 
 .textarea::placeholder {
-  color: #9ca3af;
+  color: var(--zyx-gray-400);
 }
 
 .inputError {
-  border-color: #ef4444;
+  border-color: var(--zyx-error);
 }
 
 .errorText {
-  font-size: 12px;
-  color: #ef4444;
-  margin-top: 4px;
+  font-size: var(--font-size-12);
+  color: var(--zyx-error);
+  margin-top: var(--spacing-4);
   margin-bottom: 0;
 }
 
 .errorMessage {
-  padding: 12px;
-  background-color: #fee2e2;
-  border: 1px solid #fecaca;
-  border-radius: 6px;
-  color: #dc2626;
-  font-size: 14px;
-  margin-top: 16px;
-  margin-bottom: 16px;
+  padding: var(--spacing-12);
+  background-color: var(--zyx-error-light);
+  border: var(--border-width-thin) solid var(--zyx-error-light);
+  border-radius: var(--radius-8);
+  color: var(--zyx-error);
+  font-size: var(--font-size-14);
+  margin-top: var(--spacing-16);
+  margin-bottom: var(--spacing-16);
 }
 
 /* Property Info Card */
 .propertyInfoCard {
-  background-color: #f9fafb;
-  border: 1px solid #e5e7eb;
-  border-radius: 8px;
-  padding: 16px;
+  background-color: var(--zyx-gray-100);
+  border: var(--border-width-thin) solid var(--border-color-default);
+  border-radius: var(--radius-8);
+  padding: var(--spacing-16);
 }
 
 .propertyName {
-  font-size: 16px;
-  font-weight: 600;
-  color: #111827;
-  margin: 0 0 4px 0;
+  font-size: var(--font-size-16);
+  font-weight: var(--font-weight-semibold);
+  color: var(--zyx-gray-700);
+  margin: 0 0 var(--spacing-4) 0;
 }
 
 .propertyAddress {
-  font-size: 14px;
-  color: #6b7280;
-  margin: 0 0 12px 0;
+  font-size: var(--font-size-14);
+  color: var(--zyx-gray-500);
+  margin: 0 0 var(--spacing-12) 0;
 }
 
 .propertyMetrics {
   display: flex;
-  gap: 24px;
+  gap: var(--spacing-24);
   flex-wrap: wrap;
 }
 
@@ -206,49 +206,49 @@
 }
 
 .metricLabel {
-  font-size: 12px;
-  color: #6b7280;
+  font-size: var(--font-size-12);
+  color: var(--zyx-gray-500);
   margin-bottom: 2px;
 }
 
 .metricValue {
-  font-size: 14px;
-  font-weight: 600;
-  color: #111827;
+  font-size: var(--font-size-14);
+  font-weight: var(--font-weight-semibold);
+  color: var(--zyx-gray-700);
 }
 
 /* Broker Card */
 .brokerCard {
-  background-color: #f9fafb;
-  border: 1px solid #e5e7eb;
-  border-radius: 8px;
-  padding: 16px;
+  background-color: var(--zyx-gray-100);
+  border: var(--border-width-thin) solid var(--border-color-default);
+  border-radius: var(--radius-8);
+  padding: var(--spacing-16);
 }
 
 .brokerInfo {
   display: flex;
   align-items: center;
-  gap: 16px;
+  gap: var(--spacing-16);
 }
 
 .brokerPhoto {
   width: 56px;
   height: 56px;
-  border-radius: 50%;
+  border-radius: var(--radius-circle);
   object-fit: cover;
 }
 
 .brokerAvatar {
   width: 56px;
   height: 56px;
-  border-radius: 50%;
-  background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
-  color: white;
+  border-radius: var(--radius-circle);
+  background: linear-gradient(135deg, var(--zyx-gray-700) 0%, var(--zyx-gray-600) 100%);
+  color: var(--zyx-white);
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 18px;
-  font-weight: 600;
+  font-size: var(--font-size-18);
+  font-weight: var(--font-weight-semibold);
   flex-shrink: 0;
 }
 
@@ -257,64 +257,78 @@
 }
 
 .brokerName {
-  font-size: 15px;
-  font-weight: 600;
-  color: #111827;
+  font-size: var(--font-size-16);
+  font-weight: var(--font-weight-semibold);
+  color: var(--zyx-gray-700);
   margin: 0 0 2px 0;
 }
 
 .brokerCompany {
-  font-size: 14px;
-  color: #6b7280;
-  margin: 0 0 4px 0;
+  font-size: var(--font-size-14);
+  color: var(--zyx-gray-500);
+  margin: 0 0 var(--spacing-4) 0;
 }
 
 .brokerContact {
-  font-size: 13px;
-  color: #6b7280;
+  font-size: var(--font-size-14);
+  color: var(--zyx-gray-500);
   margin: 0;
 }
 
 /* Actions */
 .actions {
   display: flex;
-  gap: 12px;
-  margin-top: 24px;
-  padding-top: 20px;
-  border-top: 1px solid #e5e7eb;
+  gap: var(--spacing-12);
+  margin-top: var(--spacing-24);
+  padding-top: var(--spacing-20);
+  border-top: var(--border-width-thin) solid var(--border-color-default);
 }
 
 .cancelButton,
 .submitButton {
   flex: 1;
-  padding: 12px 20px;
-  font-size: 14px;
-  font-weight: 500;
-  border-radius: 8px;
+  padding: var(--spacing-12) var(--spacing-20);
+  font-size: var(--font-size-16);
+  font-weight: var(--font-weight-semibold);
+  border-radius: var(--button-radius);
   cursor: pointer;
-  transition: all 0.2s;
+  transition: all var(--transition-normal);
   font-family: inherit;
+  min-height: var(--button-height-lg);
 }
 
 .cancelButton {
-  background-color: white;
-  border: 1px solid #d1d5db;
-  color: #374151;
+  background-color: var(--zyx-white);
+  border: var(--border-width-thin) solid var(--border-color-default);
+  color: var(--zyx-gray-600);
 }
 
 .cancelButton:hover:not(:disabled) {
-  background-color: #f9fafb;
-  border-color: #9ca3af;
+  background-color: var(--zyx-gray-100);
+  border-color: var(--zyx-gray-400);
 }
 
 .submitButton {
-  background-color: #111827;
+  background-color: var(--zyx-gray-700);
   border: none;
-  color: white;
+  color: var(--zyx-white);
 }
 
 .submitButton:hover:not(:disabled) {
-  background-color: #1f2937;
+  background-color: var(--zyx-gray-600);
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-card);
+}
+
+.submitButton:active:not(:disabled) {
+  transform: translateY(0);
+}
+
+.submitButton:focus-visible,
+.cancelButton:focus-visible {
+  outline: 2px solid var(--zyx-info);
+  outline-offset: 2px;
+  box-shadow: var(--shadow-focus);
 }
 
 .cancelButton:disabled,
@@ -325,11 +339,11 @@
 
 /* Preview Mode Styles */
 .previewContent {
-  padding: 24px;
+  padding: var(--spacing-24);
 }
 
 .previewSection {
-  margin-bottom: 24px;
+  margin-bottom: var(--spacing-24);
 }
 
 .previewSection:last-of-type {
@@ -337,48 +351,48 @@
 }
 
 .previewSectionTitle {
-  font-size: 12px;
-  font-weight: 600;
-  color: #6b7280;
+  font-size: var(--font-size-12);
+  font-weight: var(--font-weight-semibold);
+  color: var(--zyx-gray-500);
   text-transform: uppercase;
   letter-spacing: 0.5px;
-  margin: 0 0 12px 0;
+  margin: 0 0 var(--spacing-12) 0;
 }
 
 .previewCard {
-  background-color: #f9fafb;
-  border: 1px solid #e5e7eb;
-  border-radius: 8px;
-  padding: 16px;
+  background-color: var(--zyx-gray-100);
+  border: var(--border-width-thin) solid var(--border-color-default);
+  border-radius: var(--radius-8);
+  padding: var(--spacing-16);
 }
 
 .previewPropertyName {
-  font-size: 16px;
-  font-weight: 600;
-  color: #111827;
-  margin: 0 0 4px 0;
+  font-size: var(--font-size-16);
+  font-weight: var(--font-weight-semibold);
+  color: var(--zyx-gray-700);
+  margin: 0 0 var(--spacing-4) 0;
 }
 
 .previewAddress {
-  font-size: 14px;
-  color: #6b7280;
-  margin: 0 0 8px 0;
+  font-size: var(--font-size-14);
+  color: var(--zyx-gray-500);
+  margin: 0 0 var(--spacing-8) 0;
 }
 
 .previewPropertyDetails {
-  font-size: 14px;
-  color: #374151;
+  font-size: var(--font-size-14);
+  color: var(--zyx-gray-600);
 }
 
 .previewPropertyDetails .separator {
-  margin: 0 8px;
-  color: #d1d5db;
+  margin: 0 var(--spacing-8);
+  color: var(--border-color-default);
 }
 
 .previewGrid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 16px;
+  gap: var(--spacing-16);
 }
 
 .previewItem {
@@ -387,21 +401,21 @@
 }
 
 .previewLabel {
-  font-size: 12px;
-  color: #6b7280;
-  margin-bottom: 4px;
+  font-size: var(--font-size-12);
+  color: var(--zyx-gray-500);
+  margin-bottom: var(--spacing-4);
 }
 
 .previewValue {
-  font-size: 14px;
-  font-weight: 500;
-  color: #111827;
+  font-size: var(--font-size-14);
+  font-weight: var(--font-weight-medium);
+  color: var(--zyx-gray-700);
 }
 
 .previewText {
-  font-size: 14px;
-  color: #374151;
-  line-height: 1.6;
+  font-size: var(--font-size-14);
+  color: var(--zyx-gray-600);
+  line-height: var(--line-height-normal);
   margin: 0;
   white-space: pre-wrap;
 }
@@ -410,7 +424,7 @@
 @media (max-width: 768px) {
   .modalContainer {
     max-width: 100%;
-    margin: 10px;
+    margin: var(--spacing-10);
   }
 
   .formGrid {
@@ -422,7 +436,7 @@
   }
 
   .propertyMetrics {
-    gap: 16px;
+    gap: var(--spacing-16);
   }
 }
 

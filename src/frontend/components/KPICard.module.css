@@ -1,19 +1,19 @@
-/* KPI Card Component */
+/* KPI Card Component - Figma Design System */
 .kpiCard {
   position: relative;
-  background: #ffffff;
-  border-radius: 12px;
-  padding: 24px;
-  border: 1px solid #e5e7eb;
+  background: var(--zyx-white);
+  border-radius: var(--radius-12);
+  padding: var(--spacing-16);
+  border: var(--border-width-thin) solid var(--border-color-light);
   display: flex;
   flex-direction: column;
   min-height: 120px;
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  transition: transform var(--transition-fast), box-shadow var(--transition-fast);
 }
 
 .kpiCard:hover {
   transform: translateY(-2px);
-  box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.08);
+  box-shadow: var(--shadow-card-hover);
 }
 
 .kpiCard.locked {
@@ -24,14 +24,14 @@
 /* Lock overlay */
 .lockOverlay {
   position: absolute;
-  top: 12px;
-  right: 12px;
-  z-index: 1;
+  top: var(--spacing-12);
+  right: var(--spacing-12);
+  z-index: var(--z-base);
 }
 
 .lockIcon {
-  font-size: 16px;
-  color: #6c757d;
+  font-size: var(--font-size-16);
+  color: var(--zyx-gray-500);
   opacity: 0.6;
 }
 
@@ -39,7 +39,7 @@
 .kpiContent {
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: var(--spacing-8);
   width: 100%;
   height: 100%;
 }
@@ -48,68 +48,115 @@
   display: flex;
   align-items: flex-start;
   justify-content: space-between;
-  gap: 16px;
+  gap: var(--spacing-16);
   flex: 1;
 }
 
 .kpiTextContent {
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: var(--spacing-8);
 }
 
-/* Title */
+/* Title - Figma Typography */
 .kpiTitle {
-  font-size: 14px;
-  font-weight: 500;
-  color: #6b7280;
-  line-height: 1.4;
+  font-size: var(--font-size-14);
+  font-weight: var(--font-weight-regular);
+  color: var(--zyx-gray-600);
+  line-height: var(--line-height-24);
+  letter-spacing: var(--letter-spacing-normal);
 }
 
-/* Value */
+/* Value - Figma Typography */
 .kpiValue {
-  font-size: 36px;
-  font-weight: 700;
-  color: #111827;
-  line-height: 1;
+  font-size: var(--font-size-24);
+  font-weight: var(--font-weight-regular);
+  color: var(--zyx-gray-700);
+  line-height: var(--line-height-28);
+  letter-spacing: var(--letter-spacing-tight);
 }
 
 .kpiValue.loading {
-  color: #9ca3af;
+  color: var(--zyx-gray-400);
   animation: pulse 1.5s ease-in-out infinite;
 }
 
 .kpiCard.locked .kpiValue {
-  color: #6c757d;
+  color: var(--zyx-gray-500);
 }
 
-/* Icon container */
+/* Trend Indicator Styles - Figma Design */
+.trendContainer {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-4);
+  margin-top: var(--spacing-8);
+}
+
+.trendIndicator {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-4);
+  font-size: var(--font-size-14);
+  font-weight: var(--font-weight-semibold);
+}
+
+.trendArrow {
+  font-size: var(--font-size-16);
+  line-height: 1;
+}
+
+.trendValue {
+  font-size: var(--font-size-14);
+  line-height: 1;
+}
+
+.trendUp {
+  color: var(--zyx-success);
+}
+
+.trendDown {
+  color: var(--zyx-error);
+}
+
+.trendNeutral {
+  color: var(--zyx-gray-600);
+}
+
+.trendPeriod {
+  font-size: var(--font-size-14);
+  color: var(--zyx-gray-400);
+  font-weight: var(--font-weight-regular);
+  line-height: var(--line-height-24);
+}
+
+/* Icon container - Figma Design */
 .iconContainer {
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 48px;
-  height: 48px;
-  background: #f3f4f6;
-  border-radius: 12px;
+  width: 32px;
+  height: 32px;
+  background: transparent;
+  border-radius: var(--radius-8);
   flex-shrink: 0;
 }
 
 .icon {
-  width: 24px;
-  height: 24px;
-  color: #6b7280;
+  width: 32px;
+  height: 32px;
+  color: var(--zyx-gray-600);
 }
 
-/* Upgrade badge */
+/* Upgrade badge - Figma Design */
 .upgradeBadge {
-  margin-top: 8px;
-  padding: 4px 12px;
-  background-color: #3b82f6;
-  color: white;
-  border-radius: 12px;
-  font-size: 12px;
-  font-weight: 600;
+  margin-top: var(--spacing-8);
+  padding: var(--badge-padding-y) var(--badge-padding-x);
+  background-color: var(--zyx-info);
+  color: var(--zyx-white);
+  border-radius: var(--badge-radius);
+  font-size: var(--badge-font-size);
+  font-weight: var(--badge-font-weight);
   text-align: center;
   align-self: flex-start;
 }
@@ -124,33 +171,49 @@
   }
 }
 
-/* Responsive design */
+/* Responsive design - Figma Breakpoints */
 @media (max-width: 768px) {
   .kpiCard {
-    padding: 20px;
+    padding: var(--spacing-12);
     min-height: 100px;
   }
 
   .kpiValue {
-    font-size: 28px;
+    font-size: var(--font-size-18);
   }
 
   .kpiTitle {
-    font-size: 13px;
+    font-size: var(--font-size-12);
+  }
+
+  .trendIndicator {
+    font-size: var(--font-size-12);
+  }
+
+  .trendArrow {
+    font-size: var(--font-size-14);
+  }
+
+  .trendValue {
+    font-size: var(--font-size-12);
+  }
+
+  .trendPeriod {
+    font-size: var(--font-size-12);
   }
 
   .iconContainer {
-    width: 40px;
-    height: 40px;
+    width: 24px;
+    height: 24px;
   }
 
   .icon {
-    width: 20px;
-    height: 20px;
+    width: 24px;
+    height: 24px;
   }
 
   .upgradeBadge {
-    font-size: 11px;
-    padding: 3px 10px;
+    font-size: var(--font-size-12);
+    padding: var(--spacing-4) 10px;
   }
 }

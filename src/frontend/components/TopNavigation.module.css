@@ -1,22 +1,22 @@
-/* Top Navigation Component */
+/* Top Navigation Component - Figma Design System */
 .topNavigation {
-  background: #FFFFFF;
-  border-bottom: 1px solid #E0E0E0;
+  background: var(--zyx-white);
+  border-bottom: var(--border-width-thin) solid var(--border-color-light);
   position: sticky;
   top: 0;
-  z-index: 1000;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+  z-index: var(--z-sticky);
+  box-shadow: var(--shadow-xs);
 }
 
 .container {
-  max-width: 1440px;
+  max-width: var(--container-max-width);
   margin: 0 auto;
-  padding: 0 32px;
+  padding: 0 var(--spacing-64);
   height: 64px;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 24px;
+  gap: var(--spacing-24);
 }
 
 .leftSection {
@@ -35,7 +35,7 @@
 .rightSection {
   display: flex;
   align-items: center;
-  gap: 16px;
+  gap: var(--spacing-16);
   flex-shrink: 0;
 }
 
@@ -43,36 +43,36 @@
 .iconGroup {
   display: flex;
   align-items: center;
-  gap: 4px;
+  gap: var(--spacing-4);
 }
 
 .loading {
-  color: #666;
-  font-size: 14px;
-  padding: 8px;
+  color: var(--zyx-gray-600);
+  font-size: var(--font-size-14);
+  padding: var(--spacing-8);
 }
 
 /* Responsive Design */
 @media (max-width: 1024px) {
   .container {
-    padding: 0 24px;
-    gap: 16px;
+    padding: 0 var(--spacing-24);
+    gap: var(--spacing-16);
   }
 
   .rightSection {
-    gap: 12px;
+    gap: var(--spacing-12);
   }
 
   .iconGroup {
-    gap: 2px;
+    gap: var(--spacing-4);
   }
 }
 
 @media (max-width: 768px) {
   .container {
-    padding: 0 16px;
+    padding: 0 var(--spacing-20);
     height: 56px;
-    gap: 12px;
+    gap: var(--spacing-12);
   }
 
   .centerSection {
@@ -80,10 +80,10 @@
   }
 
   .rightSection {
-    gap: 8px;
+    gap: var(--spacing-8);
   }
 
   .iconGroup {
-    gap: 0;
+    gap: var(--spacing-4);
   }
 }

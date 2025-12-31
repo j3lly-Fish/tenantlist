@@ -11,6 +11,9 @@ interface PropertyCardProps {
   onViewDetails?: (propertyId: string) => void;
   onUpdateStatus?: (propertyId: string) => void;
   onClick?: (propertyId: string) => void;
+  onMarkAsFeatured?: (propertyId: string) => void;
+  onDuplicate?: (propertyId: string) => void;
+  onDownloadReport?: (propertyId: string) => void;
 }
 
 /**
@@ -19,10 +22,12 @@ interface PropertyCardProps {
  * Displays property listing information with:
  * - Property photo (with fallback)
  * - Title, type badge, and status badge
+ * - Activity indicator badges (New, Hot, Updated)
  * - Location (city, state)
  * - Key metrics (sqft, price)
+ * - Performance metrics (days on market)
  * - Three metric badges (Views, Inquiries, Matches)
- * - Three-dot menu (Edit, Update Status, Delete)
+ * - Three-dot menu (Edit, Update Status, Delete, Mark as Featured, Duplicate, Download Report)
  * - Action buttons (View Details)
  */
 export const PropertyCard: React.FC<PropertyCardProps> = React.memo(({
@@ -32,6 +37,9 @@ export const PropertyCard: React.FC<PropertyCardProps> = React.memo(({
   onViewDetails,
   onUpdateStatus,
   onClick,
+  onMarkAsFeatured,
+  onDuplicate,
+  onDownloadReport,
 }) => {
   const handleCardClick = () => {
     if (onClick) {
@@ -95,12 +103,38 @@ export const PropertyCard: React.FC<PropertyCardProps> = React.memo(({
     return new Intl.NumberFormat('en-US').format(sqft) + ' SF';
   };
 
+  // Activity Badge Logic
+  const isNew = (): boolean => {
+    const createdDate = new Date(property.created_at);
+    const daysSinceCreated = (Date.now() - createdDate.getTime()) / (1000 * 60 * 60 * 24);
+    return daysSinceCreated < 7;
+  };
+
+  const isHot = (): boolean => {
+    return property.inquiry_count > 10;
+  };
+
+  const isRecentlyUpdated = (): boolean => {
+    const createdDate = new Date(property.created_at);
+    const updatedDate = new Date(property.updated_at);
+    const hoursSinceUpdate = (Date.now() - updatedDate.getTime()) / (1000 * 60 * 60);
+    // Show "Updated" badge if updated within last 24 hours AND updated_at != created_at
+    return hoursSinceUpdate < 24 && updatedDate.getTime() !== createdDate.getTime();
+  };
+
+  const showDaysOnMarket = (): boolean => {
+    return property.status === PropertyListingStatus.ACTIVE && property.days_on_market !== null;
+  };
+
   const statusInfo = formatStatus(property.status);
 
   // Menu items for the three-dot menu
   const menuItems = [
     ...(onEdit ? [{ label: 'Edit Listing', onClick: () => onEdit(property.id) }] : []),
     ...(onUpdateStatus ? [{ label: 'Update Status', onClick: () => onUpdateStatus(property.id) }] : []),
+    ...(onMarkAsFeatured ? [{ label: 'Mark as Featured', onClick: () => onMarkAsFeatured(property.id) }] : []),
+    ...(onDuplicate ? [{ label: 'Duplicate Listing', onClick: () => onDuplicate(property.id) }] : []),
+    ...(onDownloadReport ? [{ label: 'Download Report', onClick: () => onDownloadReport(property.id) }] : []),
     ...(onDelete ? [{ label: 'Delete', onClick: () => onDelete(property.id), variant: 'danger' as const }] : []),
   ];
 
@@ -138,6 +172,25 @@ export const PropertyCard: React.FC<PropertyCardProps> = React.memo(({
         <span className={`${styles.statusBadge} ${statusInfo.className}`}>
           {statusInfo.label}
         </span>
+
+        {/* Activity badges container */}
+        <div className={styles.activityBadgesContainer}>
+          {isNew() && (
+            <span className={`${styles.activityBadge} ${styles.badgeNew}`}>
+              New
+            </span>
+          )}
+          {isHot() && (
+            <span className={`${styles.activityBadge} ${styles.badgeHot}`}>
+              Hot
+            </span>
+          )}
+          {isRecentlyUpdated() && (
+            <span className={`${styles.activityBadge} ${styles.badgeUpdated}`}>
+              Updated
+            </span>
+          )}
+        </div>
       </div>
 
       {/* Property info */}
@@ -161,6 +214,15 @@ export const PropertyCard: React.FC<PropertyCardProps> = React.memo(({
           <span className={styles.divider}>•</span>
           <span className={styles.price}>{formatPrice(property.asking_price)}</span>
         </div>
+
+        {/* Performance metrics - Days on market */}
+        {showDaysOnMarket() && (
+          <div className={styles.performanceMetrics}>
+            <span className={styles.daysOnMarketBadge}>
+              📅 {property.days_on_market} days on market
+            </span>
+          </div>
+        )}
 
         {/* Metric badges row */}
         <div className={styles.metrics}>

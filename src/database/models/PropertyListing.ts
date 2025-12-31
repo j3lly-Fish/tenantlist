@@ -467,4 +467,49 @@ export class PropertyListingModel {
 
     return result.rows.map((row) => row.state);
   }
+
+  /**
+   * Find paginated property listings with optional filters
+   * Used by brokers to browse all property listings
+   * This is a wrapper around search() for consistent API
+   *
+   * @param limit - Number of listings to return
+   * @param offset - Offset for pagination
+   * @param filters - Optional filters (location, propertyType, minSqft, maxSqft)
+   * @returns Paginated listings and total count
+   */
+  async findPaginated(
+    limit: number = 20,
+    offset: number = 0,
+    filters?: {
+      location?: string;
+      propertyType?: PropertyType;
+      minSqft?: number;
+      maxSqft?: number;
+    }
+  ): Promise<{ listings: PropertyListing[]; total: number }> {
+    // Map location filter to city for search
+    const searchFilters: any = {
+      limit,
+      offset,
+    };
+
+    if (filters?.location) {
+      searchFilters.city = filters.location;
+    }
+
+    if (filters?.propertyType) {
+      searchFilters.propertyType = filters.propertyType;
+    }
+
+    if (filters?.minSqft) {
+      searchFilters.minSqft = filters.minSqft;
+    }
+
+    if (filters?.maxSqft) {
+      searchFilters.maxSqft = filters.maxSqft;
+    }
+
+    return this.search(searchFilters);
+  }
 }

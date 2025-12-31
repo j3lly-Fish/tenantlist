@@ -5,6 +5,7 @@ import authRoutes from './routes/authRoutes';
 import userRoutes from './routes/userRoutes';
 import profileRoutes from './routes/profileRoutes';
 import dashboardRoutes from './routes/dashboardRoutes';
+import brokerRoutes from './routes/brokerRoutes';
 import mfaRoutes from './routes/mfaRoutes';
 import businessRoutes from './routes/businessRoutes';
 import demandListingRoutes from './routes/demandListingRoutes';
@@ -85,6 +86,9 @@ export function createApp(): Express {
 
   // Dashboard routes
   app.use('/api/dashboard', dashboardRoutes);
+
+  // Broker routes
+  app.use('/api/broker', brokerRoutes);
 
   // Business routes
   app.use('/api/businesses', businessRoutes);

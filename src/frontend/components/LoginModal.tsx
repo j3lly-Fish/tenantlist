@@ -61,6 +61,8 @@ export const LoginModal: React.FC<LoginModalProps> = ({
 
       const data = await response.json();
 
+      console.log('📡 Login API Response:', data);
+
       if (!response.ok) {
         if (response.status === 401) {
           setErrors({ general: 'Invalid email or password' });
@@ -72,6 +74,12 @@ export const LoginModal: React.FC<LoginModalProps> = ({
         return;
       }
 
+      console.log('✅ Login successful, calling onLoginSuccess with:', data.user);
+
+      // Close modal first
+      onClose();
+
+      // Then call login success handler
       onLoginSuccess(data.user);
     } catch (error) {
       setErrors({ general: 'Network error. Please check your connection and try again.' });

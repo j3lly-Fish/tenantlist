@@ -3,6 +3,12 @@ import styles from './KPICard.module.css';
 
 export type KPIIconType = 'building' | 'chart' | 'message' | 'eye' | 'none';
 
+export interface TrendData {
+  value: number;        // percentage change
+  direction: 'up' | 'down' | 'neutral';
+  period: string;       // "vs last week"
+}
+
 interface KPICardProps {
   title: string;
   value: number | string;
@@ -11,6 +17,7 @@ interface KPICardProps {
   isLocked?: boolean;
   tierRequired?: string;
   loading?: boolean;
+  trend?: TrendData;
 }
 
 /**
@@ -20,6 +27,7 @@ interface KPICardProps {
  * - Large value (48px bold)
  * - Label below (14px regular gray)
  * - Icon on the right side
+ * - Trend indicator (up/down/neutral arrow with percentage)
  * - Locked state for tier-gated features
  * - Loading skeleton state
  *
@@ -33,6 +41,7 @@ export const KPICard: React.FC<KPICardProps> = React.memo(({
   isLocked = false,
   tierRequired,
   loading = false,
+  trend,
 }) => {
   const formatValue = () => {
     if (loading) {
@@ -40,6 +49,11 @@ export const KPICard: React.FC<KPICardProps> = React.memo(({
     }
 
     if (isLocked) {
+      return '--';
+    }
+
+    // Handle undefined or null values
+    if (value === undefined || value === null) {
       return '--';
     }
 
@@ -52,6 +66,37 @@ export const KPICard: React.FC<KPICardProps> = React.memo(({
   };
 
   const displayValue = formatValue();
+
+  const renderTrendIndicator = () => {
+    // Don't show trend when loading or locked or trend not provided
+    if (loading || isLocked || !trend) {
+      return null;
+    }
+
+    const { value: trendValue, direction, period } = trend;
+    const absoluteValue = Math.abs(trendValue);
+
+    let arrow = '→';
+    let colorClass = styles.trendNeutral;
+
+    if (direction === 'up') {
+      arrow = '↑';
+      colorClass = styles.trendUp;
+    } else if (direction === 'down') {
+      arrow = '↓';
+      colorClass = styles.trendDown;
+    }
+
+    return (
+      <div className={styles.trendContainer}>
+        <div className={`${styles.trendIndicator} ${colorClass}`}>
+          <span className={styles.trendArrow}>{arrow}</span>
+          <span className={styles.trendValue}>{absoluteValue.toFixed(1)}%</span>
+        </div>
+        <div className={styles.trendPeriod}>{period}</div>
+      </div>
+    );
+  };
 
   const renderIcon = () => {
     if (icon === 'none') return null;
@@ -160,6 +205,7 @@ export const KPICard: React.FC<KPICardProps> = React.memo(({
             <div className={`${styles.kpiValue} ${loading ? styles.loading : ''}`}>
               {displayValue}
             </div>
+            {renderTrendIndicator()}
           </div>
           {icon !== 'none' && (
             <div className={styles.iconContainer}>

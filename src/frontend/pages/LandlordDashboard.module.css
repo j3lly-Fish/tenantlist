@@ -1,6 +1,7 @@
+/* Landlord Dashboard Page - Figma Design System */
 .dashboard {
   min-height: 100vh;
-  background-color: #f8f9fa;
+  background-color: var(--zyx-gray-100);
 }
 
 .content {
@@ -9,9 +10,9 @@
 }
 
 .container {
-  max-width: 1400px;
+  max-width: var(--container-max-width);
   margin: 0 auto;
-  padding: 32px 24px;
+  padding: var(--spacing-32) var(--spacing-64);
 }
 
 /* Header section */
@@ -19,8 +20,8 @@
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
-  margin-bottom: 32px;
-  gap: 24px;
+  margin-bottom: var(--spacing-32);
+  gap: var(--spacing-24);
 }
 
 .headerText {
@@ -28,36 +29,45 @@
 }
 
 .pageTitle {
-  font-size: 28px;
-  font-weight: 700;
-  color: #111827;
-  margin: 0 0 8px 0;
+  font-size: var(--font-size-28);
+  font-weight: var(--font-weight-bold);
+  color: var(--zyx-gray-700);
+  margin: 0 0 var(--spacing-8) 0;
+  line-height: var(--line-height-36);
 }
 
 .pageSubtitle {
-  font-size: 16px;
-  color: #6b7280;
+  font-size: var(--font-size-16);
+  color: var(--zyx-gray-600);
   margin: 0;
+  line-height: var(--line-height-24);
+}
+
+/* Header actions container for Connection Indicator and Add Property button */
+.headerActions {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-16);
 }
 
 .addPropertyButton {
-  padding: 12px 24px;
-  background-color: #3b82f6;
-  color: white;
+  padding: var(--spacing-12) var(--spacing-24);
+  background-color: var(--zyx-gray-700);
+  color: var(--zyx-white);
   border: none;
-  border-radius: 8px;
-  font-size: 15px;
-  font-weight: 600;
+  border-radius: var(--button-radius);
+  font-size: var(--font-size-16);
+  font-weight: var(--font-weight-semibold);
   cursor: pointer;
-  transition: all 0.2s ease;
+  transition: all var(--transition-fast);
   white-space: nowrap;
-  min-height: 48px;
+  min-height: var(--button-height-lg);
 }
 
 .addPropertyButton:hover {
-  background-color: #2563eb;
+  background-color: var(--zyx-gray-600);
   transform: translateY(-1px);
-  box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+  box-shadow: var(--shadow-card);
 }
 
 .addPropertyButton:active {
@@ -65,16 +75,17 @@
 }
 
 .addPropertyButton:focus-visible {
-  outline: 3px solid #93c5fd;
+  outline: 2px solid var(--zyx-info);
   outline-offset: 2px;
+  box-shadow: var(--shadow-focus);
 }
 
 /* KPI Grid */
 .kpiGrid {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  gap: 20px;
-  margin-bottom: 32px;
+  gap: var(--spacing-24);
+  margin-bottom: var(--spacing-32);
 }
 
 /* Error state */
@@ -83,37 +94,44 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding: 64px 24px;
+  padding: var(--spacing-64) var(--spacing-24);
   text-align: center;
 }
 
 .errorState h2 {
-  font-size: 24px;
-  font-weight: 600;
-  color: #111827;
-  margin: 0 0 12px 0;
+  font-size: var(--font-size-24);
+  font-weight: var(--font-weight-semibold);
+  color: var(--zyx-gray-700);
+  margin: 0 0 var(--spacing-12) 0;
 }
 
 .errorState p {
-  font-size: 16px;
-  color: #6b7280;
-  margin: 0 0 24px 0;
+  font-size: var(--font-size-16);
+  color: var(--zyx-gray-600);
+  margin: 0 0 var(--spacing-24) 0;
 }
 
 .retryButton {
-  padding: 12px 24px;
-  background-color: #3b82f6;
-  color: white;
+  padding: var(--spacing-12) var(--spacing-24);
+  background-color: var(--zyx-gray-700);
+  color: var(--zyx-white);
   border: none;
-  border-radius: 8px;
-  font-size: 15px;
-  font-weight: 600;
+  border-radius: var(--button-radius);
+  font-size: var(--font-size-16);
+  font-weight: var(--font-weight-semibold);
   cursor: pointer;
-  transition: background-color 0.2s ease;
+  transition: background-color var(--transition-fast);
 }
 
 .retryButton:hover {
-  background-color: #2563eb;
+  background-color: var(--zyx-gray-600);
+}
+
+/* Infinite scroll sentinel */
+.scrollSentinel {
+  height: 1px;
+  width: 100%;
+  visibility: hidden;
 }
 
 /* Responsive design */
@@ -129,7 +147,7 @@
   }
 
   .container {
-    padding: 24px 16px;
+    padding: var(--spacing-24) var(--spacing-20);
   }
 
   .headerSection {
@@ -137,8 +155,13 @@
     align-items: stretch;
   }
 
+  .headerActions {
+    flex-direction: column-reverse;
+    gap: var(--spacing-12);
+  }
+
   .pageTitle {
-    font-size: 24px;
+    font-size: var(--font-size-24);
   }
 
   .addPropertyButton {

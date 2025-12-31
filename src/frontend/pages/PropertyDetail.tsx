@@ -163,7 +163,7 @@ const PropertyDetail: React.FC = () => {
 
     try {
       await deletePropertyListing(propertyId);
-      navigate('/properties');
+      navigate('/landlord-dashboard');
     } catch (err: any) {
       console.error('Failed to delete property:', err);
       alert(err.message || 'Failed to delete property');
@@ -199,7 +199,7 @@ const PropertyDetail: React.FC = () => {
   const handleDecline = () => {
     // In a real app, this would send a decline notification
     if (window.confirm('Are you sure you want to decline this property?')) {
-      navigate('/properties');
+      navigate('/landlord-dashboard');
     }
   };
 
@@ -232,7 +232,7 @@ const PropertyDetail: React.FC = () => {
             <p>{error || 'Property not found'}</p>
             <button
               className={styles.backButton}
-              onClick={() => navigate('/properties')}
+              onClick={() => navigate('/landlord-dashboard')}
             >
               Back to Properties
             </button>
@@ -282,7 +282,7 @@ const PropertyDetail: React.FC = () => {
           {/* Back link */}
           <button
             className={styles.backLink}
-            onClick={() => navigate('/properties')}
+            onClick={() => navigate('/landlord-dashboard')}
           >
             Back to All Properties
           </button>

@@ -2,12 +2,16 @@ import { Router, Request, Response } from 'express';
 import { RoleGuardMiddleware } from '../middleware/roleGuardMiddleware';
 import { ProfileCompletionGuard } from '../middleware/ProfileCompletionGuard';
 import { DashboardController } from '../controllers/DashboardController';
+import { LandlordDashboardController } from '../controllers/LandlordDashboardController';
+import { BrokerDashboardController } from '../controllers/BrokerDashboardController';
 import { UserRole } from '../types';
 
 const router = Router();
 const roleGuard = new RoleGuardMiddleware();
 const profileGuard = new ProfileCompletionGuard();
 const dashboardController = new DashboardController();
+const landlordDashboardController = new LandlordDashboardController();
+const brokerDashboardController = new BrokerDashboardController();
 
 /**
  * Extended Request interface with authenticated user data
@@ -148,56 +152,202 @@ router.get(
 );
 
 /**
- * GET /api/dashboard/landlord
- * Get landlord dashboard data
+ * GET /api/dashboard/landlord/kpis
+ * Get only KPIs for landlord dashboard without properties list
+ * Useful for polling updates
  *
  * Request headers:
  * - Authorization: Bearer <accessToken>
  *
  * Response (200):
  * {
- *   dashboard: {
- *     role: 'landlord',
- *     features: string[],
- *     redirectPath: '/dashboard/landlord'
+ *   success: true,
+ *   data: {
+ *     totalListings: { value: number, trend: { value: number, direction: string, period: string } },
+ *     activeListings: { value: number, trend: { ... } },
+ *     avgDaysOnMarket: { value: number, trend: { ... } },
+ *     responseRate: { value: number, trend: { ... } }
  *   }
  * }
  *
  * Errors:
  * - 401: Unauthorized
- * - 403: Forbidden (wrong role)
+ * - 403: Forbidden (not a landlord)
+ * - 500: Internal server error
+ */
+router.get(
+  '/landlord/kpis',
+  roleGuard.requireLandlord(),
+  async (req: AuthenticatedRequest, res: Response) => {
+    try {
+      const userId = req.user?.userId;
+
+      if (!userId) {
+        return res.status(401).json({
+          success: false,
+          error: {
+            code: 'UNAUTHORIZED',
+            message: 'User ID not found in token',
+          },
+        });
+      }
+
+      // Get KPIs only
+      const kpis = await landlordDashboardController.getKPIs(userId);
+
+      res.status(200).json({
+        success: true,
+        data: kpis,
+      });
+    } catch (error: any) {
+      console.error('Get landlord KPIs error:', error);
+      res.status(500).json({
+        success: false,
+        error: {
+          code: 'INTERNAL_ERROR',
+          message: 'An error occurred loading KPIs',
+        },
+      });
+    }
+  }
+);
+
+/**
+ * GET /api/dashboard/landlord
+ * Get full landlord dashboard data with KPIs and property listings
+ *
+ * Request headers:
+ * - Authorization: Bearer <accessToken>
+ *
+ * Query parameters:
+ * - page?: number (default: 1)
+ * - limit?: number (default: 20)
+ *
+ * Response (200):
+ * {
+ *   success: true,
+ *   data: {
+ *     kpis: {
+ *       totalListings: { value: number, trend: { value: number, direction: string, period: string } },
+ *       activeListings: { value: number, trend: { ... } },
+ *       avgDaysOnMarket: { value: number, trend: { ... } },
+ *       responseRate: { value: number, trend: { ... } }
+ *     },
+ *     properties: PropertyListing[],
+ *     total: number,
+ *     hasMore: boolean
+ *   }
+ * }
+ *
+ * Errors:
+ * - 401: Unauthorized
+ * - 403: Forbidden (not a landlord)
+ * - 500: Internal server error
  */
 router.get(
   '/landlord',
   roleGuard.requireLandlord(),
   async (req: AuthenticatedRequest, res: Response) => {
     try {
-      const user = req.user;
+      const userId = req.user?.userId;
+
+      if (!userId) {
+        return res.status(401).json({
+          success: false,
+          error: {
+            code: 'UNAUTHORIZED',
+            message: 'User ID not found in token',
+          },
+        });
+      }
+
+      // Parse pagination parameters
+      const page = parseInt(req.query.page as string) || 1;
+      const limit = parseInt(req.query.limit as string) || 20;
+
+      // Validate pagination parameters
+      const validatedPage = Math.max(1, page);
+      const validatedLimit = Math.min(100, Math.max(1, limit)); // Max 100 per page
+
+      // Get full dashboard data
+      const dashboardData = await landlordDashboardController.getDashboardData(
+        userId,
+        validatedPage,
+        validatedLimit
+      );
 
       res.status(200).json({
-        dashboard: {
-          role: UserRole.LANDLORD,
-          user: {
-            id: user?.userId,
-            email: user?.email,
-            role: user?.role,
-          },
-          features: [
-            'manage_properties',
-            'view_tenant_requirements',
-            'submit_proposals',
-            'manage_landlord_profile',
-          ],
-          redirectPath: '/dashboard/landlord',
-          welcomeMessage: 'Welcome to your Landlord Dashboard',
-        },
+        success: true,
+        data: dashboardData,
       });
     } catch (error: any) {
       console.error('Landlord dashboard error:', error);
       res.status(500).json({
+        success: false,
         error: {
           code: 'INTERNAL_ERROR',
           message: 'An error occurred loading dashboard',
+        },
+      });
+    }
+  }
+);
+
+/**
+ * GET /api/dashboard/broker/kpis
+ * Get only KPIs for broker dashboard
+ * Useful for polling updates
+ *
+ * Request headers:
+ * - Authorization: Bearer <accessToken>
+ *
+ * Response (200):
+ * {
+ *   success: true,
+ *   data: {
+ *     activeDeals: { value: number, trend: { value: number, direction: string, period: string } },
+ *     commissionPipeline: { value: number, trend: { ... } },
+ *     responseRate: { value: number, trend: { ... } },
+ *     propertiesMatched: { value: number, trend: { ... } }
+ *   }
+ * }
+ *
+ * Errors:
+ * - 401: Unauthorized
+ * - 403: Forbidden (not a broker)
+ * - 500: Internal server error
+ */
+router.get(
+  '/broker/kpis',
+  roleGuard.requireBroker(),
+  async (req: AuthenticatedRequest, res: Response) => {
+    try {
+      const userId = req.user?.userId;
+
+      if (!userId) {
+        return res.status(401).json({
+          success: false,
+          error: {
+            code: 'UNAUTHORIZED',
+            message: 'User ID not found in token',
+          },
+        });
+      }
+
+      // Get KPIs only
+      const kpis = await brokerDashboardController.getKPIs(userId);
+
+      res.status(200).json({
+        success: true,
+        data: kpis,
+      });
+    } catch (error: any) {
+      console.error('Get broker KPIs error:', error);
+      res.status(500).json({
+        success: false,
+        error: {
+          code: 'INTERNAL_ERROR',
+          message: 'An error occurred loading KPIs',
         },
       });
     }

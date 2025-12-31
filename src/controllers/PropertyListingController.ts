@@ -1,5 +1,6 @@
 import { PropertyListingModel } from '../database/models/PropertyListing';
 import { PropertyListingMetricsModel } from '../database/models/PropertyListingMetrics';
+import { PropertyDashboardEventService } from '../services/PropertyDashboardEventService';
 import { PropertyListing, PropertyListingStatus, PropertyType } from '../types';
 
 /**
@@ -43,13 +44,16 @@ interface PropertySearchResponse {
 export class PropertyListingController {
   private propertyListingModel: PropertyListingModel;
   private propertyListingMetricsModel: PropertyListingMetricsModel;
+  private eventService: PropertyDashboardEventService;
 
   constructor(
     propertyListingModel?: PropertyListingModel,
-    propertyListingMetricsModel?: PropertyListingMetricsModel
+    propertyListingMetricsModel?: PropertyListingMetricsModel,
+    eventService?: PropertyDashboardEventService
   ) {
     this.propertyListingModel = propertyListingModel || new PropertyListingModel();
     this.propertyListingMetricsModel = propertyListingMetricsModel || new PropertyListingMetricsModel();
+    this.eventService = eventService || new PropertyDashboardEventService();
   }
 
   /**
@@ -245,6 +249,9 @@ export class PropertyListingController {
       contact_phone: data.contact_phone,
     });
 
+    // Emit property-created event
+    await this.eventService.onPropertyCreated(userId, listing);
+
     return listing;
   }
 
@@ -276,6 +283,9 @@ export class PropertyListingController {
       throw new Error('Failed to update property listing');
     }
 
+    // Emit property-updated event
+    await this.eventService.onPropertyUpdated(userId, listingId, updatedListing);
+
     return updatedListing;
   }
 
@@ -300,12 +310,18 @@ export class PropertyListingController {
       throw new Error('Unauthorized: You do not own this listing');
     }
 
+    // Capture old status before update
+    const oldStatus = listing.status;
+
     // Update status
     const updatedListing = await this.propertyListingModel.updateStatus(listingId, status);
 
     if (!updatedListing) {
       throw new Error('Failed to update listing status');
     }
+
+    // Emit status-changed event
+    await this.eventService.onStatusChanged(userId, listingId, oldStatus, status);
 
     return updatedListing;
   }
@@ -333,6 +349,9 @@ export class PropertyListingController {
     if (!deleted) {
       throw new Error('Failed to delete property listing');
     }
+
+    // Emit property-deleted event
+    await this.eventService.onPropertyDeleted(userId, listingId);
   }
 
   /**
