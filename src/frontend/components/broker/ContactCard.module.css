@@ -1,0 +1,147 @@
+.contactCard {
+  background: white;
+  border: 1px solid var(--zyx-gray-200, #e5e7eb);
+  border-radius: 8px;
+  padding: 20px;
+}
+
+.title {
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--zyx-gray-900, #1a1a1a);
+  margin: 0 0 16px 0;
+}
+
+.contactInfo {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding-bottom: 16px;
+  margin-bottom: 16px;
+  border-bottom: 1px solid var(--zyx-gray-200, #e5e7eb);
+}
+
+.avatar {
+  width: 56px;
+  height: 56px;
+  flex-shrink: 0;
+  border-radius: 50%;
+  overflow: hidden;
+  background: var(--zyx-gray-200, #e5e7eb);
+}
+
+.avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.avatarPlaceholder {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--zyx-info, #4a90e2);
+  color: white;
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.details {
+  flex: 1;
+  min-width: 0;
+}
+
+.name {
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--zyx-gray-900, #1a1a1a);
+  margin: 0 0 4px 0;
+}
+
+.company {
+  font-size: 13px;
+  color: var(--zyx-gray-600, #666666);
+  margin: 0;
+}
+
+.actions {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+/* Button Styles */
+.sendMessageButton,
+.submitPropertyButton {
+  width: 100%;
+  padding: 12px 16px;
+  font-size: 14px;
+  font-weight: 600;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.sendMessageButton {
+  background: white;
+  color: var(--zyx-gray-700, #1a1a1a);
+  border: 1px solid var(--zyx-gray-300, #d1d5db);
+}
+
+.sendMessageButton:hover {
+  background: var(--zyx-gray-50, #f9fafb);
+  border-color: var(--zyx-gray-400, #9ca3af);
+  transform: translateY(-1px);
+}
+
+.submitPropertyButton {
+  background: var(--zyx-gray-900, #1a1a1a);
+  color: white;
+  border: none;
+}
+
+.submitPropertyButton:hover {
+  background: var(--zyx-gray-800, #333333);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+.sendMessageButton:active,
+.submitPropertyButton:active {
+  transform: translateY(0);
+}
+
+.sendMessageButton svg,
+.submitPropertyButton svg {
+  width: 18px;
+  height: 18px;
+}
+
+@media (max-width: 768px) {
+  .contactCard {
+    padding: 16px;
+  }
+
+  .title {
+    font-size: 15px;
+  }
+
+  .avatar {
+    width: 48px;
+    height: 48px;
+  }
+
+  .name {
+    font-size: 14px;
+  }
+
+  .company {
+    font-size: 12px;
+  }
+}

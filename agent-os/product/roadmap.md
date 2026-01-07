@@ -10,7 +10,7 @@
 
 4. [ ] **Direct Messaging System** — Build simple internal messaging system for 1-on-1 chat between tenants, brokers, and landlords. Includes message history, read receipts, and basic notifications. No external API dependencies (NOT Stream API). `M`
 
-5. [x] **Role-Based Dashboard Views** — Create three distinct dashboard layouts (Tenant, Landlord, Broker) with role-specific features, navigation, and data displays. Implement dashboard routing based on user_role from authentication. `S` *(Tenant Dashboard complete; Landlord & Broker dashboards pending)*
+5. [x] **Role-Based Dashboard Views** — Create three distinct dashboard layouts (Tenant, Landlord, Broker) with role-specific features, navigation, and data displays. Implement dashboard routing based on user_role from authentication. `S` *(Tenant Dashboard and Broker Dashboard complete; Landlord dashboard pending)*
 
 6. [ ] **Subscription & Payment Processing** — Integrate Stripe Connect for Starter (Free), Pro ($99), Premium ($199), and Enterprise ($999) tier subscriptions. Implement billing logic, payment webhooks, and subscription status checks that gate features. `M`
 

@@ -279,6 +279,18 @@ export class DashboardSocketServer {
   }
 
   /**
+   * Emit broker KPI update event to a specific user
+   */
+  public emitBrokerKPIUpdate(userId: string, kpis: any): void {
+    const userRoom = `user:${userId}`;
+    this.namespace.to(userRoom).emit('broker:kpi-update', {
+      kpis,
+      timestamp: new Date().toISOString(),
+    });
+    console.log(`Emitted broker:kpi-update to room ${userRoom}`);
+  }
+
+  /**
    * Get Socket.io server instance
    */
   public getIO(): SocketIOServer {

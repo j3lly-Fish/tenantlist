@@ -1,0 +1,243 @@
+/* Post Location Modal Styles - Figma Design System */
+
+.modalBackdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: var(--z-modal-backdrop);
+  padding: var(--spacing-20);
+}
+
+.modalContainer {
+  background: var(--zyx-white);
+  border-radius: var(--radius-8);
+  max-width: 700px; /* Wider for map component */
+  width: 100%;
+  max-height: 90vh;
+  overflow-y: auto;
+  box-shadow: var(--shadow-modal);
+}
+
+.modalHeader {
+  padding: var(--spacing-24);
+  border-bottom: var(--border-width-thin) solid var(--border-color-default);
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  position: sticky;
+  top: 0;
+  background: var(--zyx-white);
+  z-index: 1;
+}
+
+.modalTitle {
+  font-size: var(--font-size-18);
+  font-weight: var(--font-weight-semibold);
+  color: var(--zyx-gray-700);
+  margin: 0 0 var(--spacing-4) 0;
+}
+
+.stepIndicator {
+  font-size: var(--font-size-14);
+  color: var(--zyx-gray-500);
+  margin: 0;
+}
+
+.closeButton {
+  background: none;
+  border: none;
+  font-size: var(--font-size-28);
+  color: var(--zyx-gray-400);
+  cursor: pointer;
+  padding: 0;
+  line-height: 1;
+  transition: color var(--transition-normal);
+}
+
+.closeButton:hover:not(:disabled) {
+  color: var(--zyx-gray-500);
+}
+
+.closeButton:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.modalContent {
+  padding: var(--spacing-24);
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-20);
+}
+
+/* Error Message */
+.errorMessage {
+  padding: var(--spacing-12);
+  background-color: var(--zyx-error-light);
+  border: var(--border-width-thin) solid var(--zyx-error);
+  border-radius: var(--radius-8);
+  color: var(--zyx-error);
+  font-size: var(--font-size-14);
+  margin: 0 var(--spacing-24) var(--spacing-16) var(--spacing-24);
+}
+
+/* Form Elements */
+.formGroup {
+  display: flex;
+  flex-direction: column;
+}
+
+.label {
+  display: block;
+  font-size: var(--font-size-14);
+  font-weight: var(--font-weight-medium);
+  color: var(--zyx-gray-600);
+  margin-bottom: var(--spacing-8);
+}
+
+.required {
+  color: var(--zyx-error);
+}
+
+.input,
+.select {
+  width: 100%;
+  padding: var(--spacing-10) var(--spacing-12);
+  font-size: var(--font-size-14);
+  border: var(--border-width-thin) solid var(--border-color-default);
+  border-radius: var(--radius-8);
+  transition: all var(--transition-normal);
+  font-family: inherit;
+  box-sizing: border-box;
+  color: var(--zyx-gray-700);
+}
+
+.input:focus,
+.select:focus {
+  outline: none;
+  border-color: var(--zyx-info);
+  box-shadow: var(--shadow-focus);
+}
+
+.inputError {
+  border-color: var(--zyx-error);
+}
+
+.errorText {
+  font-size: var(--font-size-12);
+  color: var(--zyx-error);
+  margin-top: var(--spacing-4);
+  margin-bottom: 0;
+}
+
+.hint {
+  font-size: var(--font-size-12);
+  color: var(--zyx-gray-500);
+  margin: 0 0 var(--spacing-12) 0;
+}
+
+/* Field Row */
+.fieldRow {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--spacing-16);
+}
+
+/* Section Title */
+.sectionTitle {
+  font-size: var(--font-size-16);
+  font-weight: var(--font-weight-semibold);
+  color: var(--zyx-gray-700);
+  margin: 0 0 var(--spacing-8) 0;
+}
+
+/* Actions */
+.actions {
+  display: flex;
+  gap: var(--spacing-12);
+  margin-top: var(--spacing-24);
+  padding-top: var(--spacing-16);
+  border-top: var(--border-width-thin) solid var(--border-color-default);
+}
+
+.cancelButton,
+.backButton,
+.nextButton,
+.submitButton {
+  flex: 1;
+  padding: var(--spacing-12) var(--spacing-16);
+  font-size: var(--font-size-16);
+  font-weight: var(--font-weight-semibold);
+  border-radius: var(--button-radius);
+  cursor: pointer;
+  transition: all var(--transition-normal);
+  border: none;
+  font-family: inherit;
+  min-height: var(--button-height-lg);
+}
+
+.cancelButton,
+.backButton {
+  background-color: var(--zyx-white);
+  border: var(--border-width-thin) solid var(--border-color-default);
+  color: var(--zyx-gray-600);
+}
+
+.cancelButton:hover:not(:disabled),
+.backButton:hover:not(:disabled) {
+  background-color: var(--zyx-gray-100);
+  border-color: var(--zyx-gray-400);
+}
+
+.nextButton,
+.submitButton {
+  background-color: var(--zyx-gray-700);
+  color: var(--zyx-white);
+}
+
+.nextButton:hover:not(:disabled),
+.submitButton:hover:not(:disabled) {
+  background-color: var(--zyx-gray-600);
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-card);
+}
+
+.nextButton:active:not(:disabled),
+.submitButton:active:not(:disabled) {
+  transform: translateY(0);
+}
+
+.cancelButton:disabled,
+.backButton:disabled,
+.nextButton:disabled,
+.submitButton:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .modalContainer {
+    max-width: 100%;
+    border-radius: 0;
+    max-height: 100vh;
+  }
+
+  .modalBackdrop {
+    padding: 0;
+  }
+
+  .modalContent {
+    padding: var(--spacing-20) var(--spacing-16);
+  }
+
+  .fieldRow {
+    grid-template-columns: 1fr;
+  }
+}

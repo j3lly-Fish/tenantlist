@@ -1,0 +1,199 @@
+.profileView {
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+}
+
+/* Hero Section */
+.hero {
+  background: white;
+  border: 1px solid var(--zyx-gray-200, #e5e7eb);
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.coverImage {
+  width: 100%;
+  height: 200px;
+  overflow: hidden;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+}
+
+.coverImage img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.coverPlaceholder {
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+}
+
+.heroContent {
+  padding: 0 32px 32px;
+  display: flex;
+  gap: 24px;
+  align-items: flex-start;
+}
+
+.logoContainer {
+  margin-top: -50px;
+  flex-shrink: 0;
+}
+
+.logoWrapper {
+  position: relative;
+  width: 120px;
+  height: 120px;
+}
+
+.logo {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  border: 4px solid white;
+  background: white;
+  object-fit: cover;
+}
+
+.logoPlaceholder {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  border: 4px solid white;
+  background: var(--zyx-gray-200, #e5e7eb);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 48px;
+  font-weight: 600;
+  color: var(--zyx-gray-600, #666666);
+}
+
+.verifiedBadge {
+  position: absolute;
+  bottom: 4px;
+  right: 4px;
+  width: 32px;
+  height: 32px;
+  background: white;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.heroInfo {
+  flex: 1;
+  padding-top: 24px;
+}
+
+.companyName {
+  font-size: 32px;
+  font-weight: 700;
+  color: var(--zyx-gray-900, #1a1a1a);
+  margin: 0 0 8px 0;
+  line-height: 1.2;
+}
+
+.category {
+  font-size: 16px;
+  color: var(--zyx-gray-600, #666666);
+  margin: 0 0 16px 0;
+}
+
+.rating {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+
+.ratingValue {
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--zyx-gray-900, #1a1a1a);
+}
+
+.starIcon {
+  width: 20px;
+  height: 20px;
+}
+
+.reviewCount {
+  font-size: 14px;
+  color: var(--zyx-gray-600, #666666);
+}
+
+.socialLinks {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.socialButton {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 16px;
+  background: white;
+  border: 1px solid var(--zyx-gray-300, #e0e0e0);
+  border-radius: 8px;
+  color: var(--zyx-gray-700, #1a1a1a);
+  font-size: 14px;
+  font-weight: 500;
+  text-decoration: none;
+  transition: all 0.2s ease;
+}
+
+.socialButton:hover {
+  background: var(--zyx-gray-50, #f9fafb);
+  border-color: var(--zyx-gray-400, #9ca3af);
+  transform: translateY(-1px);
+}
+
+.socialButton svg {
+  width: 20px;
+  height: 20px;
+}
+
+/* Content Sections */
+.sections {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .heroContent {
+    flex-direction: column;
+    padding: 0 16px 24px;
+    gap: 16px;
+  }
+
+  .logoContainer {
+    margin-top: -60px;
+    align-self: center;
+  }
+
+  .heroInfo {
+    padding-top: 0;
+    text-align: center;
+  }
+
+  .companyName {
+    font-size: 24px;
+  }
+
+  .socialLinks {
+    justify-content: center;
+  }
+
+  .sections {
+    gap: 16px;
+  }
+}

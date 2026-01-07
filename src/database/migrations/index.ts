@@ -21,6 +21,15 @@ import { createSubscriptionsTablesMigration } from './019-create-subscriptions-t
 import { addPropertyMetricsMigration } from './020-add-property-metrics';
 import { createBrokerProfileTableMigration } from './021-create-broker-profile-table';
 import { createBrokerDealsTableMigration } from './022-create-broker-deals-table';
+import { createBusinessProfilesTableMigration } from './023-create-business-profiles-table';
+import { createBusinessTeamMembersTableMigration } from './024-create-business-team-members-table';
+import { createTenantPublicProfilesTableMigration } from './025-create-tenant-public-profiles-table';
+import { createTenantProfileImagesTableMigration } from './026-create-tenant-profile-images-table';
+import { createTenantProfileDocumentsTableMigration } from './027-create-tenant-profile-documents-table';
+import { createTenantLocationsTableMigration } from './028-create-tenant-locations-table';
+import { createBrokerTenantRequestsTableMigration } from './029-create-broker-tenant-requests-table';
+import { createBusinessProfileStatsTableMigration } from './030-create-business-profile-stats-table';
+import { enhanceDemandListingsTableMigration } from './031-enhance-demand-listings-table';
 
 // Export all migrations in order
 export const migrations: Migration[] = [
@@ -46,4 +55,13 @@ export const migrations: Migration[] = [
   addPropertyMetricsMigration,
   createBrokerProfileTableMigration,
   createBrokerDealsTableMigration,
+  createBusinessProfilesTableMigration,
+  createBusinessTeamMembersTableMigration,
+  createTenantPublicProfilesTableMigration,
+  createTenantProfileImagesTableMigration,
+  createTenantProfileDocumentsTableMigration,
+  createTenantLocationsTableMigration,
+  createBrokerTenantRequestsTableMigration,
+  createBusinessProfileStatsTableMigration,
+  enhanceDemandListingsTableMigration,
 ];

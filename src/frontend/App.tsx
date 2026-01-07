@@ -17,6 +17,15 @@ import Profile from '@pages/Profile';
 import Applications from '@pages/Applications';
 import MetricsDashboard from '@pages/MetricsDashboard';
 import Notifications from '@pages/Notifications';
+// Broker Dashboard Redesign - Layout and Pages
+import { BrokerLayout } from '@pages/broker/BrokerLayout';
+import Overview from '@pages/broker/Overview';
+import TenantListings from '@pages/broker/TenantListings';
+import TenantProfile from '@pages/broker/TenantProfile';
+import PropertyListings from '@pages/broker/PropertyListings';
+import ReviewPerformance from '@pages/broker/ReviewPerformance';
+import ListingMatches from '@pages/broker/ListingMatches';
+import InviteClients from '@pages/broker/InviteClients';
 import './index.css';
 
 /**
@@ -63,15 +72,30 @@ function App() {
                 </ProtectedRoute>
               }
             />
-            {/* Broker Dashboard - BROKER role only */}
+            {/* Broker Dashboard - Redirect to new multi-page layout */}
             <Route
               path="/broker-dashboard"
+              element={<Navigate to="/broker/overview" replace />}
+            />
+            {/* Broker Dashboard Redesign - Multi-page with sidebar navigation */}
+            <Route
+              path="/broker"
               element={
                 <ProtectedRoute roles={[UserRole.BROKER]}>
-                  <BrokerDashboard />
+                  <BrokerLayout />
                 </ProtectedRoute>
               }
-            />
+            >
+              {/* Nested routes within BrokerLayout */}
+              <Route index element={<Navigate to="/broker/overview" replace />} />
+              <Route path="overview" element={<Overview />} />
+              <Route path="tenant-listings" element={<TenantListings />} />
+              <Route path="tenant-profile/:id" element={<TenantProfile />} />
+              <Route path="property-listings" element={<PropertyListings />} />
+              <Route path="review-performance" element={<ReviewPerformance />} />
+              <Route path="listing-matches" element={<ListingMatches />} />
+              <Route path="invite-clients" element={<InviteClients />} />
+            </Route>
             {/* Backward compatibility redirect for /properties */}
             <Route
               path="/properties"

@@ -33,15 +33,25 @@ export class DemandListingModel {
     is_corporate_location?: boolean;
     additional_features?: string[];
     stealth_mode?: boolean;
+    // New fields for Figma redesign
+    amenities?: string[];
+    locations_of_interest?: any[];
+    map_boundaries?: Record<string, any> | null;
+    lot_size_min?: number | null;
+    lot_size_max?: number | null;
+    monthly_budget_min?: number | null;
+    monthly_budget_max?: number | null;
   }): Promise<DemandListing> {
     const result = await this.pool.query(
       `INSERT INTO demand_listings (
         id, business_id, title, description, location_name, city, state, address,
         sqft_min, sqft_max, budget_min, budget_max, duration_type, start_date,
         industry, asset_type, requirements, status, lot_size, is_corporate_location,
-        additional_features, stealth_mode
+        additional_features, stealth_mode,
+        amenities, locations_of_interest, map_boundaries,
+        lot_size_min, lot_size_max, monthly_budget_min, monthly_budget_max
       )
-      VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18, $19, $20, $21, $22)
+      VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18, $19, $20, $21, $22, $23, $24, $25, $26, $27, $28, $29)
       RETURNING *`,
       [
         uuidv4(),
@@ -66,6 +76,13 @@ export class DemandListingModel {
         data.is_corporate_location || false,
         JSON.stringify(data.additional_features || []),
         data.stealth_mode || false,
+        JSON.stringify(data.amenities || []),
+        JSON.stringify(data.locations_of_interest || []),
+        data.map_boundaries ? JSON.stringify(data.map_boundaries) : null,
+        data.lot_size_min || null,
+        data.lot_size_max || null,
+        data.monthly_budget_min || null,
+        data.monthly_budget_max || null,
       ]
     );
 
@@ -129,7 +146,7 @@ export class DemandListingModel {
     let paramIndex = 1;
 
     // Fields that need JSON serialization
-    const jsonFields = ['requirements', 'additional_features'];
+    const jsonFields = ['requirements', 'additional_features', 'amenities', 'locations_of_interest', 'map_boundaries'];
 
     Object.entries(data).forEach(([key, value]) => {
       if (
@@ -140,7 +157,7 @@ export class DemandListingModel {
       ) {
         if (jsonFields.includes(key) && (typeof value === 'object' || Array.isArray(value))) {
           fields.push(`${key} = $${paramIndex}`);
-          values.push(JSON.stringify(value));
+          values.push(value === null ? null : JSON.stringify(value));
         } else {
           fields.push(`${key} = $${paramIndex}`);
           values.push(value);
@@ -244,5 +261,51 @@ export class DemandListingModel {
       listings: listingsResult.rows,
       total: parseInt(countResult.rows[0].count, 10),
     };
+  }
+
+  /**
+   * Helper methods for JSONB fields (getters/setters)
+   */
+
+  /**
+   * Parse amenities from JSONB
+   *
+   * @param listing - Demand listing with JSONB amenities
+   * @returns Array of amenity strings
+   */
+  parseAmenities(listing: DemandListing): string[] {
+    if (!listing.amenities) return [];
+    if (typeof listing.amenities === 'string') {
+      return JSON.parse(listing.amenities);
+    }
+    return listing.amenities as string[];
+  }
+
+  /**
+   * Parse locations of interest from JSONB
+   *
+   * @param listing - Demand listing with JSONB locations_of_interest
+   * @returns Array of location objects
+   */
+  parseLocationsOfInterest(listing: DemandListing): any[] {
+    if (!listing.locations_of_interest) return [];
+    if (typeof listing.locations_of_interest === 'string') {
+      return JSON.parse(listing.locations_of_interest);
+    }
+    return listing.locations_of_interest as any[];
+  }
+
+  /**
+   * Parse map boundaries from JSONB
+   *
+   * @param listing - Demand listing with JSONB map_boundaries
+   * @returns Map boundaries object or null
+   */
+  parseMapBoundaries(listing: DemandListing): Record<string, any> | null {
+    if (!listing.map_boundaries) return null;
+    if (typeof listing.map_boundaries === 'string') {
+      return JSON.parse(listing.map_boundaries);
+    }
+    return listing.map_boundaries as Record<string, any>;
   }
 }

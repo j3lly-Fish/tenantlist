@@ -1,0 +1,191 @@
+/**
+ * BusinessStatsCard Styles
+ *
+ * Displays business profile statistics in a grid layout
+ * Shows: Offices, Agents, Tenants, Properties
+ */
+
+.statsCard {
+  background-color: var(--card-background);
+  border: var(--card-border);
+  border-radius: var(--card-radius);
+  padding: var(--card-padding-large);
+  box-shadow: var(--shadow-xs);
+}
+
+/* ========================================
+   HEADER
+   ======================================== */
+
+.header {
+  margin-bottom: var(--spacing-20);
+}
+
+.title {
+  font-size: var(--font-size-18);
+  font-weight: var(--font-weight-semibold);
+  color: var(--zyx-gray-700);
+  margin: 0 0 var(--spacing-4) 0;
+  line-height: var(--line-height-28);
+}
+
+.subtitle {
+  font-size: var(--font-size-14);
+  color: var(--zyx-gray-500);
+  margin: 0;
+  line-height: var(--line-height-24);
+}
+
+/* ========================================
+   STATS GRID
+   ======================================== */
+
+.statsGrid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: var(--spacing-16);
+}
+
+.statItem {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: var(--spacing-16);
+  background-color: var(--zyx-gray-100);
+  border-radius: var(--radius-8);
+  transition: all var(--transition-fast);
+}
+
+.statItem:hover {
+  background-color: var(--zyx-info-light);
+  box-shadow: var(--shadow-sm);
+}
+
+.statIcon {
+  width: 32px;
+  height: 32px;
+  color: var(--zyx-info);
+  margin-bottom: var(--spacing-8);
+}
+
+.statValue {
+  font-size: var(--font-size-24);
+  font-weight: var(--font-weight-bold);
+  color: var(--zyx-gray-700);
+  margin-bottom: var(--spacing-4);
+  line-height: 1;
+}
+
+.statLabel {
+  font-size: var(--font-size-12);
+  font-weight: var(--font-weight-medium);
+  color: var(--zyx-gray-500);
+  text-align: center;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+/* ========================================
+   LOADING STATE
+   ======================================== */
+
+.loading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--spacing-48) var(--spacing-24);
+  color: var(--zyx-gray-400);
+  font-size: var(--font-size-14);
+}
+
+.spinner {
+  width: 20px;
+  height: 20px;
+  border: 2px solid var(--zyx-gray-200);
+  border-top-color: var(--zyx-info);
+  border-radius: 50%;
+  animation: spin 0.6s linear infinite;
+  margin-right: var(--spacing-8);
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* ========================================
+   EMPTY/NO PROFILE STATE
+   ======================================== */
+
+.emptyState {
+  text-align: center;
+  padding: var(--spacing-32) var(--spacing-16);
+}
+
+.emptyStateIcon {
+  font-size: 48px;
+  margin-bottom: var(--spacing-12);
+  opacity: 0.5;
+}
+
+.emptyStateText {
+  font-size: var(--font-size-14);
+  color: var(--zyx-gray-500);
+  margin: 0 0 var(--spacing-8) 0;
+}
+
+.emptyStateSubtext {
+  font-size: var(--font-size-12);
+  color: var(--zyx-gray-400);
+  margin: 0;
+}
+
+/* ========================================
+   ERROR STATE
+   ======================================== */
+
+.error {
+  padding: var(--spacing-16);
+  background-color: var(--zyx-error-light);
+  border: var(--border-width-thin) solid var(--zyx-error);
+  border-radius: var(--radius-8);
+  color: var(--zyx-error);
+  font-size: var(--font-size-14);
+  text-align: center;
+}
+
+/* ========================================
+   RESPONSIVE (Mobile: <768px)
+   ======================================== */
+
+@media (max-width: 768px) {
+  .statsGrid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--spacing-12);
+  }
+
+  .statValue {
+    font-size: var(--font-size-18);
+  }
+
+  .statIcon {
+    width: 24px;
+    height: 24px;
+  }
+
+  .statsCard {
+    padding: var(--spacing-16);
+  }
+}
+
+/* ========================================
+   TABLET RESPONSIVE (768px - 1024px)
+   ======================================== */
+
+@media (min-width: 768px) and (max-width: 1024px) {
+  .statsGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}

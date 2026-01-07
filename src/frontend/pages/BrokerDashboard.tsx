@@ -3,12 +3,20 @@ import { useNavigate } from 'react-router-dom';
 import { TopNavigation } from '@components/TopNavigation';
 import { KPICard, TrendData } from '@components/KPICard';
 import { ConnectionIndicator, ConnectionStatus } from '@components/ConnectionIndicator';
+import { DualViewToggle, ViewMode } from '@components/DualViewToggle';
+import { TenantDemandsSection } from '@components/TenantDemandsSection';
+import { PropertyListingsSection } from '@components/PropertyListingsSection';
+import { BrokerProfileModal } from '@components/BrokerProfileModal';
 import { useAuth } from '@contexts/AuthContext';
-import { usePropertyDashboardWebSocket } from '@hooks/usePropertyDashboardWebSocket';
+import { useBrokerDashboardWebSocket } from '@hooks/useBrokerDashboardWebSocket';
+import { useInfiniteScroll } from '@hooks/useInfiniteScroll';
 import {
   getBrokerKPIs,
   getBrokerProfile,
+  getBrokerDemands,
+  getBrokerProperties,
 } from '@utils/apiClient';
+import { DemandListing, PropertyListing, PropertyType, PropertyListingStatus } from '@types';
 import styles from './BrokerDashboard.module.css';
 
 /**
@@ -41,11 +49,6 @@ interface BrokerProfile {
 }
 
 /**
- * Dual view mode for broker dashboard
- */
-type ViewMode = 'tenant-demands' | 'property-listings';
-
-/**
  * BrokerDashboard Page
  *
  * Main dashboard for brokers displaying:
@@ -53,13 +56,15 @@ type ViewMode = 'tenant-demands' | 'property-listings';
  * - Connection status indicator
  * - KPI cards showing broker stats with trend indicators
  * - Dual view toggle (Tenant Demands / Property Listings)
- * - Broker profile management link
+ * - Broker profile management modal
  *
  * Features:
  * - Loads KPIs and broker profile on mount
  * - Displays KPIs with trend data (up/down arrows)
  * - Real-time updates via WebSocket
  * - Dual view toggle between tenant demands and property listings
+ * - Infinite scroll for both views
+ * - Search and filter capabilities
  */
 const BrokerDashboard: React.FC = () => {
   const navigate = useNavigate();
@@ -68,13 +73,37 @@ const BrokerDashboard: React.FC = () => {
   // State management
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const [viewMode, setViewMode] = useState<ViewMode>('tenant-demands');
+  const [activeView, setActiveView] = useState<ViewMode>('demands');
 
   // KPI data with trends
   const [kpiData, setKpiData] = useState<BrokerKPIData | null>(null);
 
   // Broker profile
   const [brokerProfile, setBrokerProfile] = useState<BrokerProfile | null>(null);
+  const [showProfileModal, setShowProfileModal] = useState(false);
+
+  // Tenant Demands state
+  const [demands, setDemands] = useState<DemandListing[]>([]);
+  const [demandsPage, setDemandsPage] = useState(1);
+  const [demandsHasMore, setDemandsHasMore] = useState(false);
+  const [demandsLoading, setDemandsLoading] = useState(false);
+  const [demandsTotalCount, setDemandsTotalCount] = useState(0);
+
+  // Property Listings state
+  const [properties, setProperties] = useState<PropertyListing[]>([]);
+  const [propertiesPage, setPropertiesPage] = useState(1);
+  const [propertiesHasMore, setPropertiesHasMore] = useState(false);
+  const [propertiesLoading, setPropertiesLoading] = useState(false);
+  const [propertiesTotalCount, setPropertiesTotalCount] = useState(0);
+
+  // Filter state for demands
+  const [demandsSearchQuery, setDemandsSearchQuery] = useState('');
+  const [demandsStatusFilter, setDemandsStatusFilter] = useState('all');
+
+  // Filter state for properties
+  const [propertiesSearchQuery, setPropertiesSearchQuery] = useState('');
+  const [propertiesStatusFilter, setPropertiesStatusFilter] = useState('all');
+  const [propertiesTypeFilter, setPropertiesTypeFilter] = useState('all');
 
   /**
    * Load broker KPIs
@@ -85,7 +114,6 @@ const BrokerDashboard: React.FC = () => {
       setKpiData(kpis);
     } catch (err: any) {
       console.error('Failed to load KPIs:', err);
-      // Don't set error state, let dashboard continue to work
     }
   }, []);
 
@@ -98,9 +126,82 @@ const BrokerDashboard: React.FC = () => {
       setBrokerProfile(profile);
     } catch (err: any) {
       console.log('Broker profile not found or error loading:', err);
-      // Don't set error state, profile is optional
     }
   }, []);
+
+  /**
+   * Load tenant demands
+   */
+  const loadDemands = useCallback(async (page: number = 1, append: boolean = false) => {
+    try {
+      setDemandsLoading(true);
+
+      const data = await getBrokerDemands({ page, limit: 20 });
+
+      setDemands(prev => append ? [...prev, ...(data.demands || [])] : (data.demands || []));
+      setDemandsTotalCount(data.total);
+      setDemandsHasMore(data.hasMore);
+      setDemandsPage(page);
+    } catch (err: any) {
+      console.error('Failed to load tenant demands:', err);
+    } finally {
+      setDemandsLoading(false);
+    }
+  }, []);
+
+  /**
+   * Load property listings
+   */
+  const loadProperties = useCallback(async (page: number = 1, append: boolean = false) => {
+    try {
+      setPropertiesLoading(true);
+
+      const data = await getBrokerProperties({ page, limit: 20 });
+
+      setProperties(prev => append ? [...prev, ...(data.properties || [])] : (data.properties || []));
+      setPropertiesTotalCount(data.total);
+      setPropertiesHasMore(data.hasMore);
+      setPropertiesPage(page);
+    } catch (err: any) {
+      console.error('Failed to load properties:', err);
+    } finally {
+      setPropertiesLoading(false);
+    }
+  }, []);
+
+  /**
+   * Load more demands (infinite scroll)
+   */
+  const loadMoreDemands = useCallback(async () => {
+    if (!demandsHasMore || demandsLoading) return;
+    await loadDemands(demandsPage + 1, true);
+  }, [demandsHasMore, demandsLoading, demandsPage, loadDemands]);
+
+  /**
+   * Load more properties (infinite scroll)
+   */
+  const loadMoreProperties = useCallback(async () => {
+    if (!propertiesHasMore || propertiesLoading) return;
+    await loadProperties(propertiesPage + 1, true);
+  }, [propertiesHasMore, propertiesLoading, propertiesPage, loadProperties]);
+
+  /**
+   * Set up infinite scroll for demands
+   */
+  const { sentinelRef: demandsSentinelRef } = useInfiniteScroll(
+    loadMoreDemands,
+    demandsHasMore,
+    demandsLoading
+  );
+
+  /**
+   * Set up infinite scroll for properties
+   */
+  const { sentinelRef: propertiesSentinelRef } = useInfiniteScroll(
+    loadMoreProperties,
+    propertiesHasMore,
+    propertiesLoading
+  );
 
   /**
    * Load initial dashboard data
@@ -113,6 +214,8 @@ const BrokerDashboard: React.FC = () => {
       await Promise.all([
         loadKPIs(),
         loadBrokerProfile(),
+        loadDemands(1),
+        loadProperties(1),
       ]);
     } catch (err: any) {
       console.error('Failed to load broker dashboard:', err);
@@ -120,26 +223,44 @@ const BrokerDashboard: React.FC = () => {
     } finally {
       setLoading(false);
     }
-  }, [loadKPIs, loadBrokerProfile]);
+  }, [loadKPIs, loadBrokerProfile, loadDemands, loadProperties]);
 
   /**
    * Handle KPI update event from WebSocket
    */
-  const handleKPIUpdate = useCallback((kpis: any) => {
+  const handleKPIUpdate = useCallback((kpis: BrokerKPIData) => {
     console.log('Received broker KPI update via WebSocket:', kpis);
     setKpiData(kpis);
   }, []);
 
   /**
-   * WebSocket connection for real-time updates
-   * Reusing property dashboard WebSocket hook for now
-   * TODO: Create broker-specific WebSocket hook
+   * Handle deal created event from WebSocket
    */
-  const { connectionStatus, isConnected, isPolling, isReconnecting } = usePropertyDashboardWebSocket(
+  const handleDealCreated = useCallback((deal: any) => {
+    console.log('Received broker deal created:', deal);
+    // Refresh KPIs when a new deal is created
+    loadKPIs();
+  }, [loadKPIs]);
+
+  /**
+   * Handle deal updated event from WebSocket
+   */
+  const handleDealUpdated = useCallback((dealId: string, deal: any) => {
+    console.log('Received broker deal updated:', dealId, deal);
+    // Refresh KPIs when a deal is updated
+    loadKPIs();
+  }, [loadKPIs]);
+
+  /**
+   * WebSocket connection for real-time updates
+   */
+  const { connectionStatus, isConnected, isPolling, isReconnecting } = useBrokerDashboardWebSocket(
     user?.userId,
     true, // enabled
     {
       onKPIUpdate: handleKPIUpdate,
+      onDealCreated: handleDealCreated,
+      onDealUpdated: handleDealUpdated,
     }
   );
 
@@ -167,18 +288,89 @@ const BrokerDashboard: React.FC = () => {
   }, [loadDashboardData]);
 
   /**
-   * Handle view mode toggle
+   * Handle view change
    */
-  const handleViewModeChange = useCallback((mode: ViewMode) => {
-    setViewMode(mode);
+  const handleViewChange = useCallback((view: ViewMode) => {
+    setActiveView(view);
   }, []);
 
   /**
-   * Navigate to broker profile management
+   * Handle profile button click
    */
-  const handleManageProfile = useCallback(() => {
-    navigate('/broker-profile');
+  const handleProfileButtonClick = useCallback(() => {
+    setShowProfileModal(true);
+  }, []);
+
+  /**
+   * Handle profile saved
+   */
+  const handleProfileSaved = useCallback((profile: BrokerProfile) => {
+    setBrokerProfile(profile);
+    setShowProfileModal(false);
+  }, []);
+
+  /**
+   * Handle demand click
+   */
+  const handleDemandClick = useCallback((demandId: string) => {
+    navigate(`/demand/${demandId}`);
   }, [navigate]);
+
+  /**
+   * Handle property click
+   */
+  const handlePropertyClick = useCallback((propertyId: string) => {
+    navigate(`/property/${propertyId}`);
+  }, [navigate]);
+
+  /**
+   * Filter demands
+   */
+  const filteredDemands = demands.filter((demand) => {
+    // Status filter
+    if (demandsStatusFilter !== 'all' && demand.status !== demandsStatusFilter) {
+      return false;
+    }
+
+    // Search filter
+    if (demandsSearchQuery) {
+      const query = demandsSearchQuery.toLowerCase();
+      return (
+        demand.title?.toLowerCase().includes(query) ||
+        demand.location_name?.toLowerCase().includes(query) ||
+        demand.description?.toLowerCase().includes(query)
+      );
+    }
+
+    return true;
+  });
+
+  /**
+   * Filter properties
+   */
+  const filteredProperties = properties.filter((property) => {
+    // Status filter
+    if (propertiesStatusFilter !== 'all' && property.status !== propertiesStatusFilter) {
+      return false;
+    }
+
+    // Type filter
+    if (propertiesTypeFilter !== 'all' && property.property_type !== propertiesTypeFilter) {
+      return false;
+    }
+
+    // Search filter
+    if (propertiesSearchQuery) {
+      const query = propertiesSearchQuery.toLowerCase();
+      return (
+        property.title?.toLowerCase().includes(query) ||
+        property.address?.toLowerCase().includes(query) ||
+        property.description?.toLowerCase().includes(query)
+      );
+    }
+
+    return true;
+  });
 
   /**
    * Render error state
@@ -213,13 +405,16 @@ const BrokerDashboard: React.FC = () => {
     }).format(value);
   };
 
+  const hasDemandsFilters = demandsSearchQuery || demandsStatusFilter !== 'all';
+  const hasPropertiesFilters = propertiesSearchQuery || propertiesStatusFilter !== 'all' || propertiesTypeFilter !== 'all';
+
   return (
     <div className={styles.dashboard}>
       <TopNavigation tier="Broker" />
 
       <main className={styles.content}>
         <div className={styles.container}>
-          {/* Dashboard header with Connection Indicator and Profile Link */}
+          {/* Dashboard header with Connection Indicator and Profile Button */}
           <div className={styles.headerSection}>
             <div className={styles.headerText}>
               <h1 className={styles.pageTitle}>Broker Dashboard</h1>
@@ -229,7 +424,7 @@ const BrokerDashboard: React.FC = () => {
             </div>
             <div className={styles.headerActions}>
               <ConnectionIndicator connectionStatus={getConnectionStatus()} />
-              <button className={styles.profileButton} onClick={handleManageProfile}>
+              <button className={styles.profileButton} onClick={handleProfileButtonClick}>
                 {brokerProfile ? 'Manage Profile' : 'Create Profile'}
               </button>
             </div>
@@ -267,38 +462,79 @@ const BrokerDashboard: React.FC = () => {
 
           {/* Dual View Toggle */}
           <div className={styles.dualViewSection}>
-            <div className={styles.viewToggle}>
-              <button
-                className={`${styles.toggleButton} ${viewMode === 'tenant-demands' ? styles.active : ''}`}
-                onClick={() => handleViewModeChange('tenant-demands')}
-              >
-                Tenant Demands
-              </button>
-              <button
-                className={`${styles.toggleButton} ${viewMode === 'property-listings' ? styles.active : ''}`}
-                onClick={() => handleViewModeChange('property-listings')}
-              >
-                Property Listings
-              </button>
-            </div>
+            <DualViewToggle
+              activeView={activeView}
+              onViewChange={handleViewChange}
+              demandsCount={demandsTotalCount}
+              propertiesCount={propertiesTotalCount}
+            />
 
-            {/* Content area for dual views (to be implemented in Task Group 7) */}
+            {/* Content area for dual views */}
             <div className={styles.viewContent}>
-              {viewMode === 'tenant-demands' ? (
-                <div className={styles.placeholderContent}>
-                  <p>Tenant Demands view - Coming soon</p>
-                  <p className={styles.placeholderSubtext}>Browse and match with tenant space requirements</p>
-                </div>
+              {activeView === 'demands' ? (
+                <>
+                  <TenantDemandsSection
+                    demands={filteredDemands}
+                    loading={loading}
+                    searchQuery={demandsSearchQuery}
+                    onSearchChange={setDemandsSearchQuery}
+                    statusFilter={demandsStatusFilter}
+                    onStatusFilterChange={setDemandsStatusFilter}
+                    hasActiveFilters={hasDemandsFilters}
+                    onClearFilters={() => {
+                      setDemandsSearchQuery('');
+                      setDemandsStatusFilter('all');
+                    }}
+                    onDemandClick={handleDemandClick}
+                    hasMore={demandsHasMore && !hasDemandsFilters}
+                    isLoadingMore={demandsLoading}
+                    totalCount={demandsTotalCount}
+                  />
+                  {/* Infinite scroll sentinel */}
+                  {demandsHasMore && !hasDemandsFilters && (
+                    <div ref={demandsSentinelRef} className={styles.scrollSentinel} aria-hidden="true" />
+                  )}
+                </>
               ) : (
-                <div className={styles.placeholderContent}>
-                  <p>Property Listings view - Coming soon</p>
-                  <p className={styles.placeholderSubtext}>Browse available commercial properties</p>
-                </div>
+                <>
+                  <PropertyListingsSection
+                    properties={filteredProperties}
+                    loading={loading}
+                    searchQuery={propertiesSearchQuery}
+                    onSearchChange={setPropertiesSearchQuery}
+                    statusFilter={propertiesStatusFilter}
+                    onStatusFilterChange={setPropertiesStatusFilter}
+                    typeFilter={propertiesTypeFilter}
+                    onTypeFilterChange={setPropertiesTypeFilter}
+                    hasActiveFilters={hasPropertiesFilters}
+                    onClearFilters={() => {
+                      setPropertiesSearchQuery('');
+                      setPropertiesStatusFilter('all');
+                      setPropertiesTypeFilter('all');
+                    }}
+                    onPropertyClick={handlePropertyClick}
+                    hasMore={propertiesHasMore && !hasPropertiesFilters}
+                    isLoadingMore={propertiesLoading}
+                    totalCount={propertiesTotalCount}
+                  />
+                  {/* Infinite scroll sentinel */}
+                  {propertiesHasMore && !hasPropertiesFilters && (
+                    <div ref={propertiesSentinelRef} className={styles.scrollSentinel} aria-hidden="true" />
+                  )}
+                </>
               )}
             </div>
           </div>
         </div>
       </main>
+
+      {/* Broker Profile Modal */}
+      <BrokerProfileModal
+        isOpen={showProfileModal}
+        onClose={() => setShowProfileModal(false)}
+        onProfileSaved={handleProfileSaved}
+        existingProfile={brokerProfile}
+      />
     </div>
   );
 };

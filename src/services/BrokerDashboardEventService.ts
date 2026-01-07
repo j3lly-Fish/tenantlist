@@ -60,7 +60,7 @@ export class BrokerDashboardEventService {
 
       // Emit events
       socketServer.emitBrokerDealCreated(userId, deal);
-      socketServer.emitKPIUpdate(userId, kpis);
+      socketServer.emitBrokerKPIUpdate(userId, kpis);
     } catch (error) {
       console.error('Error emitting broker deal created event:', error);
     }
@@ -96,7 +96,7 @@ export class BrokerDashboardEventService {
 
       // Emit events
       socketServer.emitBrokerDealUpdated(userId, deal);
-      socketServer.emitKPIUpdate(userId, kpis);
+      socketServer.emitBrokerKPIUpdate(userId, kpis);
     } catch (error) {
       console.error('Error emitting broker deal updated event:', error);
     }
@@ -127,7 +127,7 @@ export class BrokerDashboardEventService {
       const kpis = await this.kpiService.getKPIs(userId);
 
       // Emit KPI update
-      socketServer.emitKPIUpdate(userId, kpis);
+      socketServer.emitBrokerKPIUpdate(userId, kpis);
     } catch (error) {
       console.error('Error emitting broker KPI update:', error);
     }

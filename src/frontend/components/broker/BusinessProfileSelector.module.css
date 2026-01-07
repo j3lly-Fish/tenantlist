@@ -1,0 +1,321 @@
+/**
+ * BusinessProfileSelector Styles
+ *
+ * Right sidebar component for selecting active business profile
+ * Responsive: hidden on mobile (<768px)
+ */
+
+.selector {
+  width: 350px;
+  min-width: 350px;
+  background-color: var(--zyx-white);
+  border-left: var(--border-width-thin) solid var(--border-color-light);
+  padding: var(--spacing-24);
+  overflow-y: auto;
+  height: calc(100vh - 64px);
+  position: sticky;
+  top: 64px;
+}
+
+/* ========================================
+   HEADER
+   ======================================== */
+
+.header {
+  margin-bottom: var(--spacing-24);
+}
+
+.title {
+  font-size: var(--font-size-18);
+  font-weight: var(--font-weight-semibold);
+  color: var(--zyx-gray-700);
+  margin: 0 0 var(--spacing-8) 0;
+  line-height: var(--line-height-28);
+}
+
+.subtitle {
+  font-size: var(--font-size-14);
+  color: var(--zyx-gray-500);
+  line-height: var(--line-height-24);
+  margin: 0;
+}
+
+/* ========================================
+   SEARCH INPUT
+   ======================================== */
+
+.searchInput {
+  width: 100%;
+  height: var(--input-height);
+  padding: var(--input-padding-y) var(--input-padding-x);
+  background-color: var(--input-background);
+  border: var(--input-border);
+  border-radius: var(--input-radius);
+  font-size: var(--font-size-14);
+  color: var(--zyx-gray-700);
+  transition: all var(--transition-fast);
+  margin-bottom: var(--spacing-16);
+}
+
+.searchInput::placeholder {
+  color: var(--input-placeholder-color);
+}
+
+.searchInput:focus {
+  outline: none;
+  border-color: var(--zyx-info);
+  box-shadow: var(--shadow-focus);
+  background-color: var(--zyx-white);
+}
+
+/* ========================================
+   PROFILE LIST
+   ======================================== */
+
+.profileList {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-12);
+  max-height: 400px;
+  overflow-y: auto;
+  margin-bottom: var(--spacing-20);
+}
+
+.profileCard {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-12);
+  padding: var(--spacing-12);
+  background-color: var(--zyx-white);
+  border: var(--border-width-thin) solid var(--border-color-light);
+  border-radius: var(--radius-8);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.profileCard:hover {
+  border-color: var(--zyx-info);
+  background-color: var(--zyx-info-light);
+  box-shadow: var(--shadow-sm);
+}
+
+.profileCard.active {
+  border-color: var(--zyx-info);
+  background-color: var(--zyx-info-light);
+  box-shadow: var(--shadow-sm);
+}
+
+.profileLogo {
+  width: 40px;
+  height: 40px;
+  min-width: 40px;
+  border-radius: var(--radius-circle);
+  object-fit: cover;
+  background-color: var(--zyx-gray-200);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: var(--font-size-18);
+  font-weight: var(--font-weight-semibold);
+  color: var(--zyx-gray-600);
+}
+
+.profileLogoImage {
+  width: 100%;
+  height: 100%;
+  border-radius: var(--radius-circle);
+  object-fit: cover;
+}
+
+.profileInfo {
+  flex: 1;
+  min-width: 0;
+}
+
+.profileName {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-8);
+  font-size: var(--font-size-14);
+  font-weight: var(--font-weight-medium);
+  color: var(--zyx-gray-700);
+  margin-bottom: 2px;
+  line-height: var(--line-height-normal);
+}
+
+.profileNameText {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.verifiedBadge {
+  width: 16px;
+  height: 16px;
+  min-width: 16px;
+  color: var(--zyx-info);
+}
+
+.profileLocation {
+  font-size: var(--font-size-12);
+  color: var(--zyx-gray-500);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* ========================================
+   EMPTY STATE
+   ======================================== */
+
+.emptyState {
+  text-align: center;
+  padding: var(--spacing-24) var(--spacing-16);
+}
+
+.emptyStateIcon {
+  font-size: 32px;
+  margin-bottom: var(--spacing-12);
+}
+
+.emptyStateText {
+  font-size: var(--font-size-14);
+  color: var(--zyx-gray-500);
+  margin: 0 0 var(--spacing-8) 0;
+}
+
+.emptyStateSubtext {
+  font-size: var(--font-size-12);
+  color: var(--zyx-gray-400);
+  margin: 0 0 var(--spacing-16) 0;
+}
+
+/* ========================================
+   CREATE BUTTON
+   ======================================== */
+
+.createButton {
+  width: 100%;
+  height: var(--button-height-md);
+  padding: var(--button-padding-y) var(--button-padding-x);
+  background-color: var(--zyx-gray-700);
+  color: var(--zyx-white);
+  border: none;
+  border-radius: var(--button-radius);
+  font-size: var(--font-size-14);
+  font-weight: var(--font-weight-semibold);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--spacing-8);
+}
+
+.createButton:hover {
+  background-color: var(--zyx-gray-600);
+  box-shadow: var(--shadow-sm);
+}
+
+.createButton:active {
+  transform: scale(0.98);
+}
+
+.createButton:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* ========================================
+   LOADING STATE
+   ======================================== */
+
+.loading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--spacing-48) var(--spacing-24);
+  color: var(--zyx-gray-400);
+  font-size: var(--font-size-14);
+}
+
+.spinner {
+  width: 20px;
+  height: 20px;
+  border: 2px solid var(--zyx-gray-200);
+  border-top-color: var(--zyx-info);
+  border-radius: 50%;
+  animation: spin 0.6s linear infinite;
+  margin-right: var(--spacing-8);
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* ========================================
+   ERROR STATE
+   ======================================== */
+
+.error {
+  padding: var(--spacing-16);
+  background-color: var(--zyx-error-light);
+  border: var(--border-width-thin) solid var(--zyx-error);
+  border-radius: var(--radius-8);
+  color: var(--zyx-error);
+  font-size: var(--font-size-14);
+  margin-bottom: var(--spacing-16);
+}
+
+/* ========================================
+   SCROLLBAR STYLING
+   ======================================== */
+
+.profileList::-webkit-scrollbar {
+  width: 6px;
+}
+
+.profileList::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.profileList::-webkit-scrollbar-thumb {
+  background: var(--zyx-gray-400);
+  border-radius: 3px;
+}
+
+.profileList::-webkit-scrollbar-thumb:hover {
+  background: var(--zyx-gray-500);
+}
+
+/* ========================================
+   RESPONSIVE (<768px) - Hide on Mobile
+   ======================================== */
+
+@media (max-width: 768px) {
+  .selector {
+    display: none;
+  }
+}
+
+/* ========================================
+   TABLET RESPONSIVE (768px - 1024px)
+   ======================================== */
+
+@media (min-width: 768px) and (max-width: 1024px) {
+  .selector {
+    width: 280px;
+    min-width: 280px;
+    padding: var(--spacing-16);
+  }
+
+  .title {
+    font-size: var(--font-size-16);
+  }
+
+  .subtitle {
+    font-size: var(--font-size-12);
+  }
+}

@@ -202,6 +202,12 @@
   background-color: var(--zyx-gray-600);
 }
 
+/* Infinite scroll sentinel */
+.scrollSentinel {
+  height: 1px;
+  visibility: hidden;
+}
+
 /* Responsive design */
 @media (max-width: 1200px) {
   .kpiGrid {

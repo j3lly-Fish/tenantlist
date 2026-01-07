@@ -198,6 +198,14 @@ export interface DemandListing {
   is_corporate_location: boolean;
   additional_features: string[];
   stealth_mode: boolean;
+  // Broker Dashboard Figma Redesign - New fields for location posting
+  amenities?: string[];
+  locations_of_interest?: string[];
+  map_boundaries?: Record<string, any> | null;
+  lot_size_min?: number | null;
+  lot_size_max?: number | null;
+  monthly_budget_min?: number | null;
+  monthly_budget_max?: number | null;
   created_at: Date;
   updated_at: Date;
 }

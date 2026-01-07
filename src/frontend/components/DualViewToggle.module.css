@@ -1,0 +1,92 @@
+/* Dual View Toggle - Segmented Control */
+.toggleContainer {
+  position: relative;
+  display: inline-flex;
+  background: var(--gray-100);
+  border-radius: 8px;
+  padding: 4px;
+  gap: 0;
+  isolation: isolate;
+}
+
+.toggleButton {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 10px 20px;
+  background: transparent;
+  border: none;
+  border-radius: 6px;
+  font-family: var(--font-family);
+  font-size: var(--font-size-sm);
+  font-weight: 500;
+  color: var(--gray-600);
+  cursor: pointer;
+  transition: color 0.2s ease;
+  z-index: 2;
+  white-space: nowrap;
+}
+
+.toggleButton:hover {
+  color: var(--gray-700);
+}
+
+.toggleButton.active {
+  color: var(--gray-900);
+}
+
+.toggleLabel {
+  font-weight: 500;
+}
+
+.toggleCount {
+  font-size: var(--font-size-xs);
+  color: var(--gray-500);
+}
+
+.toggleButton.active .toggleCount {
+  color: var(--gray-700);
+}
+
+/* Active indicator (sliding background) */
+.activeIndicator {
+  position: absolute;
+  top: 4px;
+  left: 4px;
+  width: calc(50% - 4px);
+  height: calc(100% - 8px);
+  background: white;
+  border-radius: 6px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  transition: transform 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  z-index: 1;
+}
+
+/* Focus states for accessibility */
+.toggleButton:focus {
+  outline: none;
+}
+
+.toggleButton:focus-visible {
+  outline: 2px solid var(--primary-color, #2563eb);
+  outline-offset: 2px;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .toggleContainer {
+    width: 100%;
+  }
+
+  .toggleButton {
+    flex: 1;
+    justify-content: center;
+    padding: 10px 12px;
+    font-size: var(--font-size-xs);
+  }
+
+  .toggleCount {
+    font-size: 11px;
+  }
+}

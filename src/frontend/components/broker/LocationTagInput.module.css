@@ -1,0 +1,95 @@
+/* Location Tag Input Styles */
+
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-8);
+}
+
+.tagsContainer {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--spacing-8);
+  padding: var(--spacing-8) var(--spacing-12);
+  border: var(--border-width-thin) solid var(--border-color-default);
+  border-radius: var(--radius-8);
+  min-height: 42px;
+  align-items: center;
+  background: var(--zyx-white);
+  transition: all var(--transition-normal);
+}
+
+.tagsContainer:focus-within {
+  border-color: var(--zyx-info);
+  box-shadow: var(--shadow-focus);
+}
+
+.tag {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-6);
+  padding: var(--spacing-4) var(--spacing-8);
+  background-color: var(--zyx-info);
+  color: var(--zyx-white);
+  border-radius: var(--radius-4);
+  font-size: var(--font-size-14);
+  font-weight: var(--font-weight-medium);
+  white-space: nowrap;
+}
+
+.tagText {
+  line-height: 1.4;
+}
+
+.removeButton {
+  background: none;
+  border: none;
+  color: var(--zyx-white);
+  font-size: var(--font-size-18);
+  line-height: 1;
+  cursor: pointer;
+  padding: 0;
+  width: 16px;
+  height: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--radius-circle);
+  transition: background-color var(--transition-fast);
+}
+
+.removeButton:hover {
+  background-color: rgba(255, 255, 255, 0.2);
+}
+
+.input {
+  flex: 1;
+  min-width: 150px;
+  border: none;
+  outline: none;
+  padding: var(--spacing-4) 0;
+  font-size: var(--font-size-14);
+  color: var(--zyx-gray-700);
+  font-family: inherit;
+}
+
+.input::placeholder {
+  color: var(--zyx-gray-400);
+}
+
+.hint {
+  font-size: var(--font-size-12);
+  color: var(--zyx-gray-500);
+  margin: 0;
+}
+
+/* Responsive */
+@media (max-width: 640px) {
+  .tag {
+    font-size: var(--font-size-12);
+  }
+
+  .input {
+    min-width: 100px;
+  }
+}

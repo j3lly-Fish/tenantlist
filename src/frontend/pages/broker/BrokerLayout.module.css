@@ -1,0 +1,177 @@
+/**
+ * BrokerLayout Styles
+ *
+ * Three-column layout with sidebar navigation
+ * Responsive: collapses sidebar to hamburger menu on mobile
+ */
+
+.brokerLayout {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  background-color: var(--zyx-gray-100);
+}
+
+.container {
+  display: flex;
+  flex: 1;
+  position: relative;
+  max-width: 100%;
+  margin: 0 auto;
+}
+
+/* ========================================
+   SIDEBAR
+   ======================================== */
+
+.sidebar {
+  width: 250px;
+  min-width: 250px;
+  background-color: var(--zyx-white);
+  border-right: var(--border-width-thin) solid var(--border-color-light);
+  position: sticky;
+  top: 64px; /* TopNavigation height */
+  height: calc(100vh - 64px);
+  overflow-y: auto;
+  z-index: var(--z-sticky);
+  transition: transform var(--transition-normal);
+}
+
+/* ========================================
+   MAIN CONTENT
+   ======================================== */
+
+.mainContent {
+  flex: 1;
+  padding: var(--spacing-32);
+  background-color: var(--zyx-white);
+  min-height: calc(100vh - 64px);
+  overflow-y: auto;
+}
+
+/* ========================================
+   HAMBURGER MENU (Mobile)
+   ======================================== */
+
+.hamburger {
+  display: none;
+  position: fixed;
+  top: 76px; /* Below TopNavigation */
+  left: var(--spacing-16);
+  z-index: calc(var(--z-sticky) + 1);
+  width: 40px;
+  height: 40px;
+  background-color: var(--zyx-white);
+  border: var(--border-width-thin) solid var(--border-color-light);
+  border-radius: var(--radius-8);
+  cursor: pointer;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 4px;
+  padding: var(--spacing-8);
+  box-shadow: var(--shadow-sm);
+  transition: all var(--transition-fast);
+}
+
+.hamburger:hover {
+  background-color: var(--zyx-gray-100);
+  box-shadow: var(--shadow-card);
+}
+
+.hamburger:active {
+  transform: scale(0.95);
+}
+
+.hamburgerLine {
+  width: 20px;
+  height: 2px;
+  background-color: var(--zyx-gray-600);
+  border-radius: 2px;
+  transition: all var(--transition-fast);
+}
+
+/* ========================================
+   MOBILE RESPONSIVE (<768px)
+   ======================================== */
+
+@media (max-width: 768px) {
+  .hamburger {
+    display: flex;
+  }
+
+  .sidebar {
+    position: fixed;
+    top: 64px;
+    left: 0;
+    z-index: var(--z-modal);
+    transform: translateX(-100%);
+    box-shadow: var(--shadow-lg);
+  }
+
+  .sidebarOpen {
+    transform: translateX(0);
+  }
+
+  .sidebarOverlay {
+    position: fixed;
+    top: 64px;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: calc(var(--z-modal) - 1);
+    cursor: pointer;
+  }
+
+  .mainContent {
+    padding: var(--spacing-20);
+    margin-left: 0;
+  }
+}
+
+/* ========================================
+   TABLET RESPONSIVE (768px - 1024px)
+   ======================================== */
+
+@media (min-width: 768px) and (max-width: 1024px) {
+  .sidebar {
+    width: 200px;
+    min-width: 200px;
+  }
+
+  .mainContent {
+    padding: var(--spacing-24);
+  }
+}
+
+/* ========================================
+   DESKTOP RESPONSIVE (>1024px)
+   ======================================== */
+
+@media (min-width: 1024px) {
+  .container {
+    max-width: 1920px;
+  }
+}
+
+/* ========================================
+   SCROLLBAR STYLING
+   ======================================== */
+
+.sidebar::-webkit-scrollbar {
+  width: 6px;
+}
+
+.sidebar::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.sidebar::-webkit-scrollbar-thumb {
+  background: var(--zyx-gray-400);
+  border-radius: 3px;
+}
+
+.sidebar::-webkit-scrollbar-thumb:hover {
+  background: var(--zyx-gray-500);
+}

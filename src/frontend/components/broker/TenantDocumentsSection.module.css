@@ -1,0 +1,117 @@
+.documentsSection {
+  background: white;
+  border: 1px solid var(--zyx-gray-200, #e5e7eb);
+  border-radius: 8px;
+  padding: 24px;
+}
+
+.sectionTitle {
+  font-size: 20px;
+  font-weight: 600;
+  color: var(--zyx-gray-900, #1a1a1a);
+  margin: 0 0 16px 0;
+}
+
+.documentsList {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.documentItem {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px;
+  background: var(--zyx-gray-50, #f9fafb);
+  border: 1px solid var(--zyx-gray-200, #e5e7eb);
+  border-radius: 8px;
+  transition: all 0.2s ease;
+}
+
+.documentItem:hover {
+  background: var(--zyx-gray-100, #f3f4f6);
+  border-color: var(--zyx-gray-300, #d1d5db);
+}
+
+.documentIcon {
+  flex-shrink: 0;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: white;
+  border-radius: 6px;
+}
+
+.documentInfo {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.documentName {
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--zyx-gray-900, #1a1a1a);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.documentType {
+  font-size: 12px;
+  color: var(--zyx-gray-600, #666666);
+}
+
+.downloadButton {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 16px;
+  background: white;
+  border: 1px solid var(--zyx-gray-300, #e0e0e0);
+  border-radius: 6px;
+  color: var(--zyx-gray-700, #1a1a1a);
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.downloadButton:hover {
+  background: var(--zyx-gray-50, #f9fafb);
+  border-color: var(--zyx-gray-400, #9ca3af);
+}
+
+.downloadButton svg {
+  width: 18px;
+  height: 18px;
+}
+
+@media (max-width: 768px) {
+  .documentsSection {
+    padding: 16px;
+  }
+
+  .sectionTitle {
+    font-size: 18px;
+  }
+
+  .documentItem {
+    padding: 10px;
+  }
+
+  .downloadButton {
+    padding: 6px 12px;
+    font-size: 13px;
+  }
+
+  .downloadButton span {
+    display: none;
+  }
+}

@@ -579,9 +579,9 @@ export const updateBrokerProfile = async (data: any): Promise<any> => {
 };
 
 /**
- * Get paginated tenant demands
+ * Get paginated tenant demands for broker
  */
-export const getTenantDemands = async (params?: {
+export const getBrokerDemands = async (params?: {
   page?: number;
   limit?: number;
   location?: string;
@@ -595,6 +595,9 @@ export const getTenantDemands = async (params?: {
   }
   return response.data;
 };
+
+// Alias for backwards compatibility
+export const getTenantDemands = getBrokerDemands;
 
 /**
  * Get paginated property listings for broker
