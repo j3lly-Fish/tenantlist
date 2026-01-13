@@ -1,11 +1,11 @@
-# ZYX Platform
+# Waltre Platform
 
 Demand-first commercial real estate marketplace with user authentication, role-based access control, and tenant dashboard.
 
 ## Project Structure
 
 ```
-zyx-platform/
+waltre-platform/
 ├── src/
 │   ├── frontend/         # React frontend application
 │   │   ├── components/   # Reusable React components
@@ -89,7 +89,7 @@ VITE_API_BASE_URL=http://localhost:5000
 VITE_WS_BASE_URL=http://localhost:5000
 
 # App Configuration
-VITE_APP_NAME=ZYX Platform
+VITE_APP_NAME=waltre
 VITE_APP_ENV=development
 
 # Feature Flags
@@ -99,11 +99,11 @@ VITE_ENABLE_DEBUG_MODE=true
 #### Production (.env.production)
 ```bash
 # API Configuration
-VITE_API_BASE_URL=https://api.zyx-platform.com
-VITE_WS_BASE_URL=https://api.zyx-platform.com
+VITE_API_BASE_URL=https://api.waltre-platform.com
+VITE_WS_BASE_URL=https://api.waltre-platform.com
 
 # App Configuration
-VITE_APP_NAME=ZYX Platform
+VITE_APP_NAME=waltre
 VITE_APP_ENV=production
 
 # Feature Flags
@@ -171,6 +171,11 @@ npm run test:auth-endpoints
 ### Run authentication component tests
 ```bash
 npm run test:auth-components
+```
+
+### Run rebranding tests
+```bash
+npm run test:rebranding
 ```
 
 ### Run tests in watch mode

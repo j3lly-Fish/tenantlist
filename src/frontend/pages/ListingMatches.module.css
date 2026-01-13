@@ -1,0 +1,438 @@
+/* Listing Matches Page Styles */
+
+.listingMatches {
+  min-height: 100vh;
+  background-color: var(--zyx-gray-100);
+}
+
+.loading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+}
+
+/* Layout */
+.layoutContainer {
+  display: flex;
+  padding-top: 80px;
+  min-height: calc(100vh - 80px);
+}
+
+.sidebar {
+  width: 250px;
+  background-color: var(--zyx-white);
+  border-right: 1px solid var(--border-color-default);
+  flex-shrink: 0;
+  position: sticky;
+  top: 80px;
+  height: calc(100vh - 80px);
+  overflow-y: auto;
+}
+
+.content {
+  flex: 1;
+  padding: var(--spacing-32);
+  overflow-x: hidden;
+}
+
+/* Business Selector Dropdown */
+.businessSelectorDropdown {
+  position: relative;
+}
+
+.selectBusinessButton {
+  padding: var(--spacing-10) var(--spacing-16);
+  font-size: var(--font-size-14);
+  font-weight: var(--font-weight-medium);
+  color: var(--zyx-white);
+  background: var(--zyx-gray-700);
+  border: none;
+  border-radius: var(--radius-8);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-8);
+  transition: background-color var(--transition-normal);
+}
+
+.selectBusinessButton:hover {
+  background: var(--zyx-gray-600);
+}
+
+.businessDropdownContent {
+  position: absolute;
+  top: calc(100% + 4px);
+  right: 0;
+  background: var(--zyx-white);
+  border: 1px solid var(--border-color-default);
+  border-radius: var(--radius-8);
+  box-shadow: var(--shadow-card);
+  min-width: 250px;
+  padding: var(--spacing-8);
+  z-index: 10;
+}
+
+.businessDropdownItem {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-12);
+  padding: var(--spacing-12);
+  cursor: pointer;
+  border-radius: var(--radius-4);
+  transition: background-color var(--transition-normal);
+}
+
+.businessDropdownItem:hover {
+  background: var(--zyx-gray-100);
+}
+
+.businessDropdownAvatar {
+  width: 40px;
+  height: 40px;
+  border-radius: var(--radius-circle);
+  background: var(--zyx-primary);
+  color: var(--zyx-white);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: var(--font-size-16);
+  font-weight: var(--font-weight-semibold);
+  flex-shrink: 0;
+}
+
+.subtitle {
+  font-size: var(--font-size-14);
+  color: var(--zyx-gray-500);
+  margin: 0;
+}
+
+.businessAvatar {
+  width: 48px;
+  height: 48px;
+  border-radius: var(--radius-circle);
+  background: var(--zyx-primary);
+  color: var(--zyx-white);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: var(--font-size-20);
+  font-weight: var(--font-weight-semibold);
+  flex-shrink: 0;
+}
+
+/* Matches View */
+.matchesView {
+  background: var(--zyx-white);
+  border-radius: var(--radius-12);
+  padding: var(--spacing-32);
+  box-shadow: var(--shadow-card);
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: var(--spacing-32);
+  padding-bottom: var(--spacing-24);
+  border-bottom: 1px solid var(--border-color-default);
+}
+
+.businessInfo {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-16);
+}
+
+.businessInfo h1 {
+  font-size: var(--font-size-24);
+  font-weight: var(--font-weight-semibold);
+  color: var(--zyx-gray-700);
+  margin: 0 0 var(--spacing-4) 0;
+}
+
+.listingLocations {
+  font-size: var(--font-size-14);
+  color: var(--zyx-gray-500);
+  margin: 0;
+}
+
+.headerActions {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-12);
+}
+
+.listingNamesDropdown {
+  position: relative;
+}
+
+.dropdownButton {
+  padding: var(--spacing-10) var(--spacing-16);
+  font-size: var(--font-size-14);
+  font-weight: var(--font-weight-medium);
+  color: var(--zyx-white);
+  background: var(--zyx-gray-700);
+  border: none;
+  border-radius: var(--radius-8);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-8);
+}
+
+.dropdownContent {
+  position: absolute;
+  top: calc(100% + 4px);
+  right: 0;
+  background: var(--zyx-white);
+  border: 1px solid var(--border-color-default);
+  border-radius: var(--radius-8);
+  box-shadow: var(--shadow-card);
+  min-width: 200px;
+  padding: var(--spacing-8);
+  display: none;
+  z-index: 10;
+}
+
+.listingNamesDropdown:hover .dropdownContent {
+  display: block;
+}
+
+.checkboxLabel {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-8);
+  padding: var(--spacing-8);
+  cursor: pointer;
+  border-radius: var(--radius-4);
+}
+
+.checkboxLabel:hover {
+  background: var(--zyx-gray-100);
+}
+
+/* Property Bids */
+.propertyBids h2 {
+  font-size: var(--font-size-20);
+  font-weight: var(--font-weight-semibold);
+  color: var(--zyx-gray-700);
+  margin: 0 0 var(--spacing-20) 0;
+}
+
+.filters {
+  display: flex;
+  gap: var(--spacing-12);
+  margin-bottom: var(--spacing-24);
+  flex-wrap: wrap;
+}
+
+.filterSelect,
+.filterInput {
+  padding: var(--spacing-10) var(--spacing-12);
+  font-size: var(--font-size-14);
+  border: 1px solid var(--border-color-default);
+  border-radius: var(--radius-8);
+  background: var(--zyx-white);
+}
+
+.filterSelect {
+  min-width: 150px;
+}
+
+.filterInput {
+  width: 120px;
+}
+
+.viewToggle {
+  display: flex;
+  border: 1px solid var(--border-color-default);
+  border-radius: var(--radius-8);
+  overflow: hidden;
+  margin-left: auto;
+}
+
+.viewToggle button {
+  padding: var(--spacing-10) var(--spacing-16);
+  font-size: var(--font-size-14);
+  background: var(--zyx-white);
+  border: none;
+  cursor: pointer;
+  transition: background-color var(--transition-normal);
+}
+
+.viewToggle button.active {
+  background: var(--zyx-primary);
+  color: var(--zyx-white);
+}
+
+/* Map */
+.mapContainer {
+  margin-bottom: var(--spacing-24);
+}
+
+.mapPlaceholder {
+  width: 100%;
+  height: 400px;
+  background: var(--zyx-gray-100);
+  border-radius: var(--radius-8);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--zyx-gray-500);
+}
+
+/* Empty State */
+.emptyState {
+  text-align: center;
+  padding: var(--spacing-48);
+  color: var(--zyx-gray-500);
+}
+
+.emptySubtext {
+  font-size: var(--font-size-14);
+  margin-top: var(--spacing-8);
+}
+
+/* Table View */
+.tableContainer {
+  overflow-x: auto;
+}
+
+.matchesTable {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.matchesTable th {
+  text-align: left;
+  padding: var(--spacing-12);
+  font-size: var(--font-size-14);
+  font-weight: var(--font-weight-semibold);
+  color: var(--zyx-gray-600);
+  border-bottom: 2px solid var(--border-color-default);
+}
+
+.matchesTable td {
+  padding: var(--spacing-16) var(--spacing-12);
+  font-size: var(--font-size-14);
+  color: var(--zyx-gray-700);
+  border-bottom: 1px solid var(--border-color-default);
+}
+
+.matchScore {
+  font-weight: var(--font-weight-semibold);
+  color: var(--zyx-success);
+}
+
+.availabilityBadge {
+  display: inline-block;
+  padding: 4px 8px;
+  border-radius: var(--radius-4);
+  font-size: var(--font-size-12);
+  font-weight: var(--font-weight-medium);
+}
+
+.availabilityBadge.vacant {
+  background: #E8F5E9;
+  color: #2E7D32;
+}
+
+.availabilityBadge.days {
+  background: #FFF3E0;
+  color: #E65100;
+}
+
+.actionButton {
+  padding: var(--spacing-4) var(--spacing-8);
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: var(--font-size-18);
+  color: var(--zyx-gray-600);
+}
+
+/* Card Grid */
+.cardGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: var(--spacing-24);
+}
+
+.propertyCard {
+  background: var(--zyx-white);
+  border: 1px solid var(--border-color-default);
+  border-radius: var(--radius-12);
+  overflow: hidden;
+  transition: box-shadow var(--transition-normal);
+}
+
+.propertyCard:hover {
+  box-shadow: var(--shadow-card);
+}
+
+.cardImage {
+  position: relative;
+  height: 200px;
+  background: var(--zyx-gray-200);
+}
+
+.imagePlaceholder {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--zyx-gray-400);
+}
+
+.matchBadge {
+  position: absolute;
+  top: var(--spacing-12);
+  right: var(--spacing-12);
+  background: var(--zyx-white);
+  padding: 4px 8px;
+  border-radius: var(--radius-4);
+  font-size: var(--font-size-12);
+  font-weight: var(--font-weight-semibold);
+  color: var(--zyx-success);
+}
+
+.cardContent {
+  padding: var(--spacing-16);
+}
+
+.cardContent h3 {
+  font-size: var(--font-size-16);
+  font-weight: var(--font-weight-semibold);
+  color: var(--zyx-gray-700);
+  margin: 0 0 var(--spacing-8) 0;
+}
+
+.address {
+  font-size: var(--font-size-14);
+  color: var(--zyx-gray-500);
+  margin: 0 0 var(--spacing-16) 0;
+}
+
+.cardDetails {
+  display: flex;
+  gap: var(--spacing-16);
+}
+
+.cardDetails > div {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.label {
+  font-size: var(--font-size-12);
+  color: var(--zyx-gray-500);
+}
+
+.value {
+  font-size: var(--font-size-14);
+  font-weight: var(--font-weight-medium);
+  color: var(--zyx-gray-700);
+}

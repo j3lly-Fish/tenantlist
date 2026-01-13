@@ -271,6 +271,11 @@
   margin-top: var(--spacing-8);
 }
 
+.searchInputContainer {
+  position: relative;
+  margin-bottom: var(--spacing-16);
+}
+
 .searchInput {
   display: flex;
   align-items: center;
@@ -278,7 +283,6 @@
   padding: var(--spacing-10) var(--spacing-12);
   border: var(--border-width-thin) solid var(--border-color-default);
   border-radius: var(--radius-8);
-  margin-bottom: var(--spacing-12);
 }
 
 .searchInput svg {
@@ -298,19 +302,60 @@
   color: var(--zyx-gray-400);
 }
 
-.teamMembers {
-  display: flex;
-  gap: var(--spacing-16);
+.searchingIndicator {
+  color: var(--zyx-gray-400);
+  font-size: var(--font-size-12);
 }
 
-.teamMember {
+/* Search Results Dropdown */
+.searchResults {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  background: var(--zyx-white);
+  border: var(--border-width-thin) solid var(--border-color-default);
+  border-radius: var(--radius-8);
+  box-shadow: var(--shadow-card);
+  max-height: 300px;
+  overflow-y: auto;
+  z-index: 10;
+  margin-top: var(--spacing-4);
+}
+
+.searchResultItem {
+  padding: var(--spacing-12);
   display: flex;
-  flex-direction: column;
   align-items: center;
-  gap: var(--spacing-4);
+  justify-content: space-between;
+  cursor: pointer;
+  transition: background-color var(--transition-normal);
 }
 
-.memberAvatar {
+.searchResultItem:hover:not(.alreadyInvited) {
+  background-color: var(--zyx-gray-100);
+}
+
+.searchResultItem.alreadyInvited {
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+.brokerInfo {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-12);
+  flex: 1;
+}
+
+.brokerAvatar {
+  width: 40px;
+  height: 40px;
+  border-radius: var(--radius-circle);
+  object-fit: cover;
+}
+
+.brokerAvatarPlaceholder {
   width: 40px;
   height: 40px;
   border-radius: var(--radius-circle);
@@ -318,18 +363,108 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  font-size: var(--font-size-16);
+  font-weight: var(--font-weight-semibold);
   color: var(--zyx-gray-500);
 }
 
-.memberName {
-  font-size: var(--font-size-12);
+.brokerDetails {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.brokerName {
+  font-size: var(--font-size-14);
   font-weight: var(--font-weight-medium);
-  color: var(--zyx-gray-600);
+  color: var(--zyx-gray-700);
+}
+
+.brokerEmail {
+  font-size: var(--font-size-12);
+  color: var(--zyx-gray-500);
+}
+
+.brokerCompany {
+  font-size: var(--font-size-12);
+  color: var(--zyx-gray-400);
+}
+
+.invitedBadge {
+  font-size: var(--font-size-12);
+  color: var(--zyx-primary);
+  font-weight: var(--font-weight-medium);
+}
+
+/* Invited Team Members */
+.teamMembers {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-12);
+}
+
+.teamMember {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-12);
+  padding: var(--spacing-12);
+  border: var(--border-width-thin) solid var(--border-color-default);
+  border-radius: var(--radius-8);
+  background: var(--zyx-white);
+}
+
+.memberAvatar {
+  width: 40px;
+  height: 40px;
+  border-radius: var(--radius-circle);
+  object-fit: cover;
+}
+
+.memberAvatarPlaceholder {
+  width: 40px;
+  height: 40px;
+  border-radius: var(--radius-circle);
+  background: var(--zyx-gray-quinary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: var(--font-size-16);
+  font-weight: var(--font-weight-semibold);
+  color: var(--zyx-gray-500);
+}
+
+.memberInfo {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.memberName {
+  font-size: var(--font-size-14);
+  font-weight: var(--font-weight-medium);
+  color: var(--zyx-gray-700);
 }
 
 .memberRole {
   font-size: var(--font-size-12);
+  color: var(--zyx-gray-500);
+}
+
+.removeBrokerBtn {
+  background: none;
+  border: none;
+  padding: var(--spacing-4);
+  cursor: pointer;
   color: var(--zyx-gray-400);
+  transition: color var(--transition-normal);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.removeBrokerBtn:hover {
+  color: var(--zyx-error);
 }
 
 /* Stealth Section */

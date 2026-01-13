@@ -74,7 +74,7 @@ export const Footer: React.FC = () => {
                   strokeLinejoin="round"
                 />
               </svg>
-              <span className={styles.logoText}>ZYX Platform</span>
+              <span className={styles.logoText}>Waltre Platform</span>
             </div>
             <p className={styles.tagline}>
               The demand-first marketplace for commercial real estate
@@ -106,7 +106,7 @@ export const Footer: React.FC = () => {
         {/* Bottom Bar */}
         <div className={styles.bottomBar}>
           <p className={styles.copyright}>
-            {currentYear} ZYX Platform. All rights reserved.
+            {currentYear} Waltre Platform. All rights reserved.
           </p>
           <div className={styles.socialLinks}>
             {/* LinkedIn */}

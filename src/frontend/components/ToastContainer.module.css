@@ -1,0 +1,135 @@
+/**
+ * ToastContainer Styles
+ *
+ * Styling for toast notification system with success, error, warning, and info variants.
+ */
+
+.toastContainer {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  z-index: 10000;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  max-width: 400px;
+  pointer-events: none;
+}
+
+.toast {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 16px;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  pointer-events: auto;
+  animation: slideIn 0.3s ease-out;
+  min-width: 320px;
+  max-width: 400px;
+  border-left: 4px solid;
+}
+
+@keyframes slideIn {
+  from {
+    transform: translateX(calc(100% + 20px));
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+.toastIcon {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 20px;
+}
+
+.toastMessage {
+  flex: 1;
+  font-size: 14px;
+  line-height: 1.5;
+  color: #333333;
+  word-break: break-word;
+}
+
+.toastClose {
+  flex-shrink: 0;
+  background: none;
+  border: none;
+  padding: 4px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0.6;
+  transition: opacity 0.2s;
+  color: #666666;
+}
+
+.toastClose:hover {
+  opacity: 1;
+}
+
+.toastClose:focus {
+  outline: 2px solid #1a1a1a;
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+/* Success variant - green */
+.toast.success {
+  border-left-color: #10b981;
+}
+
+.toast.success .toastIcon {
+  color: #10b981;
+}
+
+/* Error variant - red */
+.toast.error {
+  border-left-color: #ef4444;
+}
+
+.toast.error .toastIcon {
+  color: #ef4444;
+}
+
+/* Warning variant - orange */
+.toast.warning {
+  border-left-color: #f59e0b;
+}
+
+.toast.warning .toastIcon {
+  color: #f59e0b;
+}
+
+/* Info variant - blue */
+.toast.info {
+  border-left-color: #3b82f6;
+}
+
+.toast.info .toastIcon {
+  color: #3b82f6;
+}
+
+/* Mobile responsive */
+@media (max-width: 768px) {
+  .toastContainer {
+    top: 10px;
+    right: 10px;
+    left: 10px;
+    max-width: none;
+  }
+
+  .toast {
+    min-width: auto;
+    max-width: none;
+  }
+}

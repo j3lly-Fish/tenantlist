@@ -103,6 +103,13 @@ export const DemandListingModal: React.FC<DemandListingModalProps> = ({
   // Step 2: Additional features
   const [isCorporateLocation, setIsCorporateLocation] = useState(editListing?.is_corporate_location || false);
   const [selectedFeatures, setSelectedFeatures] = useState<string[]>(editListing?.additional_features || []);
+  const [invitedBrokers, setInvitedBrokers] = useState<Array<{
+    id: string;
+    name: string;
+    email: string;
+    company_name?: string;
+    photo_url?: string;
+  }>>([]);
 
   // Form state
   const [errors, setErrors] = useState<Record<string, string>>({});
@@ -246,6 +253,7 @@ export const DemandListingModal: React.FC<DemandListingModalProps> = ({
       lot_size: lotSize ? parseFloat(lotSize) : null,
       is_corporate_location: isCorporateLocation,
       additional_features: selectedFeatures,
+      invited_broker_ids: invitedBrokers.map((broker) => broker.id),
     };
 
     try {
@@ -296,6 +304,7 @@ export const DemandListingModal: React.FC<DemandListingModalProps> = ({
     setLotSize('');
     setIsCorporateLocation(false);
     setSelectedFeatures([]);
+    setInvitedBrokers([]);
     setErrors({});
   };
 
@@ -334,6 +343,7 @@ export const DemandListingModal: React.FC<DemandListingModalProps> = ({
     description,
     additionalFeatures: getSelectedFeatureLabels(),
     isCorporateLocation,
+    invitedBrokers,
   };
 
   return (
@@ -615,6 +625,7 @@ export const DemandListingModal: React.FC<DemandListingModalProps> = ({
           onPost={handleSubmit}
           isLoading={isLoading}
           data={previewData}
+          onBrokersUpdate={setInvitedBrokers}
         />
       )}
     </>

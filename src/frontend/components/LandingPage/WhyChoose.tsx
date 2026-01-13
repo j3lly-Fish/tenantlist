@@ -108,7 +108,7 @@ export const WhyChoose: React.FC = () => {
         {/* Header */}
         <div className={styles.header}>
           <h2 id="why-choose-title" className={styles.title}>
-            Why Choose ZYX
+            Why Choose Waltre
           </h2>
           <p className={styles.subtitle}>
             The platform designed for modern commercial real estate professionals

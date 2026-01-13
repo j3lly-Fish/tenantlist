@@ -3,6 +3,8 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { TopNavigation } from '@components/TopNavigation';
 import { LoadingSpinner } from '@components/LoadingSpinner';
 import { DemandListingModal } from '@components/DemandListingModal';
+import { InviteBrokersModal } from '@components/InviteBrokersModal';
+import { GoogleMapViewDirect as GoogleMapView, MapLocation } from '@components/GoogleMapViewDirect';
 import { useAuth } from '@contexts/AuthContext';
 import { getMatchesForDemandListing } from '@utils/apiClient';
 import { Business, DemandListing, BusinessMetrics } from '@types';
@@ -53,6 +55,9 @@ const BusinessDetail: React.FC = () => {
   const [showMetricsModal, setShowMetricsModal] = useState(false);
   const [metricsData, setMetricsData] = useState<MetricsData | null>(null);
   const [metricsLoading, setMetricsLoading] = useState(false);
+
+  // Invite brokers modal state
+  const [showInviteBrokersModal, setShowInviteBrokersModal] = useState(false);
 
   // Match scores per listing (listingId -> best match percentage)
   const [matchScores, setMatchScores] = useState<Record<string, number>>({});
@@ -346,9 +351,7 @@ const BusinessDetail: React.FC = () => {
             <div className={styles.headerActions}>
               <button
                 className={styles.headerActionButton}
-                onClick={() => {
-                  alert('Invite Brokers feature coming soon');
-                }}
+                onClick={() => setShowInviteBrokersModal(true)}
               >
                 <svg
                   width="24"
@@ -511,10 +514,20 @@ const BusinessDetail: React.FC = () => {
               <div className={styles.tableViewContainer}>
                 {/* Full-width map */}
                 <div className={styles.tableMapContainer}>
-                  <div className={styles.mapPlaceholder}>
-                    <span className={styles.mapPlaceholderText}>United States</span>
-                    <p className={styles.mapPlaceholderSubtext}>Google Maps integration coming soon</p>
-                  </div>
+                  <GoogleMapView
+                    center={{ lat: 39.8283, lng: -98.5795 }}
+                    zoom={4}
+                    locations={filteredListings
+                      .filter(listing => listing.latitude && listing.longitude)
+                      .map(listing => ({
+                        lat: listing.latitude!,
+                        lng: listing.longitude!,
+                        title: listing.title || `${listing.city}, ${listing.state}`,
+                        description: `${listing.city}, ${listing.state}`
+                      }))}
+                    height="400px"
+                    width="100%"
+                  />
                 </div>
 
                 {/* Table below map */}
@@ -627,10 +640,20 @@ const BusinessDetail: React.FC = () => {
               <div className={styles.locationsContent}>
                 {/* Map on left */}
                 <div className={styles.mapContainer}>
-                  <div className={styles.mapPlaceholder}>
-                    <span className={styles.mapPlaceholderText}>United States</span>
-                    <p className={styles.mapPlaceholderSubtext}>Google Maps integration coming soon</p>
-                  </div>
+                  <GoogleMapView
+                    center={{ lat: 39.8283, lng: -98.5795 }}
+                    zoom={4}
+                    locations={filteredListings
+                      .filter(listing => listing.latitude && listing.longitude)
+                      .map(listing => ({
+                        lat: listing.latitude!,
+                        lng: listing.longitude!,
+                        title: listing.title || `${listing.city}, ${listing.state}`,
+                        description: `${listing.city}, ${listing.state}`
+                      }))}
+                    height="100%"
+                    width="100%"
+                  />
                 </div>
 
                 {/* Cards on right */}
@@ -812,6 +835,16 @@ const BusinessDetail: React.FC = () => {
             is_corporate_location: editingListing.is_corporate_location,
             additional_features: editingListing.additional_features,
           } : null}
+        />
+      )}
+
+      {/* Invite Brokers Modal */}
+      {businessId && business && (
+        <InviteBrokersModal
+          isOpen={showInviteBrokersModal}
+          onClose={() => setShowInviteBrokersModal(false)}
+          businessId={businessId}
+          businessName={business.name}
         />
       )}
 

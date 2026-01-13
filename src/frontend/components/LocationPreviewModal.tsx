@@ -1,5 +1,14 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
+import { GoogleMapView, MapLocation } from '@components/GoogleMapView';
 import styles from './LocationPreviewModal.module.css';
+
+interface Broker {
+  id: string;
+  name: string;
+  email: string;
+  company_name?: string;
+  photo_url?: string;
+}
 
 interface LocationPreviewData {
   businessName: string;
@@ -16,6 +25,7 @@ interface LocationPreviewData {
   description: string;
   additionalFeatures: string[];
   isCorporateLocation: boolean;
+  invitedBrokers: Broker[];
 }
 
 interface LocationPreviewModalProps {
@@ -25,6 +35,7 @@ interface LocationPreviewModalProps {
   onPost: () => void;
   isLoading: boolean;
   data: LocationPreviewData;
+  onBrokersUpdate: (brokers: Broker[]) => void;
 }
 
 export const LocationPreviewModal: React.FC<LocationPreviewModalProps> = ({
@@ -34,10 +45,77 @@ export const LocationPreviewModal: React.FC<LocationPreviewModalProps> = ({
   onPost,
   isLoading,
   data,
+  onBrokersUpdate,
 }) => {
   const [stealthMode, setStealthMode] = useState(false);
+  const [searchQuery, setSearchQuery] = useState('');
+  const [searchResults, setSearchResults] = useState<Broker[]>([]);
+  const [isSearching, setIsSearching] = useState(false);
+  const [showResults, setShowResults] = useState(false);
+  const searchTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+  const searchInputRef = useRef<HTMLInputElement>(null);
 
   if (!isOpen) return null;
+
+  // Debounced broker search
+  useEffect(() => {
+    if (searchTimeoutRef.current) {
+      clearTimeout(searchTimeoutRef.current);
+    }
+
+    if (searchQuery.trim().length < 2) {
+      setSearchResults([]);
+      setShowResults(false);
+      return;
+    }
+
+    setIsSearching(true);
+    searchTimeoutRef.current = setTimeout(async () => {
+      try {
+        const response = await fetch(`/api/users/search/brokers?q=${encodeURIComponent(searchQuery)}`, {
+          method: 'GET',
+          credentials: 'include',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        });
+
+        if (response.ok) {
+          const result = await response.json();
+          setSearchResults(result.data.brokers || []);
+          setShowResults(true);
+        }
+      } catch (error) {
+        console.error('Failed to search brokers:', error);
+      } finally {
+        setIsSearching(false);
+      }
+    }, 300);
+
+    return () => {
+      if (searchTimeoutRef.current) {
+        clearTimeout(searchTimeoutRef.current);
+      }
+    };
+  }, [searchQuery]);
+
+  const handleAddBroker = (broker: Broker) => {
+    const isAlreadyInvited = data.invitedBrokers.some((b) => b.id === broker.id);
+    if (!isAlreadyInvited) {
+      const updatedBrokers = [...data.invitedBrokers, broker];
+      onBrokersUpdate(updatedBrokers);
+    }
+    setSearchQuery('');
+    setShowResults(false);
+    if (searchInputRef.current) {
+      searchInputRef.current.blur();
+    }
+  };
+
+  const handleRemoveBroker = (brokerId: string) => {
+    const updatedBrokers = data.invitedBrokers.filter((b) => b.id !== brokerId);
+    onBrokersUpdate(updatedBrokers);
+  };
 
   const handleBackdropClick = (e: React.MouseEvent) => {
     if (e.target === e.currentTarget) {
@@ -167,9 +245,21 @@ export const LocationPreviewModal: React.FC<LocationPreviewModalProps> = ({
             <h3 className={styles.sectionTitle}>Location</h3>
             <div className={styles.locationContent}>
               <div className={styles.locationMap}>
-                <div className={styles.mapPlaceholder}>
-                  <span>Map</span>
-                </div>
+                <GoogleMapView
+                  center={{ lat: 39.8283, lng: -98.5795 }}
+                  zoom={4}
+                  locations={[{
+                    lat: 39.8283,
+                    lng: -98.5795,
+                    title: `${data.city}, ${data.state}`,
+                    description: data.businessName
+                  }]}
+                  mapContainerStyle={{
+                    width: '100%',
+                    height: '100%',
+                    borderRadius: 'var(--radius-8)'
+                  }}
+                />
               </div>
               <div className={styles.locationList}>
                 <div className={styles.locationItem}>
@@ -226,27 +316,92 @@ export const LocationPreviewModal: React.FC<LocationPreviewModalProps> = ({
           <div className={styles.section}>
             <h3 className={styles.sectionTitle}>Invite team members</h3>
             <div className={styles.teamSection}>
-              <div className={styles.searchInput}>
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                  <circle cx="11" cy="11" r="8" />
-                  <line x1="21" y1="21" x2="16.65" y2="16.65" />
-                </svg>
-                <input type="text" placeholder="Find brokers, managers, and more" />
-              </div>
-              <div className={styles.teamMembers}>
-                <div className={styles.teamMember}>
-                  <div className={styles.memberAvatar}>
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                      <path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
-                      <circle cx="8.5" cy="7" r="4" />
-                      <line x1="20" y1="8" x2="20" y2="14" />
-                      <line x1="23" y1="11" x2="17" y2="11" />
-                    </svg>
-                  </div>
-                  <span className={styles.memberName}>Invite Team</span>
-                  <span className={styles.memberRole}>Select role</span>
+              <div className={styles.searchInputContainer}>
+                <div className={styles.searchInput}>
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                    <circle cx="11" cy="11" r="8" />
+                    <line x1="21" y1="21" x2="16.65" y2="16.65" />
+                  </svg>
+                  <input
+                    ref={searchInputRef}
+                    type="text"
+                    placeholder="Find brokers, managers, and more"
+                    value={searchQuery}
+                    onChange={(e) => setSearchQuery(e.target.value)}
+                    onFocus={() => {
+                      if (searchResults.length > 0) {
+                        setShowResults(true);
+                      }
+                    }}
+                  />
+                  {isSearching && <span className={styles.searchingIndicator}>...</span>}
                 </div>
+
+                {/* Search Results Dropdown */}
+                {showResults && searchResults.length > 0 && (
+                  <div className={styles.searchResults}>
+                    {searchResults.map((broker) => {
+                      const isInvited = data.invitedBrokers.some((b) => b.id === broker.id);
+                      return (
+                        <div
+                          key={broker.id}
+                          className={`${styles.searchResultItem} ${isInvited ? styles.alreadyInvited : ''}`}
+                          onClick={() => !isInvited && handleAddBroker(broker)}
+                        >
+                          <div className={styles.brokerInfo}>
+                            {broker.photo_url ? (
+                              <img src={broker.photo_url} alt={broker.name} className={styles.brokerAvatar} />
+                            ) : (
+                              <div className={styles.brokerAvatarPlaceholder}>
+                                {broker.name.charAt(0).toUpperCase()}
+                              </div>
+                            )}
+                            <div className={styles.brokerDetails}>
+                              <div className={styles.brokerName}>{broker.name}</div>
+                              <div className={styles.brokerEmail}>{broker.email}</div>
+                              {broker.company_name && (
+                                <div className={styles.brokerCompany}>{broker.company_name}</div>
+                              )}
+                            </div>
+                          </div>
+                          {isInvited && <span className={styles.invitedBadge}>Invited</span>}
+                        </div>
+                      );
+                    })}
+                  </div>
+                )}
               </div>
+
+              {/* Invited Brokers List */}
+              {data.invitedBrokers.length > 0 && (
+                <div className={styles.teamMembers}>
+                  {data.invitedBrokers.map((broker) => (
+                    <div key={broker.id} className={styles.teamMember}>
+                      {broker.photo_url ? (
+                        <img src={broker.photo_url} alt={broker.name} className={styles.memberAvatar} />
+                      ) : (
+                        <div className={styles.memberAvatarPlaceholder}>
+                          {broker.name.charAt(0).toUpperCase()}
+                        </div>
+                      )}
+                      <div className={styles.memberInfo}>
+                        <span className={styles.memberName}>{broker.name}</span>
+                        <span className={styles.memberRole}>{broker.company_name || broker.email}</span>
+                      </div>
+                      <button
+                        className={styles.removeBrokerBtn}
+                        onClick={() => handleRemoveBroker(broker.id)}
+                        aria-label="Remove broker"
+                      >
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                          <line x1="18" y1="6" x2="6" y2="18" />
+                          <line x1="6" y1="6" x2="18" y2="18" />
+                        </svg>
+                      </button>
+                    </div>
+                  ))}
+                </div>
+              )}
             </div>
           </div>
 

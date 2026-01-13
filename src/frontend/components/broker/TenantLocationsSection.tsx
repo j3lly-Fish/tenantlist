@@ -1,4 +1,5 @@
 import React from 'react';
+import { GoogleMapView, MapLocation } from '@components/GoogleMapView';
 import styles from './TenantLocationsSection.module.css';
 
 interface TenantLocation {
@@ -45,18 +46,24 @@ export const TenantLocationsSection: React.FC<TenantLocationsSectionProps> = ({
     <section className={styles.locationsSection}>
       <h2 className={styles.sectionTitle}>Locations</h2>
 
-      {/* Map placeholder - In production, integrate with Google Maps or Mapbox */}
+      {/* Map with tenant locations */}
       <div className={styles.mapContainer}>
-        <div className={styles.mapPlaceholder}>
-          <svg width="48" height="48" viewBox="0 0 48 48" fill="none">
-            <path
-              d="M24 4C16.268 4 10 10.268 10 18C10 28 24 44 24 44C24 44 38 28 38 18C38 10.268 31.732 4 24 4ZM24 23C21.239 23 19 20.761 19 18C19 15.239 21.239 13 24 13C26.761 13 29 15.239 29 18C29 20.761 26.761 23 24 23Z"
-              fill="#9ca3af"
-            />
-          </svg>
-          <p>Interactive map with {locations.length} location{locations.length !== 1 ? 's' : ''}</p>
-          <span className={styles.mapNote}>(Map integration available with Google Maps or Mapbox)</span>
-        </div>
+        <GoogleMapView
+          center={{ lat: 39.8283, lng: -98.5795 }}
+          zoom={4}
+          locations={locations
+            .filter(location => location.latitude && location.longitude)
+            .map(location => ({
+              lat: location.latitude!,
+              lng: location.longitude!,
+              title: location.location_name,
+              description: location.city && location.state
+                ? `${location.city}, ${location.state}`
+                : location.city || location.state || 'Location'
+            }))}
+          height="400px"
+          width="100%"
+        />
       </div>
 
       {/* Locations List */}

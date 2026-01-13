@@ -124,7 +124,7 @@ export const LoginModal: React.FC<LoginModalProps> = ({
 
         <div className="modal-header">
           <h2 id="login-modal-title" className="modal-title">Welcome Back</h2>
-          <p className="modal-subtitle">Sign in to your ZYX account</p>
+          <p className="modal-subtitle">Sign in to your Waltre account</p>
         </div>
 
         <form className="modal-form" onSubmit={handleSubmit}>

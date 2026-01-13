@@ -1,11 +1,16 @@
 import { Router, Response } from 'express';
 import multer from 'multer';
 import { UserManagementController } from '../controllers/UserManagementController';
+import { BusinessController } from '../controllers/BusinessController';
 import { AuthMiddleware, AuthenticatedRequest } from '../middleware/authMiddleware';
+import { RoleGuardMiddleware } from '../middleware/roleGuardMiddleware';
+import pool from '../config/database';
 
 const router = Router();
 const userManagementController = new UserManagementController();
+const businessController = new BusinessController();
 const authMiddleware = new AuthMiddleware();
+const roleGuard = new RoleGuardMiddleware();
 
 // Configure multer for file uploads (memory storage)
 const upload = multer({
@@ -179,5 +184,248 @@ router.patch('/role', authMiddleware.getMiddleware(), async (req: AuthenticatedR
     }
   }
 });
+
+/**
+ * Task Group 3.4: POST /api/user/businesses
+ * Add an existing business to user's portfolio
+ * Requires authentication (tenant role)
+ *
+ * Request body:
+ * {
+ *   businessId: string (required)
+ * }
+ *
+ * Response (201):
+ * {
+ *   success: true,
+ *   data: {
+ *     businessId: string,
+ *     message: string
+ *   }
+ * }
+ *
+ * Errors:
+ * - 400: Validation error (missing businessId)
+ * - 401: Unauthorized
+ * - 404: Business not found
+ * - 500: Internal server error
+ */
+router.post(
+  '/businesses',
+  roleGuard.requireTenant(),
+  async (req: AuthenticatedRequest, res: Response) => {
+    try {
+      const userId = req.user?.userId;
+
+      if (!userId) {
+        return res.status(401).json({
+          success: false,
+          error: {
+            code: 'UNAUTHORIZED',
+            message: 'User ID not found in token',
+          },
+        });
+      }
+
+      const { businessId } = req.body;
+
+      if (!businessId) {
+        return res.status(400).json({
+          success: false,
+          error: {
+            code: 'VALIDATION_ERROR',
+            message: 'Business ID is required',
+          },
+        });
+      }
+
+      const result = await businessController.addBusinessToUser(userId, businessId);
+
+      res.status(201).json({
+        success: true,
+        data: result,
+      });
+    } catch (error: any) {
+      console.error('Add business to user error:', error);
+
+      if (error.message === 'Business not found') {
+        return res.status(404).json({
+          success: false,
+          error: {
+            code: 'NOT_FOUND',
+            message: 'Business not found',
+          },
+        });
+      }
+
+      if (error.message.includes('required')) {
+        return res.status(400).json({
+          success: false,
+          error: {
+            code: 'VALIDATION_ERROR',
+            message: error.message,
+          },
+        });
+      }
+
+      res.status(500).json({
+        success: false,
+        error: {
+          code: 'INTERNAL_ERROR',
+          message: 'An error occurred while adding business to portfolio',
+        },
+      });
+    }
+  }
+);
+
+/**
+ * Task Group 3.5: GET /api/user/businesses
+ * Get all businesses associated with authenticated user
+ * Requires authentication (tenant role)
+ *
+ * Response (200):
+ * {
+ *   success: true,
+ *   data: {
+ *     businesses: Business[],
+ *     count: number
+ *   }
+ * }
+ *
+ * Errors:
+ * - 401: Unauthorized
+ * - 500: Internal server error
+ */
+router.get(
+  '/businesses',
+  roleGuard.requireTenant(),
+  async (req: AuthenticatedRequest, res: Response) => {
+    try {
+      const userId = req.user?.userId;
+
+      if (!userId) {
+        return res.status(401).json({
+          success: false,
+          error: {
+            code: 'UNAUTHORIZED',
+            message: 'User ID not found in token',
+          },
+        });
+      }
+
+      const result = await businessController.getUserBusinesses(userId);
+
+      res.status(200).json({
+        success: true,
+        data: result,
+      });
+    } catch (error: any) {
+      console.error('Get user businesses error:', error);
+      res.status(500).json({
+        success: false,
+        error: {
+          code: 'INTERNAL_ERROR',
+          message: 'An error occurred while fetching user businesses',
+        },
+      });
+    }
+  }
+);
+
+/**
+ * GET /api/users/search/brokers
+ * Search for brokers by name or email (for tenant invitations)
+ *
+ * Request headers:
+ * - Authorization: Bearer <accessToken>
+ *
+ * Query parameters:
+ * - q: search query (name or email)
+ * - limit?: number (default: 10, max: 50)
+ *
+ * Response (200):
+ * {
+ *   success: true,
+ *   data: {
+ *     brokers: Array<{
+ *       id: string,
+ *       name: string,
+ *       email: string,
+ *       company_name?: string,
+ *       photo_url?: string
+ *     }>
+ *   }
+ * }
+ */
+router.get(
+  '/search/brokers',
+  authMiddleware.getMiddleware(),
+  async (req: AuthenticatedRequest, res: Response) => {
+    try {
+      const searchQuery = req.query.q as string;
+      const limit = Math.min(50, parseInt(req.query.limit as string) || 10);
+
+      if (!searchQuery || searchQuery.trim().length === 0) {
+        return res.status(200).json({
+          success: true,
+          data: { brokers: [] },
+        });
+      }
+
+      // Search for brokers by name or email
+      const query = `
+        SELECT
+          u.id,
+          up.first_name || ' ' || up.last_name as name,
+          u.email,
+          up.photo_url,
+          bp.company_name
+        FROM users u
+        LEFT JOIN user_profiles up ON up.user_id = u.id
+        LEFT JOIN broker_profiles bp ON bp.user_id = u.id
+        WHERE u.role = 'broker'
+          AND u.is_active = true
+          AND (
+            u.email ILIKE $1
+            OR up.first_name ILIKE $1
+            OR up.last_name ILIKE $1
+            OR (up.first_name || ' ' || up.last_name) ILIKE $1
+            OR bp.company_name ILIKE $1
+          )
+        ORDER BY
+          CASE
+            WHEN u.email ILIKE $1 THEN 1
+            WHEN (up.first_name || ' ' || up.last_name) ILIKE $2 THEN 2
+            ELSE 3
+          END,
+          up.first_name, up.last_name
+        LIMIT $3
+      `;
+
+      const result = await pool.query(query, [
+        `%${searchQuery}%`,
+        `${searchQuery}%`,
+        limit,
+      ]);
+
+      res.status(200).json({
+        success: true,
+        data: {
+          brokers: result.rows,
+        },
+      });
+    } catch (error: any) {
+      console.error('Search brokers error:', error);
+      res.status(500).json({
+        success: false,
+        error: {
+          code: 'INTERNAL_ERROR',
+          message: 'An error occurred while searching for brokers',
+        },
+      });
+    }
+  }
+);
 
 export default router;

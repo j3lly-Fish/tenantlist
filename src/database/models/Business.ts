@@ -121,6 +121,41 @@ export class BusinessModel {
     };
   }
 
+  /**
+   * Task Group 2.5: Global business search across ALL businesses (not filtered by user_id)
+   * Searches all businesses in the database using case-insensitive ILIKE query
+   * @param searchTerm - The search term to match against business names
+   * @returns Array of businesses matching the search term
+   */
+  async findAllGlobal(searchTerm: string): Promise<Business[]> {
+    const result = await this.pool.query(
+      `SELECT * FROM businesses
+       WHERE name ILIKE $1
+       ORDER BY
+         is_verified DESC,
+         created_at DESC
+       LIMIT 50`,
+      [`%${searchTerm}%`]
+    );
+
+    return result.rows;
+  }
+
+  /**
+   * Task Group 2.5: Check if a business with the given name already exists
+   * Performs case-insensitive exact match to detect duplicates
+   * @param companyName - The company name to check
+   * @returns Boolean indicating if business exists
+   */
+  async checkDuplicate(companyName: string): Promise<boolean> {
+    const result = await this.pool.query(
+      'SELECT EXISTS(SELECT 1 FROM businesses WHERE LOWER(name) = LOWER($1)) as exists',
+      [companyName]
+    );
+
+    return result.rows[0].exists;
+  }
+
   // Update business
   async update(id: string, data: Partial<Business>): Promise<Business | null> {
     const fields: string[] = [];

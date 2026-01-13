@@ -8,7 +8,7 @@ import styles from './NavigationTabs.module.css';
  * NavigationTabs Component
  *
  * Displays role-based navigation tabs
- * - TENANT: Dashboard, Trends, Applications
+ * - TENANT: Dashboard, My Businesses, Trends, Applications
  * - LANDLORD: Dashboard (landlord-dashboard), Trends, Properties
  * - BROKER: Dashboard (broker-dashboard), Deals, Market
  * - Uses React Router NavLink for active state styling

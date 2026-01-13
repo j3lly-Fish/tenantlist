@@ -1,0 +1,256 @@
+/* Personal Account Form Styles */
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+/* Profile Picture Upload Section */
+.profileSection {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 8px;
+}
+
+.profileInput {
+  display: none;
+}
+
+.profileUploadArea {
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.profilePlaceholder {
+  width: 100px;
+  height: 100px;
+  border: 2px dashed #d1d5db;
+  border-radius: 50%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: #F5F5F5;
+  transition: all 0.2s;
+}
+
+.profileUploadArea:hover .profilePlaceholder {
+  border-color: #9ca3af;
+  background-color: #f9fafb;
+}
+
+.uploadIconWrapper {
+  width: 36px;
+  height: 36px;
+  background-color: #E0E0E0;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.uploadIcon {
+  width: 18px;
+  height: 18px;
+  color: #666;
+}
+
+.profilePreview {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  overflow: hidden;
+}
+
+.profileImage {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.uploadLink {
+  color: #007AFF;
+  font-size: 14px;
+  font-weight: 500;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  text-decoration: none;
+  transition: opacity 0.2s;
+}
+
+.uploadLink:hover {
+  opacity: 0.8;
+  text-decoration: underline;
+}
+
+.uploadLink:focus {
+  outline: 2px solid #007AFF;
+  outline-offset: 2px;
+  border-radius: 4px;
+  padding: 2px 4px;
+}
+
+.uploadHint {
+  color: #999;
+  font-size: 12px;
+  text-align: center;
+  margin: 0;
+}
+
+/* Form Layout */
+.formRow {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+.formGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.label {
+  display: block;
+  font-size: 14px;
+  font-weight: 500;
+  color: #333;
+  margin: 0;
+}
+
+.input {
+  width: 100%;
+  padding: 12px 16px;
+  background: #F5F5F5;
+  border: 1px solid #E0E0E0;
+  border-radius: 6px;
+  font-size: 14px;
+  color: #000;
+  transition: border-color 0.2s, background-color 0.2s;
+  min-height: 44px;
+  font-family: inherit;
+}
+
+.input::placeholder {
+  color: #999;
+}
+
+.input:focus {
+  outline: 2px solid #007AFF;
+  outline-offset: 0;
+  border-color: #007AFF;
+  background: #FFF;
+}
+
+.inputError {
+  border-color: #dc3545;
+}
+
+.errorText {
+  font-size: 12px;
+  color: #dc3545;
+  margin: 0;
+}
+
+/* Autocomplete */
+.autocompleteWrapper {
+  position: relative;
+}
+
+.suggestionsDropdown {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  background: #FFF;
+  border: 1px solid #E0E0E0;
+  border-top: none;
+  border-radius: 0 0 6px 6px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  max-height: 200px;
+  overflow-y: auto;
+  z-index: 10;
+  margin-top: -1px;
+}
+
+.suggestionItem {
+  width: 100%;
+  padding: 12px 16px;
+  text-align: left;
+  background: none;
+  border: none;
+  font-size: 14px;
+  color: #333;
+  cursor: pointer;
+  transition: background-color 0.2s;
+  display: block;
+  font-family: inherit;
+}
+
+.suggestionItem:hover {
+  background-color: #F5F5F5;
+}
+
+.suggestionItem:focus {
+  outline: 2px solid #007AFF;
+  outline-offset: -2px;
+  background-color: #F0F8FF;
+}
+
+.searchingIndicator {
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 12px;
+  color: #666;
+}
+
+/* Submit Button */
+.submitButton {
+  width: 100%;
+  padding: 14px 24px;
+  background: #1a1a1a;
+  color: #FFF;
+  border: none;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s, transform 0.1s;
+  min-height: 48px;
+  font-family: inherit;
+  margin-top: 8px;
+}
+
+.submitButton:hover:not(:disabled) {
+  background: #333;
+  transform: translateY(-1px);
+}
+
+.submitButton:active:not(:disabled) {
+  transform: translateY(0);
+}
+
+.submitButton:focus {
+  outline: 2px solid #007AFF;
+  outline-offset: 2px;
+}
+
+.submitButton:disabled {
+  background: #CCC;
+  cursor: not-allowed;
+  transform: none;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .formRow {
+    grid-template-columns: 1fr;
+  }
+}

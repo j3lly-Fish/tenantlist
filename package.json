@@ -1,7 +1,7 @@
 {
-  "name": "zyx-platform",
+  "name": "waltre-platform",
   "version": "1.0.0",
-  "description": "ZYX Platform - Demand-first commercial real estate marketplace",
+  "description": "Waltre Platform - Demand-first commercial real estate marketplace",
   "main": "index.js",
   "scripts": {
     "test": "NODE_ENV=test jest",
@@ -11,6 +11,7 @@
     "test:auth-endpoints": "jest src/__tests__/api/authEndpoints.test.ts",
     "test:auth-components": "jest src/frontend/__tests__/AuthComponents.test.tsx",
     "test:dashboard": "jest src/__tests__/api/dashboardEndpoints.test.ts",
+    "test:rebranding": "jest src/frontend/__tests__/Rebranding.test.tsx",
     "migrate:up": "ts-node --project tsconfig.server.json src/database/migrate.ts up",
     "migrate:down": "ts-node --project tsconfig.server.json src/database/migrate.ts down",
     "build": "tsc --project tsconfig.server.json",
@@ -20,7 +21,7 @@
     "preview": "vite preview"
   },
   "keywords": [
-    "zyx",
+    "waltre",
     "real-estate",
     "marketplace"
   ],
@@ -55,6 +56,7 @@
     "@aws-sdk/client-s3": "^3.918.0",
     "@aws-sdk/lib-storage": "^3.918.0",
     "@heroicons/react": "^2.2.0",
+    "@react-google-maps/api": "^2.20.8",
     "@sendgrid/mail": "^8.1.6",
     "@types/express": "^5.0.4",
     "@types/ioredis": "^4.28.10",

@@ -19,7 +19,7 @@ interface Testimonial {
 export const Testimonials: React.FC = () => {
   const testimonials: Testimonial[] = [
     {
-      quote: "ZYX transformed how we find retail spaces. Within two weeks, we had three landlords competing for our business. The process was seamless.",
+      quote: "Waltre transformed how we find retail spaces. Within two weeks, we had three landlords competing for our business. The process was seamless.",
       name: 'Sarah Chen',
       role: 'Franchise Developer',
       company: 'Quick Bites Inc.',
@@ -31,7 +31,7 @@ export const Testimonials: React.FC = () => {
       company: 'Rodriguez Holdings',
     },
     {
-      quote: "The matching algorithm saved my team countless hours. We closed 40% more deals last quarter thanks to the quality leads from ZYX.",
+      quote: "The matching algorithm saved my team countless hours. We closed 40% more deals last quarter thanks to the quality leads from Waltre.",
       name: 'Jennifer Walsh',
       role: 'Senior Broker',
       company: 'CBRE',

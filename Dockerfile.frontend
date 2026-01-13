@@ -19,6 +19,10 @@ COPY vite.config.ts ./
 COPY tsconfig.json ./
 COPY tsconfig.node.json ./
 
+# Accept build argument for Google Maps API key
+ARG VITE_GOOGLE_MAPS_API_KEY
+ENV VITE_GOOGLE_MAPS_API_KEY=$VITE_GOOGLE_MAPS_API_KEY
+
 # Build the frontend
 RUN npm run build:frontend
 

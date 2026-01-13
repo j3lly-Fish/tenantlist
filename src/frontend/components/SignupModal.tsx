@@ -284,7 +284,7 @@ export const SignupModal: React.FC<SignupModalProps> = ({
 
         <div className="modal-header">
           <h2 id="signup-modal-title" className="modal-title">Create your account</h2>
-          <p className="modal-subtitle">Get started with ZYX</p>
+          <p className="modal-subtitle">Get started with Waltre</p>
         </div>
 
         <form className="modal-form" onSubmit={handleSubmit}>

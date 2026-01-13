@@ -15,6 +15,7 @@ import matchingRoutes from './routes/matchingRoutes';
 import notificationRoutes from './routes/notificationRoutes';
 import marketInsightsRoutes from './routes/marketInsightsRoutes';
 import subscriptionRoutes from './routes/subscriptionRoutes';
+import performanceRoutes from './routes/performanceRoutes';
 import { HttpsEnforcementMiddleware } from './middleware/securityMiddleware';
 import { TokenRefreshMiddleware } from './middleware/authMiddleware';
 
@@ -58,9 +59,9 @@ export function createApp(): Express {
   // Stripe webhook needs raw body - must be before express.json()
   app.use('/api/subscriptions/webhook', express.raw({ type: 'application/json' }));
 
-  // Middleware
-  app.use(express.json());
-  app.use(express.urlencoded({ extended: true }));
+  // Middleware - increased limit to 15MB for profile images
+  app.use(express.json({ limit: '15mb' }));
+  app.use(express.urlencoded({ extended: true, limit: '15mb' }));
   app.use(cookieParser());
 
   // Token refresh middleware (automatic token refresh)
@@ -113,6 +114,9 @@ export function createApp(): Express {
 
   // Subscription routes
   app.use('/api/subscriptions', subscriptionRoutes);
+
+  // Performance routes
+  app.use('/api/performance', performanceRoutes);
 
   // 404 handler
   app.use((_req: Request, res: Response) => {

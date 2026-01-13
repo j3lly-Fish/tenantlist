@@ -124,6 +124,8 @@ services:
     build:
       context: .
       dockerfile: Dockerfile.frontend
+      args:
+        VITE_GOOGLE_MAPS_API_KEY: ${VITE_GOOGLE_MAPS_API_KEY}
     image: zyx-frontend:${VERSION:-latest}
     container_name: zyx_frontend_production
     restart: unless-stopped

@@ -44,8 +44,8 @@ export const PublicNavigation: React.FC<PublicNavigationProps> = ({
       <div className={styles.container}>
         {/* Left section: Logo */}
         <div className={styles.leftSection}>
-          <Link to="/" className={styles.logo} aria-label="zyx logo - Go to home">
-            <span className={styles.brandName}>zyx</span>
+          <Link to="/" className={styles.logo} aria-label="waltre logo - Go to home">
+            <span className={styles.brandName}>waltre 🔍</span>
           </Link>
         </div>
 

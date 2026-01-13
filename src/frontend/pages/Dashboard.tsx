@@ -10,6 +10,9 @@ import { BusinessProfileStep2Modal } from '@components/BusinessProfileStep2Modal
 import { DemandListingModal } from '@components/DemandListingModal';
 import { EditBusinessModal } from '@components/EditBusinessModal';
 import { DeleteBusinessModal } from '@components/DeleteBusinessModal';
+import { BusinessProfileBlurOverlay } from '@components/BusinessProfileBlurOverlay';
+import { GlobalBusinessSearch } from '@components/GlobalBusinessSearch';
+import { TenantSidebar } from '@components/TenantSidebar';
 import { useAuth } from '@contexts/AuthContext';
 import { getDashboardData, getBusinesses } from '@utils/apiClient';
 import { useBusinessFilter } from '@hooks/useBusinessFilter';
@@ -28,6 +31,8 @@ import styles from './Dashboard.module.css';
  * - Business listings with search, filter, and infinite scroll
  * - Connection indicator showing WebSocket status
  * - Empty state when no businesses
+ * - Blur overlay for onboarding when user has no businesses
+ * - Global business search modal for adding existing businesses
  *
  * Features:
  * - Loads dashboard data on mount
@@ -36,6 +41,8 @@ import styles from './Dashboard.module.css';
  * - Infinite scroll for business listings (20 per page)
  * - Fallback to polling if WebSocket fails
  * - Responsive design (desktop, tablet, mobile)
+ * - Business profile blur overlay for first-time users
+ * - Global business search for adding existing businesses to portfolio
  */
 const Dashboard: React.FC = () => {
   const navigate = useNavigate();
@@ -55,7 +62,12 @@ const Dashboard: React.FC = () => {
   const [hasMore, setHasMore] = useState(false);
   const [isLoadingMore, setIsLoadingMore] = useState(false);
 
+  // Blur overlay state
+  const [showBlurOverlay, setShowBlurOverlay] = useState(false);
+  const [userBusinessCount, setUserBusinessCount] = useState<number>(0);
+
   // Modal state
+  const [showGlobalBusinessSearch, setShowGlobalBusinessSearch] = useState(false);
   const [showBusinessProfileModal, setShowBusinessProfileModal] = useState(false);
   const [showBusinessProfileStep2Modal, setShowBusinessProfileStep2Modal] = useState(false);
   const [showDemandListingModal, setShowDemandListingModal] = useState(false);
@@ -86,6 +98,37 @@ const Dashboard: React.FC = () => {
     const parsed = parseInt(rate.replace('%', ''), 10);
     return isNaN(parsed) ? 0 : parsed;
   };
+
+  /**
+   * Check user's business count to determine if blur overlay should be shown
+   */
+  useEffect(() => {
+    const checkBusinessCount = async () => {
+      try {
+        const response = await fetch('/api/users/businesses', {
+          method: 'GET',
+          credentials: 'include',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        });
+
+        if (!response.ok) {
+          console.error('Failed to fetch user businesses');
+          return;
+        }
+
+        const data = await response.json();
+        const count = data.data?.count || 0;
+        setUserBusinessCount(count);
+        setShowBlurOverlay(count === 0);
+      } catch (err) {
+        console.error('Error checking business count:', err);
+      }
+    };
+
+    checkBusinessCount();
+  }, []);
 
   /**
    * Load initial dashboard data
@@ -165,7 +208,13 @@ const Dashboard: React.FC = () => {
   const handleBusinessCreated = useCallback((newBusiness: Business) => {
     console.log('Business created:', newBusiness);
     setBusinesses((prev) => [newBusiness, ...prev]);
-  }, []);
+
+    // Update business count and hide blur overlay
+    setUserBusinessCount((prev) => prev + 1);
+    if (userBusinessCount === 0) {
+      setShowBlurOverlay(false);
+    }
+  }, [userBusinessCount]);
 
   const handleBusinessDeleted = useCallback((data: { businessId: string }) => {
     console.log('Business deleted:', data.businessId);
@@ -285,15 +334,36 @@ const Dashboard: React.FC = () => {
 
   /**
    * Handle "Add Business" button click
-   * Opens Business Profile modal
+   * Opens Global Business Search modal (from blur overlay or header button)
    */
   const handleAddBusiness = useCallback(() => {
-    setShowBusinessProfileModal(true);
+    setShowGlobalBusinessSearch(true);
+  }, []);
+
+  /**
+   * Handle business added from Global Business Search
+   * Refreshes dashboard data and hides blur overlay
+   */
+  const handleBusinessAddedFromSearch = useCallback(async () => {
+    console.log('Business added from global search - refreshing dashboard');
+
+    // Update business count and hide blur overlay
+    setUserBusinessCount((prev) => prev + 1);
+    setShowBlurOverlay(false);
+
+    // Reload dashboard data to reflect new business
+    try {
+      const data = await getDashboardData();
+      setBusinesses(data.businesses || []);
+      setKpis(data.kpis);
+    } catch (err) {
+      console.error('Failed to reload dashboard:', err);
+    }
   }, []);
 
   /**
    * Handle Business Profile step 1 created
-   * Opens step 2 modal
+   * Opens step 2 modal and hides blur overlay if it was showing
    */
   const handleBusinessProfileCreated = useCallback((businessId: string, businessName: string) => {
     console.log('Step 1 complete - opening step 2 for business:', businessId, businessName);
@@ -301,6 +371,10 @@ const Dashboard: React.FC = () => {
     setCreatedBusinessName(businessName);
     setShowBusinessProfileModal(false);
     setShowBusinessProfileStep2Modal(true);
+
+    // Hide blur overlay immediately after first business is created
+    setUserBusinessCount((prev) => prev + 1);
+    setShowBlurOverlay(false);
   }, []);
 
   /**
@@ -395,8 +469,16 @@ const Dashboard: React.FC = () => {
       {/* Connection indicator */}
       <ConnectionIndicator connectionState={getConnectionState()} />
 
-      <main className={styles.content}>
-        <div className={styles.container}>
+      {/* Main container with sidebar and content */}
+      <div className={styles.layoutContainer}>
+        {/* Left Sidebar */}
+        <aside className={styles.sidebar}>
+          <TenantSidebar />
+        </aside>
+
+        {/* Main Content */}
+        <main className={styles.content}>
+          <div className={styles.container}>
           {/* Dashboard header with action buttons */}
           <div className={styles.headerWithActions}>
             <DashboardHeader />
@@ -415,41 +497,57 @@ const Dashboard: React.FC = () => {
             </div>
           </div>
 
-          {/* KPI Cards Section */}
-          <KPICardsSection
-            activeBusinesses={kpis.activeBusinesses}
-            performance={kpis.messagesTotal}
-            responseRate={parseResponseRate(kpis.responseRate)}
-            landlordViews={kpis.landlordViews}
-            loading={loading}
-          />
+          {/* Dashboard content wrapper for blur effect */}
+          <div className={showBlurOverlay ? styles.blurredContent : ''}>
+            {/* KPI Cards Section */}
+            <KPICardsSection
+              activeBusinesses={kpis.activeBusinesses}
+              performance={kpis.messagesTotal}
+              responseRate={parseResponseRate(kpis.responseRate)}
+              landlordViews={kpis.landlordViews}
+              loading={loading}
+            />
 
-          {/* Business listings section */}
-          <BusinessListingsSection
-            businesses={filteredBusinesses}
-            loading={loading}
-            searchQuery={searchQuery}
-            onSearchChange={setSearchQuery}
-            statusFilter={statusFilter}
-            onStatusFilterChange={setStatusFilter}
-            hasActiveFilters={hasActiveFilters}
-            onClearFilters={clearFilters}
-            onEdit={handleEdit}
-            onDelete={handleDelete}
-            onViewPerformance={handleViewPerformance}
-            onManageLocations={handleManageLocations}
-            onToggleStealthMode={handleToggleStealthMode}
-            onBusinessClick={handleBusinessClick}
-            hasMore={hasMore}
-            isLoadingMore={isLoadingMore}
-          />
+            {/* Business listings section */}
+            <BusinessListingsSection
+              businesses={filteredBusinesses}
+              loading={loading}
+              searchQuery={searchQuery}
+              onSearchChange={setSearchQuery}
+              statusFilter={statusFilter}
+              onStatusFilterChange={setStatusFilter}
+              hasActiveFilters={hasActiveFilters}
+              onClearFilters={clearFilters}
+              onEdit={handleEdit}
+              onDelete={handleDelete}
+              onViewPerformance={handleViewPerformance}
+              onManageLocations={handleManageLocations}
+              onToggleStealthMode={handleToggleStealthMode}
+              onBusinessClick={handleBusinessClick}
+              hasMore={hasMore}
+              isLoadingMore={isLoadingMore}
+            />
 
-          {/* Infinite scroll sentinel */}
-          {hasMore && !hasActiveFilters && (
-            <div ref={sentinelRef} className={styles.scrollSentinel} />
-          )}
+            {/* Infinite scroll sentinel */}
+            {hasMore && !hasActiveFilters && (
+              <div ref={sentinelRef} className={styles.scrollSentinel} />
+            )}
+          </div>
         </div>
       </main>
+
+      {/* Blur Overlay for first-time users */}
+      <BusinessProfileBlurOverlay
+        isVisible={showBlurOverlay}
+        onAddBusinessClick={handleAddBusiness}
+      />
+
+      {/* Global Business Search Modal */}
+      <GlobalBusinessSearch
+        isOpen={showGlobalBusinessSearch}
+        onClose={() => setShowGlobalBusinessSearch(false)}
+        onBusinessAdded={handleBusinessAddedFromSearch}
+      />
 
       {/* Modals */}
       <BusinessProfileModal
@@ -501,6 +599,7 @@ const Dashboard: React.FC = () => {
         }}
         onConfirm={handleConfirmDelete}
       />
+      </div>
     </div>
   );
 };

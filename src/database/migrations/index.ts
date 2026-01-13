@@ -30,6 +30,7 @@ import { createTenantLocationsTableMigration } from './028-create-tenant-locatio
 import { createBrokerTenantRequestsTableMigration } from './029-create-broker-tenant-requests-table';
 import { createBusinessProfileStatsTableMigration } from './030-create-business-profile-stats-table';
 import { enhanceDemandListingsTableMigration } from './031-enhance-demand-listings-table';
+import { addBusinessSearchIndexesMigration } from './032-add-business-search-indexes';
 
 // Export all migrations in order
 export const migrations: Migration[] = [
@@ -64,4 +65,5 @@ export const migrations: Migration[] = [
   createBrokerTenantRequestsTableMigration,
   createBusinessProfileStatsTableMigration,
   enhanceDemandListingsTableMigration,
+  addBusinessSearchIndexesMigration,
 ];
