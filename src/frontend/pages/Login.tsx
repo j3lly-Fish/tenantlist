@@ -205,7 +205,7 @@ const Login: React.FC = () => {
           <BenefitsTabs onGetStarted={handleBenefitsGetStarted} />
         </div>
 
-        {/* Why Choose ZYX Section */}
+        {/* Why Choose Waltre Section */}
         <div id="pricing">
           <WhyChoose />
         </div>
@@ -239,7 +239,7 @@ const Login: React.FC = () => {
       {signupData && (
         <ProfileCompletionModal
           isOpen={showProfileCompletion}
-          onClose={() => {}} // Prevent closing - user must complete profile
+          onClose={() => { }} // Prevent closing - user must complete profile
           email={signupData.email}
           role={signupData.role}
           onProfileCompleted={handleProfileCompleted}

@@ -1,7 +1,7 @@
 /* Dashboard Page - Figma Design System */
 .dashboard {
   min-height: 100vh;
-  background-color: var(--zyx-gray-100);
+  background-color: var(--waltre-gray-100);
 }
 
 /* Layout Container with Sidebar */
@@ -15,7 +15,7 @@
 .sidebar {
   width: 250px;
   background-color: #f8f9fa;
-  border-right: 1px solid var(--zyx-gray-200);
+  border-right: 1px solid var(--waltre-gray-200);
   flex-shrink: 0;
   position: sticky;
   top: 80px;
@@ -53,8 +53,8 @@
   align-items: center;
   gap: var(--spacing-8);
   padding: var(--spacing-12) var(--spacing-20);
-  background-color: var(--zyx-white);
-  color: var(--zyx-gray-600);
+  background-color: var(--waltre-white);
+  color: var(--waltre-gray-600);
   border: var(--border-width-thin) solid var(--border-color-default);
   border-radius: var(--button-radius);
   font-size: var(--font-size-14);
@@ -64,18 +64,18 @@
 }
 
 .viewMetricsButton:hover {
-  background-color: var(--zyx-gray-100);
-  border-color: var(--zyx-gray-400);
+  background-color: var(--waltre-gray-100);
+  border-color: var(--waltre-gray-400);
 }
 
 .viewMetricsButton svg {
-  color: var(--zyx-gray-500);
+  color: var(--waltre-gray-500);
 }
 
 .addBusinessButton {
   padding: var(--spacing-12) var(--spacing-24);
-  background-color: var(--zyx-gray-700);
-  color: var(--zyx-white);
+  background-color: var(--waltre-gray-700);
+  color: var(--waltre-white);
   border: none;
   border-radius: var(--button-radius);
   font-size: var(--font-size-16);
@@ -88,7 +88,7 @@
 }
 
 .addBusinessButton:hover {
-  background-color: var(--zyx-gray-600);
+  background-color: var(--waltre-gray-600);
   transform: translateY(-1px);
   box-shadow: var(--shadow-card);
 }
@@ -107,7 +107,7 @@
 .errorState {
   text-align: center;
   padding: var(--spacing-64) var(--spacing-24);
-  background-color: var(--zyx-white);
+  background-color: var(--waltre-white);
   border-radius: var(--radius-12);
   border: var(--border-width-thin) solid var(--border-color-light);
   max-width: 500px;
@@ -117,20 +117,20 @@
 .errorState h2 {
   font-size: var(--font-size-24);
   font-weight: var(--font-weight-semibold);
-  color: var(--zyx-error);
+  color: var(--waltre-error);
   margin: 0 0 var(--spacing-16) 0;
 }
 
 .errorState p {
   font-size: var(--font-size-16);
-  color: var(--zyx-gray-600);
+  color: var(--waltre-gray-600);
   margin: 0 0 var(--spacing-24) 0;
 }
 
 .retryButton {
   padding: var(--spacing-12) var(--spacing-24);
-  background-color: var(--zyx-info);
-  color: var(--zyx-white);
+  background-color: var(--waltre-info);
+  color: var(--waltre-white);
   border: none;
   border-radius: var(--button-radius);
   font-size: var(--font-size-16);
@@ -140,13 +140,13 @@
 }
 
 .retryButton:hover {
-  background-color: var(--zyx-gray-600);
+  background-color: var(--waltre-gray-600);
 }
 
 .connectionStatus {
   margin-bottom: var(--spacing-16);
   padding: var(--spacing-8) var(--spacing-16);
-  background-color: var(--zyx-white);
+  background-color: var(--waltre-white);
   border-radius: var(--radius-8);
   border: var(--border-width-thin) solid var(--border-color-light);
   display: inline-flex;
@@ -156,7 +156,7 @@
 }
 
 .statusConnected {
-  color: var(--zyx-success);
+  color: var(--waltre-success);
 }
 
 .statusConnected::before {
@@ -165,7 +165,7 @@
 }
 
 .statusPolling {
-  color: var(--zyx-warning);
+  color: var(--waltre-warning);
 }
 
 .statusPolling::before {

@@ -45,17 +45,17 @@
      ======================================== */
 
   /* Color scheme - Mapped to Figma colors */
-  --color-primary: var(--zyx-info);
+  --color-primary: var(--waltre-info);
   --color-primary-dark: #2563eb; /* Keep for now, can map to darker blue variant */
-  --color-secondary: var(--zyx-gray-600);
-  --color-success: var(--zyx-success);
-  --color-warning: var(--zyx-warning);
-  --color-error: var(--zyx-error);
-  --color-background: var(--zyx-white);
-  --color-surface: var(--zyx-gray-100);
-  --color-border: var(--zyx-gray-200);
-  --color-text-primary: var(--zyx-gray-700);
-  --color-text-secondary: var(--zyx-gray-600);
+  --color-secondary: var(--waltre-gray-600);
+  --color-success: var(--waltre-success);
+  --color-warning: var(--waltre-warning);
+  --color-error: var(--waltre-error);
+  --color-background: var(--waltre-white);
+  --color-surface: var(--waltre-gray-100);
+  --color-border: var(--waltre-gray-200);
+  --color-text-primary: var(--waltre-gray-700);
+  --color-text-secondary: var(--waltre-gray-600);
 
   /* Typography - Mapped to Figma typography */
   --font-family: var(--font-family-primary);
@@ -105,8 +105,8 @@ html {
 
 body {
   font-family: var(--font-family-primary);
-  color: var(--zyx-gray-700);
-  background-color: var(--zyx-gray-100);
+  color: var(--waltre-gray-700);
+  background-color: var(--waltre-gray-100);
   line-height: var(--line-height-relaxed);
   min-height: 100vh;
   -webkit-font-smoothing: antialiased;
@@ -132,7 +132,7 @@ body {
 
 /* Focus styles - Figma Blue */
 *:focus-visible {
-  outline: 2px solid var(--zyx-info);
+  outline: 2px solid var(--waltre-info);
   outline-offset: 2px;
   box-shadow: var(--shadow-focus);
 }

@@ -10,7 +10,7 @@ export const productionConfig = {
   database: {
     host: process.env.DATABASE_HOST || 'localhost',
     port: parseInt(process.env.DATABASE_PORT || '5432', 10),
-    database: process.env.DATABASE_NAME || 'zyx_production',
+    database: process.env.DATABASE_NAME || 'waltre_production',
     user: process.env.DATABASE_USER || 'postgres',
     password: process.env.DATABASE_PASSWORD,
     ssl: process.env.DATABASE_SSL === 'true' ? {
@@ -81,10 +81,10 @@ export const productionConfig = {
       accessKeyId: process.env.AWS_SES_ACCESS_KEY_ID || '',
       secretAccessKey: process.env.AWS_SES_SECRET_ACCESS_KEY || '',
     },
-    from: process.env.EMAIL_FROM || 'noreply@zyx.com',
+    from: process.env.EMAIL_FROM || 'noreply@waltre.com',
     fromName: process.env.EMAIL_FROM_NAME || 'ZYX Platform',
-    verificationUrl: process.env.EMAIL_VERIFICATION_URL || 'https://app.zyx.com/verify-email',
-    passwordResetUrl: process.env.PASSWORD_RESET_URL || 'https://app.zyx.com/reset-password',
+    verificationUrl: process.env.EMAIL_VERIFICATION_URL || 'https://app.waltre.com/verify-email',
+    passwordResetUrl: process.env.PASSWORD_RESET_URL || 'https://app.waltre.com/reset-password',
     verificationTokenExpiry: process.env.EMAIL_VERIFICATION_TOKEN_EXPIRY || '1h',
     passwordResetTokenExpiry: process.env.PASSWORD_RESET_TOKEN_EXPIRY || '1h',
   },
@@ -94,7 +94,7 @@ export const productionConfig = {
     accessKeyId: process.env.AWS_ACCESS_KEY_ID || '',
     secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY || '',
     region: process.env.AWS_REGION || process.env.S3_BUCKET_REGION || 'us-east-1',
-    bucketName: process.env.S3_BUCKET_NAME || 'zyx-production-profile-photos',
+    bucketName: process.env.S3_BUCKET_NAME || 'waltre-production-profile-photos',
     maxFileSize: parseInt(process.env.S3_MAX_FILE_SIZE || '10485760', 10), // 10MB
     allowedFileTypes: (process.env.S3_ALLOWED_FILE_TYPES || 'image/jpeg,image/png,image/gif').split(','),
     profilePhotoSize: parseInt(process.env.S3_PROFILE_PHOTO_SIZE || '400', 10),
@@ -109,14 +109,14 @@ export const productionConfig = {
   // Application Configuration
   app: {
     env: 'production',
-    frontendUrl: process.env.FRONTEND_URL || 'https://app.zyx.com',
-    backendUrl: process.env.BACKEND_URL || 'https://api.zyx.com',
+    frontendUrl: process.env.FRONTEND_URL || 'https://app.waltre.com',
+    backendUrl: process.env.BACKEND_URL || 'https://api.waltre.com',
     port: parseInt(process.env.API_PORT || '4000', 10),
   },
 
   // CORS Configuration
   cors: {
-    origin: process.env.CORS_ORIGIN || 'https://app.zyx.com',
+    origin: process.env.CORS_ORIGIN || 'https://app.waltre.com',
     credentials: process.env.CORS_CREDENTIALS === 'true',
   },
 
@@ -144,7 +144,7 @@ export const productionConfig = {
       cookieSecure: process.env.SESSION_COOKIE_SECURE !== 'false',
       cookieHttpOnly: process.env.SESSION_COOKIE_HTTPONLY !== 'false',
       cookieSameSite: process.env.SESSION_COOKIE_SAMESITE || 'strict',
-      cookieDomain: process.env.SESSION_COOKIE_DOMAIN || '.zyx.com',
+      cookieDomain: process.env.SESSION_COOKIE_DOMAIN || '.waltre.com',
     },
     csrf: {
       enabled: process.env.CSRF_ENABLED !== 'false',
@@ -172,7 +172,7 @@ export const productionConfig = {
     datadog: {
       apiKey: process.env.DD_API_KEY,
       appKey: process.env.DD_APP_KEY,
-      service: process.env.DD_SERVICE || 'zyx-api',
+      service: process.env.DD_SERVICE || 'waltre-api',
       env: process.env.DD_ENV || 'production',
       version: process.env.DD_VERSION || '1.0.0',
     },

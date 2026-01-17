@@ -3,7 +3,7 @@
   display: flex;
   align-items: center;
   gap: var(--spacing-8);
-  background: var(--zyx-white);
+  background: var(--waltre-white);
   padding: var(--spacing-8) var(--spacing-12);
   border-radius: var(--radius-full);
   border: var(--border-width-thin) solid var(--border-color-light);
@@ -18,20 +18,20 @@
 }
 
 .connected {
-  background-color: var(--zyx-success);
+  background-color: var(--waltre-success);
 }
 
 .disconnected {
-  background-color: var(--zyx-error);
+  background-color: var(--waltre-error);
 }
 
 .reconnecting {
-  background-color: var(--zyx-warning);
+  background-color: var(--waltre-warning);
   animation: pulse-glow 1.5s ease-in-out infinite;
 }
 
 .polling {
-  background-color: var(--zyx-info);
+  background-color: var(--waltre-info);
 }
 
 @keyframes pulse-glow {
@@ -48,7 +48,7 @@
 .statusText {
   font-size: var(--font-size-14);
   font-weight: var(--font-weight-medium);
-  color: var(--zyx-gray-700);
+  color: var(--waltre-gray-700);
   white-space: nowrap;
 }
 

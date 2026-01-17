@@ -7,7 +7,7 @@
 /* Hero Section */
 .hero {
   background: white;
-  border: 1px solid var(--zyx-gray-200, #e5e7eb);
+  border: 1px solid var(--waltre-gray-200, #e5e7eb);
   border-radius: 8px;
   overflow: hidden;
 }
@@ -63,13 +63,13 @@
   height: 100%;
   border-radius: 50%;
   border: 4px solid white;
-  background: var(--zyx-gray-200, #e5e7eb);
+  background: var(--waltre-gray-200, #e5e7eb);
   display: flex;
   align-items: center;
   justify-content: center;
   font-size: 48px;
   font-weight: 600;
-  color: var(--zyx-gray-600, #666666);
+  color: var(--waltre-gray-600, #666666);
 }
 
 .verifiedBadge {
@@ -94,14 +94,14 @@
 .companyName {
   font-size: 32px;
   font-weight: 700;
-  color: var(--zyx-gray-900, #1a1a1a);
+  color: var(--waltre-gray-900, #1a1a1a);
   margin: 0 0 8px 0;
   line-height: 1.2;
 }
 
 .category {
   font-size: 16px;
-  color: var(--zyx-gray-600, #666666);
+  color: var(--waltre-gray-600, #666666);
   margin: 0 0 16px 0;
 }
 
@@ -115,7 +115,7 @@
 .ratingValue {
   font-size: 18px;
   font-weight: 600;
-  color: var(--zyx-gray-900, #1a1a1a);
+  color: var(--waltre-gray-900, #1a1a1a);
 }
 
 .starIcon {
@@ -125,7 +125,7 @@
 
 .reviewCount {
   font-size: 14px;
-  color: var(--zyx-gray-600, #666666);
+  color: var(--waltre-gray-600, #666666);
 }
 
 .socialLinks {
@@ -140,9 +140,9 @@
   gap: 8px;
   padding: 8px 16px;
   background: white;
-  border: 1px solid var(--zyx-gray-300, #e0e0e0);
+  border: 1px solid var(--waltre-gray-300, #e0e0e0);
   border-radius: 8px;
-  color: var(--zyx-gray-700, #1a1a1a);
+  color: var(--waltre-gray-700, #1a1a1a);
   font-size: 14px;
   font-weight: 500;
   text-decoration: none;
@@ -150,8 +150,8 @@
 }
 
 .socialButton:hover {
-  background: var(--zyx-gray-50, #f9fafb);
-  border-color: var(--zyx-gray-400, #9ca3af);
+  background: var(--waltre-gray-50, #f9fafb);
+  border-color: var(--waltre-gray-400, #9ca3af);
   transform: translateY(-1px);
 }
 

@@ -51,7 +51,7 @@ describe('Login Page Integration', () => {
     expect(benefitsHeading).toBeInTheDocument();
 
     // Why Choose section
-    const whyChooseHeading = screen.getByRole('heading', { name: /why choose zyx/i });
+    const whyChooseHeading = screen.getByRole('heading', { name: /why choose waltre/i });
     expect(whyChooseHeading).toBeInTheDocument();
 
     // Testimonials section

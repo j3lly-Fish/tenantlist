@@ -1,7 +1,7 @@
 /* Broker Dashboard Page - Figma Design System */
 .dashboard {
   min-height: 100vh;
-  background-color: var(--zyx-gray-100);
+  background-color: var(--waltre-gray-100);
 }
 
 .content {
@@ -31,14 +31,14 @@
 .pageTitle {
   font-size: var(--font-size-28);
   font-weight: var(--font-weight-bold);
-  color: var(--zyx-gray-700);
+  color: var(--waltre-gray-700);
   margin: 0 0 var(--spacing-8) 0;
   line-height: var(--line-height-36);
 }
 
 .pageSubtitle {
   font-size: var(--font-size-16);
-  color: var(--zyx-gray-600);
+  color: var(--waltre-gray-600);
   margin: 0;
   line-height: var(--line-height-24);
 }
@@ -52,8 +52,8 @@
 
 .profileButton {
   padding: var(--spacing-12) var(--spacing-24);
-  background-color: var(--zyx-gray-700);
-  color: var(--zyx-white);
+  background-color: var(--waltre-gray-700);
+  color: var(--waltre-white);
   border: none;
   border-radius: var(--button-radius);
   font-size: var(--font-size-16);
@@ -65,7 +65,7 @@
 }
 
 .profileButton:hover {
-  background-color: var(--zyx-gray-600);
+  background-color: var(--waltre-gray-600);
   transform: translateY(-1px);
   box-shadow: var(--shadow-card);
 }
@@ -75,7 +75,7 @@
 }
 
 .profileButton:focus-visible {
-  outline: 2px solid var(--zyx-info);
+  outline: 2px solid var(--waltre-info);
   outline-offset: 2px;
   box-shadow: var(--shadow-focus);
 }
@@ -98,7 +98,7 @@
   gap: var(--spacing-8);
   margin-bottom: var(--spacing-24);
   padding: var(--spacing-4);
-  background-color: var(--zyx-white);
+  background-color: var(--waltre-white);
   border-radius: var(--button-radius);
   box-shadow: var(--shadow-xs);
   width: fit-content;
@@ -107,7 +107,7 @@
 .toggleButton {
   padding: var(--spacing-12) var(--spacing-24);
   background-color: transparent;
-  color: var(--zyx-gray-600);
+  color: var(--waltre-gray-600);
   border: none;
   border-radius: calc(var(--button-radius) - 2px);
   font-size: var(--font-size-16);
@@ -118,23 +118,23 @@
 }
 
 .toggleButton:hover {
-  background-color: var(--zyx-gray-200);
-  color: var(--zyx-gray-700);
+  background-color: var(--waltre-gray-200);
+  color: var(--waltre-gray-700);
 }
 
 .toggleButton.active {
-  background-color: var(--zyx-gray-700);
-  color: var(--zyx-white);
+  background-color: var(--waltre-gray-700);
+  color: var(--waltre-white);
   font-weight: var(--font-weight-semibold);
 }
 
 .toggleButton:focus-visible {
-  outline: 2px solid var(--zyx-info);
+  outline: 2px solid var(--waltre-info);
   outline-offset: 2px;
 }
 
 .viewContent {
-  background-color: var(--zyx-white);
+  background-color: var(--waltre-white);
   border-radius: var(--card-radius);
   padding: var(--spacing-32);
   box-shadow: var(--shadow-card);
@@ -148,7 +148,7 @@
   justify-content: center;
   min-height: 300px;
   text-align: center;
-  color: var(--zyx-gray-500);
+  color: var(--waltre-gray-500);
 }
 
 .placeholderContent p {
@@ -159,7 +159,7 @@
 
 .placeholderSubtext {
   font-size: var(--font-size-14);
-  color: var(--zyx-gray-400);
+  color: var(--waltre-gray-400);
   font-weight: var(--font-weight-normal);
 }
 
@@ -176,20 +176,20 @@
 .errorState h2 {
   font-size: var(--font-size-24);
   font-weight: var(--font-weight-semibold);
-  color: var(--zyx-gray-700);
+  color: var(--waltre-gray-700);
   margin: 0 0 var(--spacing-12) 0;
 }
 
 .errorState p {
   font-size: var(--font-size-16);
-  color: var(--zyx-gray-600);
+  color: var(--waltre-gray-600);
   margin: 0 0 var(--spacing-24) 0;
 }
 
 .retryButton {
   padding: var(--spacing-12) var(--spacing-24);
-  background-color: var(--zyx-gray-700);
-  color: var(--zyx-white);
+  background-color: var(--waltre-gray-700);
+  color: var(--waltre-white);
   border: none;
   border-radius: var(--button-radius);
   font-size: var(--font-size-16);
@@ -199,7 +199,7 @@
 }
 
 .retryButton:hover {
-  background-color: var(--zyx-gray-600);
+  background-color: var(--waltre-gray-600);
 }
 
 /* Infinite scroll sentinel */

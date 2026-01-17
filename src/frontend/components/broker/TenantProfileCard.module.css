@@ -18,12 +18,12 @@
 .tenantCard:hover {
   transform: translateY(-4px);
   box-shadow: 0 12px 24px rgba(0, 0, 0, 0.1);
-  border-color: var(--zyx-info, #4a90e2);
+  border-color: var(--waltre-info, #4a90e2);
 }
 
 .tenantCard:focus {
   outline: none;
-  border-color: var(--zyx-info, #4a90e2);
+  border-color: var(--waltre-info, #4a90e2);
   box-shadow: 0 0 0 3px rgba(74, 144, 226, 0.1);
 }
 
@@ -78,7 +78,7 @@
 .companyName {
   font-size: 18px;
   font-weight: 600;
-  color: var(--zyx-gray-900, #1a1a1a);
+  color: var(--waltre-gray-900, #1a1a1a);
   margin: 0;
   line-height: 1.3;
   font-family: var(--font-primary, 'SF Pro Display', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif);
@@ -87,7 +87,7 @@
 
 .category {
   font-size: 14px;
-  color: var(--zyx-gray-600, #666666);
+  color: var(--waltre-gray-600, #666666);
   margin: 0;
   line-height: 1.4;
   font-weight: 500;
@@ -105,7 +105,7 @@
 .ratingValue {
   font-size: 15px;
   font-weight: 600;
-  color: var(--zyx-gray-900, #1a1a1a);
+  color: var(--waltre-gray-900, #1a1a1a);
   font-family: var(--font-primary, 'SF Pro Text', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif);
 }
 
@@ -115,7 +115,7 @@
 
 .reviewCount {
   font-size: 13px;
-  color: var(--zyx-gray-600, #666666);
+  color: var(--waltre-gray-600, #666666);
 }
 
 /* Location */
@@ -125,12 +125,12 @@
   justify-content: center;
   gap: 6px;
   margin-top: 4px;
-  color: var(--zyx-gray-600, #666666);
+  color: var(--waltre-gray-600, #666666);
 }
 
 .locationIcon {
   flex-shrink: 0;
-  color: var(--zyx-gray-500, #9ca3af);
+  color: var(--waltre-gray-500, #9ca3af);
 }
 
 .locationText {

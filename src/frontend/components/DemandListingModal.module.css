@@ -15,7 +15,7 @@
 }
 
 .modalContainer {
-  background: var(--zyx-white);
+  background: var(--waltre-white);
   border-radius: var(--radius-12);
   max-width: 800px;
   width: 100%;
@@ -32,20 +32,20 @@
   align-items: flex-start;
   position: sticky;
   top: 0;
-  background: var(--zyx-white);
+  background: var(--waltre-white);
   z-index: 1;
 }
 
 .modalTitle {
   font-size: var(--font-size-18);
   font-weight: var(--font-weight-semibold);
-  color: var(--zyx-gray-700);
+  color: var(--waltre-gray-700);
   margin: 0 0 var(--spacing-4) 0;
 }
 
 .modalSubtitle {
   font-size: var(--font-size-14);
-  color: var(--zyx-gray-500);
+  color: var(--waltre-gray-500);
   margin: 0;
 }
 
@@ -54,14 +54,14 @@
   border: none;
   padding: var(--spacing-4);
   cursor: pointer;
-  color: var(--zyx-gray-500);
+  color: var(--waltre-gray-500);
   border-radius: var(--radius-4);
   transition: all var(--transition-normal);
 }
 
 .closeButton:hover {
-  color: var(--zyx-gray-700);
-  background-color: var(--zyx-gray-200);
+  color: var(--waltre-gray-700);
+  background-color: var(--waltre-gray-200);
 }
 
 .modalContent {
@@ -86,14 +86,14 @@
 
 .helpText {
   font-size: var(--font-size-12);
-  color: var(--zyx-gray-500);
+  color: var(--waltre-gray-500);
   margin-top: var(--spacing-4);
 }
 
 .label {
   font-size: var(--font-size-14);
   font-weight: var(--font-weight-medium);
-  color: var(--zyx-gray-600);
+  color: var(--waltre-gray-600);
   margin-bottom: var(--spacing-8);
 }
 
@@ -105,33 +105,33 @@
   border-radius: var(--radius-8);
   transition: all var(--transition-normal);
   font-family: inherit;
-  background: var(--zyx-white);
-  color: var(--zyx-gray-700);
+  background: var(--waltre-white);
+  color: var(--waltre-gray-700);
 }
 
 .input:focus,
 .select:focus {
   outline: none;
-  border-color: var(--zyx-info);
+  border-color: var(--waltre-info);
   box-shadow: var(--shadow-focus);
 }
 
 .inputError {
-  border-color: var(--zyx-error);
+  border-color: var(--waltre-error);
 }
 
 .errorText {
   font-size: var(--font-size-12);
-  color: var(--zyx-error);
+  color: var(--waltre-error);
   margin-top: var(--spacing-4);
 }
 
 .errorMessage {
   padding: var(--spacing-12);
-  background-color: var(--zyx-error-light);
-  border: var(--border-width-thin) solid var(--zyx-error-light);
+  background-color: var(--waltre-error-light);
+  border: var(--border-width-thin) solid var(--waltre-error-light);
   border-radius: var(--radius-8);
-  color: var(--zyx-error);
+  color: var(--waltre-error);
   font-size: var(--font-size-14);
   margin-top: var(--spacing-16);
 }
@@ -159,24 +159,24 @@
 }
 
 .cancelButton {
-  background-color: var(--zyx-white);
+  background-color: var(--waltre-white);
   border: var(--border-width-thin) solid var(--border-color-default);
-  color: var(--zyx-gray-600);
+  color: var(--waltre-gray-600);
 }
 
 .cancelButton:hover:not(:disabled) {
-  background-color: var(--zyx-gray-100);
-  border-color: var(--zyx-gray-400);
+  background-color: var(--waltre-gray-100);
+  border-color: var(--waltre-gray-400);
 }
 
 .submitButton {
-  background-color: var(--zyx-gray-700);
+  background-color: var(--waltre-gray-700);
   border: none;
-  color: var(--zyx-white);
+  color: var(--waltre-white);
 }
 
 .submitButton:hover:not(:disabled) {
-  background-color: var(--zyx-gray-600);
+  background-color: var(--waltre-gray-600);
   transform: translateY(-1px);
   box-shadow: var(--shadow-card);
 }
@@ -187,7 +187,7 @@
 
 .submitButton:focus-visible,
 .cancelButton:focus-visible {
-  outline: 2px solid var(--zyx-info);
+  outline: 2px solid var(--waltre-info);
   outline-offset: 2px;
   box-shadow: var(--shadow-focus);
 }
@@ -209,7 +209,7 @@
   gap: var(--spacing-12);
   cursor: pointer;
   font-size: var(--font-size-14);
-  color: var(--zyx-gray-600);
+  color: var(--waltre-gray-600);
 }
 
 .toggleSwitch {
@@ -243,13 +243,13 @@
   width: 18px;
   left: 3px;
   bottom: 3px;
-  background-color: var(--zyx-white);
+  background-color: var(--waltre-white);
   transition: var(--transition-slow);
   border-radius: var(--radius-circle);
 }
 
 .toggleSwitch input:checked + .toggleSlider {
-  background-color: var(--zyx-gray-700);
+  background-color: var(--waltre-gray-700);
 }
 
 .toggleSwitch input:checked + .toggleSlider::before {
@@ -259,7 +259,7 @@
 .toggleIcon {
   display: flex;
   align-items: center;
-  color: var(--zyx-gray-500);
+  color: var(--waltre-gray-500);
 }
 
 /* Step 2: Features Grid */
@@ -275,7 +275,7 @@
   gap: var(--spacing-8);
   cursor: pointer;
   font-size: var(--font-size-14);
-  color: var(--zyx-gray-600);
+  color: var(--waltre-gray-600);
   padding: var(--spacing-4) 0;
 }
 
@@ -298,22 +298,22 @@
 }
 
 .featureCheckbox input:checked + .checkmark {
-  background-color: var(--zyx-gray-700);
-  border-color: var(--zyx-gray-700);
+  background-color: var(--waltre-gray-700);
+  border-color: var(--waltre-gray-700);
 }
 
 .featureCheckbox input:checked + .checkmark::after {
   content: "";
   width: 5px;
   height: 9px;
-  border: solid var(--zyx-white);
+  border: solid var(--waltre-white);
   border-width: 0 2px 2px 0;
   transform: rotate(45deg);
   margin-bottom: 2px;
 }
 
 .featureCheckbox:hover .checkmark {
-  border-color: var(--zyx-gray-400);
+  border-color: var(--waltre-gray-400);
 }
 
 .featureLabel {

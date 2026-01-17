@@ -15,7 +15,7 @@
 }
 
 .modalContainer {
-  background: var(--zyx-white);
+  background: var(--waltre-white);
   border-radius: var(--radius-12);
   width: 100%;
   max-width: 700px;
@@ -32,20 +32,20 @@
   border-bottom: var(--border-width-thin) solid var(--border-color-default);
   position: sticky;
   top: 0;
-  background: var(--zyx-white);
+  background: var(--waltre-white);
   z-index: 10;
 }
 
 .modalTitle {
   font-size: var(--font-size-18);
   font-weight: var(--font-weight-semibold);
-  color: var(--zyx-gray-700);
+  color: var(--waltre-gray-700);
   margin: 0 0 var(--spacing-4) 0;
 }
 
 .modalSubtitle {
   font-size: var(--font-size-14);
-  color: var(--zyx-gray-500);
+  color: var(--waltre-gray-500);
   margin: 0;
 }
 
@@ -54,14 +54,14 @@
   border: none;
   padding: var(--spacing-8);
   cursor: pointer;
-  color: var(--zyx-gray-400);
+  color: var(--waltre-gray-400);
   border-radius: var(--radius-8);
   transition: all var(--transition-fast);
 }
 
 .closeButton:hover {
-  background-color: var(--zyx-gray-200);
-  color: var(--zyx-gray-600);
+  background-color: var(--waltre-gray-200);
+  color: var(--waltre-gray-600);
 }
 
 .modalContent {
@@ -90,7 +90,7 @@
 .label {
   font-size: var(--font-size-14);
   font-weight: var(--font-weight-medium);
-  color: var(--zyx-gray-600);
+  color: var(--waltre-gray-600);
 }
 
 .input,
@@ -100,25 +100,25 @@
   border: var(--border-width-thin) solid var(--border-color-default);
   border-radius: var(--radius-8);
   font-size: var(--font-size-14);
-  color: var(--zyx-gray-700);
+  color: var(--waltre-gray-700);
   transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
-  background-color: var(--zyx-white);
+  background-color: var(--waltre-white);
 }
 
 .input:focus,
 .select:focus,
 .textarea:focus {
   outline: none;
-  border-color: var(--zyx-info);
+  border-color: var(--waltre-info);
   box-shadow: var(--shadow-focus);
 }
 
 .inputError {
-  border-color: var(--zyx-error);
+  border-color: var(--waltre-error);
 }
 
 .inputError:focus {
-  border-color: var(--zyx-error);
+  border-color: var(--waltre-error);
   box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.1);
 }
 
@@ -133,16 +133,16 @@
 
 .errorText {
   font-size: var(--font-size-12);
-  color: var(--zyx-error);
+  color: var(--waltre-error);
   margin: 0;
 }
 
 .errorMessage {
-  background-color: var(--zyx-error-light);
-  border: var(--border-width-thin) solid var(--zyx-error-light);
+  background-color: var(--waltre-error-light);
+  border: var(--border-width-thin) solid var(--waltre-error-light);
   border-radius: var(--radius-8);
   padding: var(--spacing-12) var(--spacing-16);
-  color: var(--zyx-error);
+  color: var(--waltre-error);
   font-size: var(--font-size-14);
   margin-top: var(--spacing-16);
 }
@@ -168,25 +168,25 @@
 }
 
 .cancelButton {
-  background: var(--zyx-white);
+  background: var(--waltre-white);
   border: var(--border-width-thin) solid var(--border-color-default);
-  color: var(--zyx-gray-600);
+  color: var(--waltre-gray-600);
 }
 
 .cancelButton:hover {
-  background-color: var(--zyx-gray-100);
-  border-color: var(--zyx-gray-400);
+  background-color: var(--waltre-gray-100);
+  border-color: var(--waltre-gray-400);
 }
 
 .submitButton {
-  background-color: var(--zyx-gray-700);
-  border: var(--border-width-thin) solid var(--zyx-gray-700);
-  color: var(--zyx-white);
+  background-color: var(--waltre-gray-700);
+  border: var(--border-width-thin) solid var(--waltre-gray-700);
+  color: var(--waltre-white);
 }
 
 .submitButton:hover:not(:disabled) {
-  background-color: var(--zyx-gray-600);
-  border-color: var(--zyx-gray-600);
+  background-color: var(--waltre-gray-600);
+  border-color: var(--waltre-gray-600);
   transform: translateY(-1px);
   box-shadow: var(--shadow-card);
 }
@@ -197,7 +197,7 @@
 
 .submitButton:focus-visible,
 .cancelButton:focus-visible {
-  outline: 2px solid var(--zyx-info);
+  outline: 2px solid var(--waltre-info);
   outline-offset: 2px;
   box-shadow: var(--shadow-focus);
 }
@@ -215,7 +215,7 @@
 .sectionTitle {
   font-size: var(--font-size-16);
   font-weight: var(--font-weight-semibold);
-  color: var(--zyx-gray-700);
+  color: var(--waltre-gray-700);
   margin: 0 0 var(--spacing-16) 0;
 }
 
@@ -239,7 +239,7 @@
 }
 
 .amenityCheckbox:hover {
-  background-color: var(--zyx-gray-100);
+  background-color: var(--waltre-gray-100);
   border-color: var(--border-color-default);
 }
 
@@ -248,8 +248,8 @@
 }
 
 .amenityCheckbox input:checked + .checkmark {
-  background-color: var(--zyx-gray-700);
-  border-color: var(--zyx-gray-700);
+  background-color: var(--waltre-gray-700);
+  border-color: var(--waltre-gray-700);
 }
 
 .amenityCheckbox input:checked + .checkmark::after {
@@ -274,13 +274,13 @@
   top: 1px;
   width: 5px;
   height: 10px;
-  border: solid var(--zyx-white);
+  border: solid var(--waltre-white);
   border-width: 0 2px 2px 0;
   transform: rotate(45deg);
 }
 
 .amenityLabel {
-  color: var(--zyx-gray-600);
+  color: var(--waltre-gray-600);
 }
 
 /* Highlights */
@@ -295,18 +295,18 @@
 
 .addButton {
   padding: var(--spacing-10) var(--spacing-16);
-  background-color: var(--zyx-gray-200);
+  background-color: var(--waltre-gray-200);
   border: var(--border-width-thin) solid var(--border-color-default);
   border-radius: var(--radius-8);
   font-size: var(--font-size-14);
   font-weight: var(--font-weight-medium);
-  color: var(--zyx-gray-600);
+  color: var(--waltre-gray-600);
   cursor: pointer;
   transition: all var(--transition-fast);
 }
 
 .addButton:hover:not(:disabled) {
-  background-color: var(--zyx-gray-quinary);
+  background-color: var(--waltre-gray-quinary);
 }
 
 .addButton:disabled {
@@ -326,11 +326,11 @@
   align-items: center;
   gap: var(--spacing-8);
   padding: var(--spacing-8) var(--spacing-12);
-  background-color: var(--zyx-info-light);
-  border: var(--border-width-thin) solid var(--zyx-info-light);
+  background-color: var(--waltre-info-light);
+  border: var(--border-width-thin) solid var(--waltre-info-light);
   border-radius: var(--badge-radius);
   font-size: var(--font-size-14);
-  color: var(--zyx-info);
+  color: var(--waltre-info);
 }
 
 .removeTag {
@@ -338,7 +338,7 @@
   border: none;
   padding: 0;
   cursor: pointer;
-  color: var(--zyx-info);
+  color: var(--waltre-info);
   font-size: var(--font-size-14);
   line-height: 1;
   opacity: 0.7;

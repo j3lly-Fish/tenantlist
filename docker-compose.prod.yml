@@ -4,8 +4,8 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-    image: zyx-platform:${VERSION:-latest}
-    container_name: zyx_api_production
+    image: waltre-platform:${VERSION:-latest}
+    container_name: waltre_api_production
     restart: unless-stopped
     env_file:
       - .env.production
@@ -17,7 +17,7 @@ services:
       redis:
         condition: service_healthy
     networks:
-      - zyx-network
+      - waltre-network
     healthcheck:
       test: ["CMD", "wget", "--quiet", "--tries=1", "--spider", "http://localhost:4000/health"]
       interval: 30s
@@ -41,12 +41,12 @@ services:
   # PostgreSQL database
   postgres:
     image: postgres:14-alpine
-    container_name: zyx_postgres_production
+    container_name: waltre_postgres_production
     restart: unless-stopped
     env_file:
       - .env.production    
     environment:
-      POSTGRES_DB: ${DATABASE_NAME:-zyx_production}
+      POSTGRES_DB: ${DATABASE_NAME:-waltre_production}
       POSTGRES_USER: ${DATABASE_USER:-postgres}
       POSTGRES_PASSWORD: ${DATABASE_PASSWORD}
       POSTGRES_INITDB_ARGS: "--encoding=UTF8 --locale=en_US.UTF-8"
@@ -56,7 +56,7 @@ services:
     ports:
       - "5432:5432"
     networks:
-      - zyx-network
+      - waltre-network
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U ${DATABASE_USER:-postgres}"]
       interval: 10s
@@ -97,7 +97,7 @@ services:
   # Redis cache and rate limiting
   redis:
     image: redis:6-alpine
-    container_name: zyx_redis_production
+    container_name: waltre_redis_production
     restart: unless-stopped
     env_file:
       - .env.production
@@ -107,7 +107,7 @@ services:
     ports:
       - "6379:6379"
     networks:
-      - zyx-network
+      - waltre-network
     healthcheck:
       test: ["CMD", "redis-cli", "-a", "${REDIS_PASSWORD}", "ping"]
       interval: 10s
@@ -126,15 +126,15 @@ services:
       dockerfile: Dockerfile.frontend
       args:
         VITE_GOOGLE_MAPS_API_KEY: ${VITE_GOOGLE_MAPS_API_KEY}
-    image: zyx-frontend:${VERSION:-latest}
-    container_name: zyx_frontend_production
+    image: waltre-frontend:${VERSION:-latest}
+    container_name: waltre_frontend_production
     restart: unless-stopped
     ports:
       - "80:80"
     depends_on:
       - api
     networks:
-      - zyx-network
+      - waltre-network
     healthcheck:
       test: ["CMD-SHELL", "curl -f http://localhost:80/ || exit 1"]
       interval: 30s
@@ -151,7 +151,7 @@ services:
   # Uncomment and add SSL certificates to nginx/ssl/ to enable
   # nginx:
   #   image: nginx:alpine
-  #   container_name: zyx_nginx
+  #   container_name: waltre_nginx
   #   restart: unless-stopped
   #   ports:
   #     - "443:443"
@@ -163,7 +163,7 @@ services:
   #     - api
   #     - frontend
   #   networks:
-  #     - zyx-network
+  #     - waltre-network
   #   logging:
   #     driver: "json-file"
   #     options:
@@ -177,5 +177,5 @@ volumes:
     driver: local
 
 networks:
-  zyx-network:
+  waltre-network:
     driver: bridge

@@ -19,19 +19,19 @@
   border-radius: var(--radius-8);
   transition: all var(--transition-normal);
   font-family: inherit;
-  color: var(--zyx-gray-700);
+  color: var(--waltre-gray-700);
 }
 
 .searchInput:focus {
   outline: none;
-  border-color: var(--zyx-info);
+  border-color: var(--waltre-info);
   box-shadow: var(--shadow-focus);
 }
 
 .searchButton {
   padding: var(--spacing-10) var(--spacing-20);
-  background-color: var(--zyx-info);
-  color: var(--zyx-white);
+  background-color: var(--waltre-info);
+  color: var(--waltre-white);
   border: none;
   border-radius: var(--radius-8);
   font-size: var(--font-size-14);
@@ -42,7 +42,7 @@
 }
 
 .searchButton:hover {
-  background-color: var(--zyx-info-dark);
+  background-color: var(--waltre-info-dark);
   transform: translateY(-1px);
 }
 
@@ -54,37 +54,37 @@
 .toolButton {
   flex: 1;
   padding: var(--spacing-8) var(--spacing-12);
-  background-color: var(--zyx-white);
+  background-color: var(--waltre-white);
   border: var(--border-width-thin) solid var(--border-color-default);
   border-radius: var(--radius-8);
   font-size: var(--font-size-14);
   font-weight: var(--font-weight-medium);
-  color: var(--zyx-gray-600);
+  color: var(--waltre-gray-600);
   cursor: pointer;
   transition: all var(--transition-normal);
   font-family: inherit;
 }
 
 .toolButton:hover {
-  background-color: var(--zyx-gray-100);
-  border-color: var(--zyx-gray-400);
+  background-color: var(--waltre-gray-100);
+  border-color: var(--waltre-gray-400);
 }
 
 .toolButtonActive {
-  background-color: var(--zyx-info);
-  color: var(--zyx-white);
-  border-color: var(--zyx-info);
+  background-color: var(--waltre-info);
+  color: var(--waltre-white);
+  border-color: var(--waltre-info);
 }
 
 .toolButtonActive:hover {
-  background-color: var(--zyx-info-dark);
-  border-color: var(--zyx-info-dark);
+  background-color: var(--waltre-info-dark);
+  border-color: var(--waltre-info-dark);
 }
 
 .clearButton {
   padding: var(--spacing-8) var(--spacing-16);
-  background-color: var(--zyx-error);
-  color: var(--zyx-white);
+  background-color: var(--waltre-error);
+  color: var(--waltre-white);
   border: none;
   border-radius: var(--radius-8);
   font-size: var(--font-size-14);
@@ -95,7 +95,7 @@
 }
 
 .clearButton:hover {
-  background-color: var(--zyx-error-dark);
+  background-color: var(--waltre-error-dark);
 }
 
 .mapContainer {
@@ -104,7 +104,7 @@
   border: var(--border-width-thin) solid var(--border-color-default);
   border-radius: var(--radius-8);
   overflow: hidden;
-  background-color: var(--zyx-gray-100);
+  background-color: var(--waltre-gray-100);
 }
 
 .mapPlaceholder {
@@ -126,13 +126,13 @@
 .mapText {
   font-size: var(--font-size-18);
   font-weight: var(--font-weight-semibold);
-  color: var(--zyx-gray-700);
+  color: var(--waltre-gray-700);
   margin: 0 0 var(--spacing-8) 0;
 }
 
 .mapHint {
   font-size: var(--font-size-14);
-  color: var(--zyx-gray-500);
+  color: var(--waltre-gray-500);
   margin: 0;
   max-width: 400px;
 }
@@ -146,7 +146,7 @@
 .selectedAreasTitle {
   font-size: var(--font-size-14);
   font-weight: var(--font-weight-semibold);
-  color: var(--zyx-gray-700);
+  color: var(--waltre-gray-700);
   margin: 0 0 var(--spacing-8) 0;
   text-align: left;
 }
@@ -163,8 +163,8 @@
   align-items: center;
   gap: var(--spacing-6);
   padding: var(--spacing-6) var(--spacing-10);
-  background-color: var(--zyx-success);
-  color: var(--zyx-white);
+  background-color: var(--waltre-success);
+  color: var(--waltre-white);
   border-radius: var(--radius-4);
   font-size: var(--font-size-12);
   font-weight: var(--font-weight-medium);
@@ -173,7 +173,7 @@
 .areaRemoveButton {
   background: none;
   border: none;
-  color: var(--zyx-white);
+  color: var(--waltre-white);
   font-size: var(--font-size-16);
   line-height: 1;
   cursor: pointer;
@@ -193,7 +193,7 @@
 
 .note {
   font-size: var(--font-size-12);
-  color: var(--zyx-gray-500);
+  color: var(--waltre-gray-500);
   margin: 0;
   font-style: italic;
 }

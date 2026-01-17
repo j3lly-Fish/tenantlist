@@ -24,6 +24,7 @@ import MyBusinesses from '@pages/MyBusinesses';
 import TenantReviewPerformance from '@pages/ReviewPerformance';
 import TenantListingMatches from '@pages/ListingMatches';
 import PublicProfileEdit from '@pages/PublicProfileEdit';
+import ManageTeam from '@pages/ManageTeam';
 // Broker Dashboard Redesign - Layout and Pages
 import { BrokerLayout } from '@pages/broker/BrokerLayout';
 import Overview from '@pages/broker/Overview';
@@ -54,175 +55,183 @@ function App() {
           <GoogleMapsProvider>
             <Router>
               <Routes>
-              {/* Public routes */}
-              <Route path="/" element={<Login />} />
+                {/* Public routes */}
+                <Route path="/" element={<Login />} />
 
-              {/* Protected routes */}
-              <Route
-                path="/dashboard"
-                element={
-                  <ProtectedRoute>
-                    <Dashboard />
-                  </ProtectedRoute>
-                }
-              />
-              <Route
-                path="/business/:id"
-                element={
-                  <ProtectedRoute>
-                    <BusinessDetail />
-                  </ProtectedRoute>
-                }
-              />
-              {/* Business Public Profile Edit */}
-              <Route
-                path="/business/:businessId/edit-profile"
-                element={
-                  <ProtectedRoute>
-                    <PublicProfileEdit />
-                  </ProtectedRoute>
-                }
-              />
-              {/* My Businesses - Portfolio Overview */}
-              <Route
-                path="/my-businesses"
-                element={
-                  <ProtectedRoute>
-                    <MyBusinesses />
-                  </ProtectedRoute>
-                }
-              />
-              {/* Review Performance - Tenant */}
-              <Route
-                path="/review-performance"
-                element={
-                  <ProtectedRoute>
-                    <TenantReviewPerformance />
-                  </ProtectedRoute>
-                }
-              />
-              {/* Listing Matches - Tenant */}
-              <Route
-                path="/listing-matches"
-                element={
-                  <ProtectedRoute>
-                    <TenantListingMatches />
-                  </ProtectedRoute>
-                }
-              />
-              {/* Landlord Dashboard - New route */}
-              <Route
-                path="/landlord-dashboard"
-                element={
-                  <ProtectedRoute>
-                    <LandlordDashboard />
-                  </ProtectedRoute>
-                }
-              />
-              {/* Broker Dashboard - Redirect to new multi-page layout */}
-              <Route
-                path="/broker-dashboard"
-                element={<Navigate to="/broker/overview" replace />}
-              />
-              {/* Broker Dashboard Redesign - Multi-page with sidebar navigation */}
-              <Route
-                path="/broker"
-                element={
-                  <ProtectedRoute roles={[UserRole.BROKER]}>
-                    <BrokerLayout />
-                  </ProtectedRoute>
-                }
-              >
-                {/* Nested routes within BrokerLayout */}
-                <Route index element={<Navigate to="/broker/overview" replace />} />
-                <Route path="overview" element={<Overview />} />
-                <Route path="tenant-listings" element={<TenantListings />} />
-                <Route path="tenant-profile/:id" element={<TenantProfile />} />
-                <Route path="property-listings" element={<PropertyListings />} />
-                <Route path="review-performance" element={<ReviewPerformance />} />
-                <Route path="listing-matches" element={<ListingMatches />} />
-                <Route path="invite-clients" element={<InviteClients />} />
-              </Route>
-              {/* Backward compatibility redirect for /properties */}
-              <Route
-                path="/properties"
-                element={<Navigate to="/landlord-dashboard" replace />}
-              />
-              <Route
-                path="/property/:id"
-                element={
-                  <ProtectedRoute>
-                    <PropertyDetail />
-                  </ProtectedRoute>
-                }
-              />
-              <Route
-                path="/messages"
-                element={
-                  <ProtectedRoute>
-                    <Messages />
-                  </ProtectedRoute>
-                }
-              />
-              <Route
-                path="/notifications"
-                element={
-                  <ProtectedRoute>
-                    <Notifications />
-                  </ProtectedRoute>
-                }
-              />
-              <Route
-                path="/trends"
-                element={
-                  <ProtectedRoute>
-                    <MarketInsights />
-                  </ProtectedRoute>
-                }
-              />
-              <Route
-                path="/market-insights"
-                element={
-                  <ProtectedRoute>
-                    <MarketInsights />
-                  </ProtectedRoute>
-                }
-              />
-              <Route
-                path="/applications"
-                element={
-                  <ProtectedRoute>
-                    <Applications />
-                  </ProtectedRoute>
-                }
-              />
-              <Route
-                path="/settings"
-                element={
-                  <ProtectedRoute>
-                    <Settings />
-                  </ProtectedRoute>
-                }
-              />
-              <Route
-                path="/profile"
-                element={
-                  <ProtectedRoute>
-                    <Profile />
-                  </ProtectedRoute>
-                }
-              />
-              <Route
-                path="/metrics"
-                element={
-                  <ProtectedRoute>
-                    <MetricsDashboard />
-                  </ProtectedRoute>
-                }
-              />
+                {/* Protected routes */}
+                <Route
+                  path="/dashboard"
+                  element={
+                    <ProtectedRoute>
+                      <Dashboard />
+                    </ProtectedRoute>
+                  }
+                />
+                <Route
+                  path="/business/:id"
+                  element={
+                    <ProtectedRoute>
+                      <BusinessDetail />
+                    </ProtectedRoute>
+                  }
+                />
+                {/* Business Public Profile Edit */}
+                <Route
+                  path="/business/:businessId/edit-profile"
+                  element={
+                    <ProtectedRoute>
+                      <PublicProfileEdit />
+                    </ProtectedRoute>
+                  }
+                />
+                {/* My Businesses - Portfolio Overview */}
+                <Route
+                  path="/my-businesses"
+                  element={
+                    <ProtectedRoute>
+                      <MyBusinesses />
+                    </ProtectedRoute>
+                  }
+                />
+                {/* Review Performance - Tenant */}
+                <Route
+                  path="/review-performance"
+                  element={
+                    <ProtectedRoute>
+                      <TenantReviewPerformance />
+                    </ProtectedRoute>
+                  }
+                />
+                {/* Listing Matches - Tenant */}
+                <Route
+                  path="/listing-matches"
+                  element={
+                    <ProtectedRoute>
+                      <TenantListingMatches />
+                    </ProtectedRoute>
+                  }
+                />
+                {/* Landlord Dashboard - New route */}
+                <Route
+                  path="/landlord-dashboard"
+                  element={
+                    <ProtectedRoute>
+                      <LandlordDashboard />
+                    </ProtectedRoute>
+                  }
+                />
+                {/* Broker Dashboard - Redirect to new multi-page layout */}
+                <Route
+                  path="/broker-dashboard"
+                  element={<Navigate to="/broker/overview" replace />}
+                />
+                {/* Broker Dashboard Redesign - Multi-page with sidebar navigation */}
+                <Route
+                  path="/broker"
+                  element={
+                    <ProtectedRoute roles={[UserRole.BROKER]}>
+                      <BrokerLayout />
+                    </ProtectedRoute>
+                  }
+                >
+                  {/* Nested routes within BrokerLayout */}
+                  <Route index element={<Navigate to="/broker/overview" replace />} />
+                  <Route path="overview" element={<Overview />} />
+                  <Route path="tenant-listings" element={<TenantListings />} />
+                  <Route path="tenant-profile/:id" element={<TenantProfile />} />
+                  <Route path="property-listings" element={<PropertyListings />} />
+                  <Route path="review-performance" element={<ReviewPerformance />} />
+                  <Route path="listing-matches" element={<ListingMatches />} />
+                  <Route path="invite-clients" element={<InviteClients />} />
+                </Route>
+                {/* Backward compatibility redirect for /properties */}
+                <Route
+                  path="/properties"
+                  element={<Navigate to="/landlord-dashboard" replace />}
+                />
+                <Route
+                  path="/property/:id"
+                  element={
+                    <ProtectedRoute>
+                      <PropertyDetail />
+                    </ProtectedRoute>
+                  }
+                />
+                <Route
+                  path="/messages"
+                  element={
+                    <ProtectedRoute>
+                      <Messages />
+                    </ProtectedRoute>
+                  }
+                />
+                <Route
+                  path="/notifications"
+                  element={
+                    <ProtectedRoute>
+                      <Notifications />
+                    </ProtectedRoute>
+                  }
+                />
+                <Route
+                  path="/trends"
+                  element={
+                    <ProtectedRoute>
+                      <MarketInsights />
+                    </ProtectedRoute>
+                  }
+                />
+                <Route
+                  path="/market-insights"
+                  element={
+                    <ProtectedRoute>
+                      <MarketInsights />
+                    </ProtectedRoute>
+                  }
+                />
+                <Route
+                  path="/applications"
+                  element={
+                    <ProtectedRoute>
+                      <Applications />
+                    </ProtectedRoute>
+                  }
+                />
+                <Route
+                  path="/settings"
+                  element={
+                    <ProtectedRoute>
+                      <Settings />
+                    </ProtectedRoute>
+                  }
+                />
+                <Route
+                  path="/profile"
+                  element={
+                    <ProtectedRoute>
+                      <Profile />
+                    </ProtectedRoute>
+                  }
+                />
+                <Route
+                  path="/metrics"
+                  element={
+                    <ProtectedRoute>
+                      <MetricsDashboard />
+                    </ProtectedRoute>
+                  }
+                />
+                <Route
+                  path="/invite-team-member"
+                  element={
+                    <ProtectedRoute>
+                      <ManageTeam />
+                    </ProtectedRoute>
+                  }
+                />
 
-              {/* Catch-all redirect */}
-              <Route path="*" element={<Navigate to="/" replace />} />
+                {/* Catch-all redirect */}
+                <Route path="*" element={<Navigate to="/" replace />} />
               </Routes>
               {/* Toast container - displays toast notifications */}
               <ToastContainer />

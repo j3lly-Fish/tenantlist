@@ -9,7 +9,7 @@
   display: flex;
   flex-direction: column;
   min-height: 100vh;
-  background-color: var(--zyx-gray-100);
+  background-color: var(--waltre-gray-100);
 }
 
 .container {
@@ -27,7 +27,7 @@
 .sidebar {
   width: 250px;
   min-width: 250px;
-  background-color: var(--zyx-white);
+  background-color: var(--waltre-white);
   border-right: var(--border-width-thin) solid var(--border-color-light);
   position: sticky;
   top: 64px; /* TopNavigation height */
@@ -44,7 +44,7 @@
 .mainContent {
   flex: 1;
   padding: var(--spacing-32);
-  background-color: var(--zyx-white);
+  background-color: var(--waltre-white);
   min-height: calc(100vh - 64px);
   overflow-y: auto;
 }
@@ -61,7 +61,7 @@
   z-index: calc(var(--z-sticky) + 1);
   width: 40px;
   height: 40px;
-  background-color: var(--zyx-white);
+  background-color: var(--waltre-white);
   border: var(--border-width-thin) solid var(--border-color-light);
   border-radius: var(--radius-8);
   cursor: pointer;
@@ -75,7 +75,7 @@
 }
 
 .hamburger:hover {
-  background-color: var(--zyx-gray-100);
+  background-color: var(--waltre-gray-100);
   box-shadow: var(--shadow-card);
 }
 
@@ -86,7 +86,7 @@
 .hamburgerLine {
   width: 20px;
   height: 2px;
-  background-color: var(--zyx-gray-600);
+  background-color: var(--waltre-gray-600);
   border-radius: 2px;
   transition: all var(--transition-fast);
 }
@@ -168,10 +168,10 @@
 }
 
 .sidebar::-webkit-scrollbar-thumb {
-  background: var(--zyx-gray-400);
+  background: var(--waltre-gray-400);
   border-radius: 3px;
 }
 
 .sidebar::-webkit-scrollbar-thumb:hover {
-  background: var(--zyx-gray-500);
+  background: var(--waltre-gray-500);
 }

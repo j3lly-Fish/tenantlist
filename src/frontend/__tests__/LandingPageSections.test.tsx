@@ -181,8 +181,8 @@ describe('Footer Component', () => {
     expect(screen.getByText(/privacy policy/i)).toBeInTheDocument();
 
     // Copyright notice - use getAllByText since ZYX Platform appears in logo and copyright
-    const zyxElements = screen.getAllByText(/zyx platform/i);
-    expect(zyxElements.length).toBeGreaterThanOrEqual(1);
+    const waltreElements = screen.getAllByText(/waltre platform/i);
+    expect(waltreElements.length).toBeGreaterThanOrEqual(1);
 
     // Verify copyright text specifically
     expect(screen.getByText(/all rights reserved/i)).toBeInTheDocument();

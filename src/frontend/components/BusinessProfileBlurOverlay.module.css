@@ -17,7 +17,7 @@
 }
 
 .card {
-  background: var(--zyx-white);
+  background: var(--waltre-white);
   border-radius: var(--radius-12);
   padding: var(--spacing-48) var(--spacing-40);
   max-width: 560px;
@@ -41,7 +41,7 @@
 .title {
   font-size: var(--font-size-32);
   font-weight: var(--font-weight-semibold);
-  color: var(--zyx-gray-700);
+  color: var(--waltre-gray-700);
   margin: 0 0 var(--spacing-16) 0;
   line-height: 1.2;
 }
@@ -49,7 +49,7 @@
 .subtitle {
   font-size: var(--font-size-16);
   font-weight: var(--font-weight-regular);
-  color: var(--zyx-gray-600);
+  color: var(--waltre-gray-600);
   line-height: 1.5;
   margin: 0 0 var(--spacing-32) 0;
   max-width: 480px;
@@ -60,7 +60,7 @@
 .addBusinessButton {
   padding: var(--spacing-12) var(--spacing-32);
   background-color: #1a1a1a;
-  color: var(--zyx-white);
+  color: var(--waltre-white);
   border: none;
   border-radius: var(--radius-8);
   font-size: var(--font-size-16);
@@ -86,7 +86,7 @@
 }
 
 .addBusinessButton:focus-visible {
-  outline: 2px solid var(--zyx-info);
+  outline: 2px solid var(--waltre-info);
   outline-offset: 2px;
 }
 

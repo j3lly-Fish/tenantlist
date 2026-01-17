@@ -336,7 +336,7 @@ describe('Rate Limiting & Security Features', () => {
 
       const req = {
         protocol: 'http',
-        hostname: 'app.zyx.com',
+        hostname: 'app.waltre.com',
         originalUrl: '/api/auth/login',
         headers: {},
       };
@@ -345,7 +345,7 @@ describe('Rate Limiting & Security Features', () => {
 
       expect(result.allowed).toBe(false);
       expect(result.statusCode).toBe(301);
-      expect(result.redirect).toBe('https://app.zyx.com/api/auth/login');
+      expect(result.redirect).toBe('https://app.waltre.com/api/auth/login');
     });
 
     it('should allow HTTP in development environment', async () => {
@@ -368,7 +368,7 @@ describe('Rate Limiting & Security Features', () => {
 
       const req = {
         protocol: 'https',
-        hostname: 'app.zyx.com',
+        hostname: 'app.waltre.com',
         originalUrl: '/api/auth/login',
         headers: {},
       };

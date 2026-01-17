@@ -6,8 +6,8 @@
   border-radius: var(--badge-radius);
   font-size: var(--badge-font-size);
   font-weight: var(--badge-font-weight);
-  background: var(--zyx-info-light);
-  color: var(--zyx-info);
+  background: var(--waltre-info-light);
+  color: var(--waltre-info);
   white-space: nowrap;
   line-height: 1;
 }

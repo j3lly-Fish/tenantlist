@@ -371,28 +371,7 @@ const BusinessDetail: React.FC = () => {
                 <span>Invite Brokers</span>
               </button>
 
-              <button
-                className={styles.headerActionButton}
-                onClick={loadMetrics}
-                disabled={metricsLoading}
-              >
-                <svg
-                  width="24"
-                  height="24"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="1.5"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                >
-                  <path d="M3 3v18h18" />
-                  <path d="M18 17V9" />
-                  <path d="M13 17V5" />
-                  <path d="M8 17v-3" />
-                </svg>
-                <span>{metricsLoading ? 'Loading...' : 'Review Metrics'}</span>
-              </button>
+
 
               <button
                 className={styles.headerActionButton}
@@ -538,107 +517,107 @@ const BusinessDetail: React.FC = () => {
                     </div>
                   ) : (
                     <table className={styles.locationsTable}>
-                    <thead>
-                      <tr>
-                        <th>Listing Name</th>
-                        <th>Address</th>
-                        <th>City</th>
-                        <th>State</th>
-                        <th>Sq ft</th>
-                        <th>Monthly Budget</th>
-                        <th>Actions</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {filteredListings.map((listing) => (
-                        <tr key={listing.id}>
-                          <td>{listing.title || `${listing.city} Area`}</td>
-                          <td>{listing.address || '-'}</td>
-                          <td>{listing.city}</td>
-                          <td>{listing.state}</td>
-                          <td>{listing.sqft_min?.toLocaleString()} - {listing.sqft_max?.toLocaleString()}</td>
-                          <td>
-                            {listing.budget_min && listing.budget_max
-                              ? `$${listing.budget_min.toLocaleString()} - $${listing.budget_max.toLocaleString()}`
-                              : '-'}
-                          </td>
-                          <td>
-                            <div className={styles.tableActions}>
-                              <div className={styles.menuContainer}>
-                                <button
-                                  className={styles.tableMenuButton}
-                                  onClick={(e) => {
-                                    e.stopPropagation();
-                                    setOpenMenuId(openMenuId === listing.id ? null : listing.id);
-                                  }}
-                                  aria-label="More options"
-                                >
-                                  <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
-                                    <circle cx="5" cy="12" r="2" />
-                                    <circle cx="12" cy="12" r="2" />
-                                    <circle cx="19" cy="12" r="2" />
-                                  </svg>
-                                </button>
-                                {openMenuId === listing.id && (
-                                  <div className={styles.dropdownMenu}>
-                                    <button
-                                      className={styles.menuItem}
-                                      onClick={() => navigate(`/business/${businessId}/edit-profile`)}
-                                    >
-                                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                                        <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
-                                        <circle cx="12" cy="7" r="4" />
-                                      </svg>
-                                      Edit Profile
-                                    </button>
-                                    <button
-                                      className={styles.menuItem}
-                                      onClick={() => handleViewInvitations(listing.id)}
-                                    >
-                                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                                        <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
-                                        <circle cx="12" cy="12" r="3" />
-                                      </svg>
-                                      View Property Invitations
-                                    </button>
-                                    <button
-                                      className={styles.menuItem}
-                                      onClick={() => handleEditListing(listing.id)}
-                                    >
-                                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                                        <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7" />
-                                        <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z" />
-                                      </svg>
-                                      Edit Location
-                                    </button>
-                                    <button
-                                      className={styles.menuItem}
-                                      onClick={() => handleToggleStealthMode(listing.id)}
-                                    >
-                                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                                        <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
-                                      </svg>
-                                      Stealth Mode
-                                    </button>
-                                    <div className={styles.menuDivider} />
-                                    <button
-                                      className={`${styles.menuItem} ${styles.menuItemDanger}`}
-                                      onClick={() => handleDeleteListing(listing.id)}
-                                    >
-                                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                                        <polyline points="3 6 5 6 21 6" />
-                                        <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" />
-                                      </svg>
-                                      Delete Location
-                                    </button>
-                                  </div>
-                                )}
-                              </div>
-                            </div>
-                          </td>
+                      <thead>
+                        <tr>
+                          <th>Listing Name</th>
+                          <th>Address</th>
+                          <th>City</th>
+                          <th>State</th>
+                          <th>Sq ft</th>
+                          <th>Monthly Budget</th>
+                          <th>Actions</th>
                         </tr>
-                      ))}
-                    </tbody>
+                      </thead>
+                      <tbody>
+                        {filteredListings.map((listing) => (
+                          <tr key={listing.id}>
+                            <td>{listing.title || `${listing.city} Area`}</td>
+                            <td>{listing.address || '-'}</td>
+                            <td>{listing.city}</td>
+                            <td>{listing.state}</td>
+                            <td>{listing.sqft_min?.toLocaleString()} - {listing.sqft_max?.toLocaleString()}</td>
+                            <td>
+                              {listing.budget_min && listing.budget_max
+                                ? `$${listing.budget_min.toLocaleString()} - $${listing.budget_max.toLocaleString()}`
+                                : '-'}
+                            </td>
+                            <td>
+                              <div className={styles.tableActions}>
+                                <div className={styles.menuContainer}>
+                                  <button
+                                    className={styles.tableMenuButton}
+                                    onClick={(e) => {
+                                      e.stopPropagation();
+                                      setOpenMenuId(openMenuId === listing.id ? null : listing.id);
+                                    }}
+                                    aria-label="More options"
+                                  >
+                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                                      <circle cx="5" cy="12" r="2" />
+                                      <circle cx="12" cy="12" r="2" />
+                                      <circle cx="19" cy="12" r="2" />
+                                    </svg>
+                                  </button>
+                                  {openMenuId === listing.id && (
+                                    <div className={styles.dropdownMenu}>
+                                      <button
+                                        className={styles.menuItem}
+                                        onClick={() => navigate(`/business/${businessId}/edit-profile`)}
+                                      >
+                                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                                          <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
+                                          <circle cx="12" cy="7" r="4" />
+                                        </svg>
+                                        Edit Profile
+                                      </button>
+                                      <button
+                                        className={styles.menuItem}
+                                        onClick={() => handleViewInvitations(listing.id)}
+                                      >
+                                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                                          <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
+                                          <circle cx="12" cy="12" r="3" />
+                                        </svg>
+                                        View Property Invitations
+                                      </button>
+                                      <button
+                                        className={styles.menuItem}
+                                        onClick={() => handleEditListing(listing.id)}
+                                      >
+                                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                                          <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7" />
+                                          <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z" />
+                                        </svg>
+                                        Edit Location
+                                      </button>
+                                      <button
+                                        className={styles.menuItem}
+                                        onClick={() => handleToggleStealthMode(listing.id)}
+                                      >
+                                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                                          <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+                                        </svg>
+                                        Stealth Mode
+                                      </button>
+                                      <div className={styles.menuDivider} />
+                                      <button
+                                        className={`${styles.menuItem} ${styles.menuItemDanger}`}
+                                        onClick={() => handleDeleteListing(listing.id)}
+                                      >
+                                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                                          <polyline points="3 6 5 6 21 6" />
+                                          <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" />
+                                        </svg>
+                                        Delete Location
+                                      </button>
+                                    </div>
+                                  )}
+                                </div>
+                              </div>
+                            </td>
+                          </tr>
+                        ))}
+                      </tbody>
                     </table>
                   )}
                 </div>
@@ -789,14 +768,14 @@ const BusinessDetail: React.FC = () => {
                           <div className={styles.cardMetaRow}>
                             <span className={styles.metaItem}>
                               <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
-                                <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/>
+                                <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z" />
                               </svg>
                               {listing.asset_type || 'Retail'}
                             </span>
                             <span className={styles.metaItem}>
                               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                                <path d="M4 4h16v16H4z"/>
-                                <path d="M4 12h16M12 4v16"/>
+                                <path d="M4 4h16v16H4z" />
+                                <path d="M4 12h16M12 4v16" />
                               </svg>
                               {listing.sqft_min?.toLocaleString()} - {listing.sqft_max?.toLocaleString()} sqft
                             </span>

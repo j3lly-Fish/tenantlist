@@ -4,7 +4,7 @@
   display: flex;
   gap: var(--spacing-16);
   padding: var(--spacing-16);
-  background-color: var(--zyx-white);
+  background-color: var(--waltre-white);
   border: var(--border-width-thin) solid var(--border-color-default);
   border-radius: var(--radius-8);
   position: relative;
@@ -21,8 +21,8 @@
   width: 48px;
   height: 48px;
   border-radius: var(--radius-circle);
-  background-color: var(--zyx-info-light);
-  color: var(--zyx-info);
+  background-color: var(--waltre-info-light);
+  color: var(--waltre-info);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -57,20 +57,20 @@
   transition: all var(--transition-normal);
   font-family: inherit;
   box-sizing: border-box;
-  color: var(--zyx-gray-700);
-  background-color: var(--zyx-gray-100);
+  color: var(--waltre-gray-700);
+  background-color: var(--waltre-gray-100);
 }
 
 .input:focus,
 .select:focus {
   outline: none;
-  border-color: var(--zyx-info);
+  border-color: var(--waltre-info);
   box-shadow: var(--shadow-focus);
-  background-color: var(--zyx-white);
+  background-color: var(--waltre-white);
 }
 
 .input::placeholder {
-  color: var(--zyx-gray-quaternary);
+  color: var(--waltre-gray-quaternary);
 }
 
 /* Field Row */
@@ -88,9 +88,9 @@
   width: 24px;
   height: 24px;
   border-radius: var(--radius-circle);
-  background-color: var(--zyx-white);
+  background-color: var(--waltre-white);
   border: var(--border-width-thin) solid var(--border-color-default);
-  color: var(--zyx-gray-400);
+  color: var(--waltre-gray-400);
   cursor: pointer;
   font-size: var(--font-size-16);
   display: flex;
@@ -102,9 +102,9 @@
 }
 
 .removeButton:hover {
-  background-color: var(--zyx-error-light);
-  border-color: var(--zyx-error);
-  color: var(--zyx-error);
+  background-color: var(--waltre-error-light);
+  border-color: var(--waltre-error);
+  color: var(--waltre-error);
 }
 
 /* Responsive */

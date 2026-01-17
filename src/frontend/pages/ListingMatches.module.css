@@ -2,7 +2,7 @@
 
 .listingMatches {
   min-height: 100vh;
-  background-color: var(--zyx-gray-100);
+  background-color: var(--waltre-gray-100);
 }
 
 .loading {
@@ -21,7 +21,7 @@
 
 .sidebar {
   width: 250px;
-  background-color: var(--zyx-white);
+  background-color: var(--waltre-white);
   border-right: 1px solid var(--border-color-default);
   flex-shrink: 0;
   position: sticky;
@@ -45,8 +45,8 @@
   padding: var(--spacing-10) var(--spacing-16);
   font-size: var(--font-size-14);
   font-weight: var(--font-weight-medium);
-  color: var(--zyx-white);
-  background: var(--zyx-gray-700);
+  color: var(--waltre-white);
+  background: var(--waltre-gray-700);
   border: none;
   border-radius: var(--radius-8);
   cursor: pointer;
@@ -57,14 +57,14 @@
 }
 
 .selectBusinessButton:hover {
-  background: var(--zyx-gray-600);
+  background: var(--waltre-gray-600);
 }
 
 .businessDropdownContent {
   position: absolute;
   top: calc(100% + 4px);
   right: 0;
-  background: var(--zyx-white);
+  background: var(--waltre-white);
   border: 1px solid var(--border-color-default);
   border-radius: var(--radius-8);
   box-shadow: var(--shadow-card);
@@ -84,15 +84,15 @@
 }
 
 .businessDropdownItem:hover {
-  background: var(--zyx-gray-100);
+  background: var(--waltre-gray-100);
 }
 
 .businessDropdownAvatar {
   width: 40px;
   height: 40px;
   border-radius: var(--radius-circle);
-  background: var(--zyx-primary);
-  color: var(--zyx-white);
+  background: var(--waltre-primary);
+  color: var(--waltre-white);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -103,7 +103,7 @@
 
 .subtitle {
   font-size: var(--font-size-14);
-  color: var(--zyx-gray-500);
+  color: var(--waltre-gray-500);
   margin: 0;
 }
 
@@ -111,8 +111,8 @@
   width: 48px;
   height: 48px;
   border-radius: var(--radius-circle);
-  background: var(--zyx-primary);
-  color: var(--zyx-white);
+  background: var(--waltre-primary);
+  color: var(--waltre-white);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -123,7 +123,7 @@
 
 /* Matches View */
 .matchesView {
-  background: var(--zyx-white);
+  background: var(--waltre-white);
   border-radius: var(--radius-12);
   padding: var(--spacing-32);
   box-shadow: var(--shadow-card);
@@ -147,13 +147,13 @@
 .businessInfo h1 {
   font-size: var(--font-size-24);
   font-weight: var(--font-weight-semibold);
-  color: var(--zyx-gray-700);
+  color: var(--waltre-gray-700);
   margin: 0 0 var(--spacing-4) 0;
 }
 
 .listingLocations {
   font-size: var(--font-size-14);
-  color: var(--zyx-gray-500);
+  color: var(--waltre-gray-500);
   margin: 0;
 }
 
@@ -171,8 +171,8 @@
   padding: var(--spacing-10) var(--spacing-16);
   font-size: var(--font-size-14);
   font-weight: var(--font-weight-medium);
-  color: var(--zyx-white);
-  background: var(--zyx-gray-700);
+  color: var(--waltre-white);
+  background: var(--waltre-gray-700);
   border: none;
   border-radius: var(--radius-8);
   cursor: pointer;
@@ -185,7 +185,7 @@
   position: absolute;
   top: calc(100% + 4px);
   right: 0;
-  background: var(--zyx-white);
+  background: var(--waltre-white);
   border: 1px solid var(--border-color-default);
   border-radius: var(--radius-8);
   box-shadow: var(--shadow-card);
@@ -209,14 +209,14 @@
 }
 
 .checkboxLabel:hover {
-  background: var(--zyx-gray-100);
+  background: var(--waltre-gray-100);
 }
 
 /* Property Bids */
 .propertyBids h2 {
   font-size: var(--font-size-20);
   font-weight: var(--font-weight-semibold);
-  color: var(--zyx-gray-700);
+  color: var(--waltre-gray-700);
   margin: 0 0 var(--spacing-20) 0;
 }
 
@@ -233,7 +233,7 @@
   font-size: var(--font-size-14);
   border: 1px solid var(--border-color-default);
   border-radius: var(--radius-8);
-  background: var(--zyx-white);
+  background: var(--waltre-white);
 }
 
 .filterSelect {
@@ -255,15 +255,15 @@
 .viewToggle button {
   padding: var(--spacing-10) var(--spacing-16);
   font-size: var(--font-size-14);
-  background: var(--zyx-white);
+  background: var(--waltre-white);
   border: none;
   cursor: pointer;
   transition: background-color var(--transition-normal);
 }
 
 .viewToggle button.active {
-  background: var(--zyx-primary);
-  color: var(--zyx-white);
+  background: var(--waltre-primary);
+  color: var(--waltre-white);
 }
 
 /* Map */
@@ -274,19 +274,19 @@
 .mapPlaceholder {
   width: 100%;
   height: 400px;
-  background: var(--zyx-gray-100);
+  background: var(--waltre-gray-100);
   border-radius: var(--radius-8);
   display: flex;
   align-items: center;
   justify-content: center;
-  color: var(--zyx-gray-500);
+  color: var(--waltre-gray-500);
 }
 
 /* Empty State */
 .emptyState {
   text-align: center;
   padding: var(--spacing-48);
-  color: var(--zyx-gray-500);
+  color: var(--waltre-gray-500);
 }
 
 .emptySubtext {
@@ -309,20 +309,20 @@
   padding: var(--spacing-12);
   font-size: var(--font-size-14);
   font-weight: var(--font-weight-semibold);
-  color: var(--zyx-gray-600);
+  color: var(--waltre-gray-600);
   border-bottom: 2px solid var(--border-color-default);
 }
 
 .matchesTable td {
   padding: var(--spacing-16) var(--spacing-12);
   font-size: var(--font-size-14);
-  color: var(--zyx-gray-700);
+  color: var(--waltre-gray-700);
   border-bottom: 1px solid var(--border-color-default);
 }
 
 .matchScore {
   font-weight: var(--font-weight-semibold);
-  color: var(--zyx-success);
+  color: var(--waltre-success);
 }
 
 .availabilityBadge {
@@ -349,7 +349,7 @@
   border: none;
   cursor: pointer;
   font-size: var(--font-size-18);
-  color: var(--zyx-gray-600);
+  color: var(--waltre-gray-600);
 }
 
 /* Card Grid */
@@ -360,7 +360,7 @@
 }
 
 .propertyCard {
-  background: var(--zyx-white);
+  background: var(--waltre-white);
   border: 1px solid var(--border-color-default);
   border-radius: var(--radius-12);
   overflow: hidden;
@@ -374,7 +374,7 @@
 .cardImage {
   position: relative;
   height: 200px;
-  background: var(--zyx-gray-200);
+  background: var(--waltre-gray-200);
 }
 
 .imagePlaceholder {
@@ -383,19 +383,19 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  color: var(--zyx-gray-400);
+  color: var(--waltre-gray-400);
 }
 
 .matchBadge {
   position: absolute;
   top: var(--spacing-12);
   right: var(--spacing-12);
-  background: var(--zyx-white);
+  background: var(--waltre-white);
   padding: 4px 8px;
   border-radius: var(--radius-4);
   font-size: var(--font-size-12);
   font-weight: var(--font-weight-semibold);
-  color: var(--zyx-success);
+  color: var(--waltre-success);
 }
 
 .cardContent {
@@ -405,13 +405,13 @@
 .cardContent h3 {
   font-size: var(--font-size-16);
   font-weight: var(--font-weight-semibold);
-  color: var(--zyx-gray-700);
+  color: var(--waltre-gray-700);
   margin: 0 0 var(--spacing-8) 0;
 }
 
 .address {
   font-size: var(--font-size-14);
-  color: var(--zyx-gray-500);
+  color: var(--waltre-gray-500);
   margin: 0 0 var(--spacing-16) 0;
 }
 
@@ -428,11 +428,11 @@
 
 .label {
   font-size: var(--font-size-12);
-  color: var(--zyx-gray-500);
+  color: var(--waltre-gray-500);
 }
 
 .value {
   font-size: var(--font-size-14);
   font-weight: var(--font-weight-medium);
-  color: var(--zyx-gray-700);
+  color: var(--waltre-gray-700);
 }

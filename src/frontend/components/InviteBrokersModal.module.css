@@ -15,7 +15,7 @@
 }
 
 .modalContainer {
-  background: var(--zyx-white);
+  background: var(--waltre-white);
   border-radius: var(--radius-12);
   max-width: 600px;
   width: 100%;
@@ -36,13 +36,13 @@
 .modalTitle {
   font-size: var(--font-size-24);
   font-weight: var(--font-weight-semibold);
-  color: var(--zyx-gray-700);
+  color: var(--waltre-gray-700);
   margin: 0 0 4px 0;
 }
 
 .modalSubtitle {
   font-size: var(--font-size-14);
-  color: var(--zyx-gray-500);
+  color: var(--waltre-gray-500);
   margin: 0;
 }
 
@@ -51,7 +51,7 @@
   border: none;
   padding: var(--spacing-8);
   cursor: pointer;
-  color: var(--zyx-gray-400);
+  color: var(--waltre-gray-400);
   transition: color var(--transition-normal);
   display: flex;
   align-items: center;
@@ -60,8 +60,8 @@
 }
 
 .closeButton:hover {
-  background-color: var(--zyx-gray-100);
-  color: var(--zyx-gray-600);
+  background-color: var(--waltre-gray-100);
+  color: var(--waltre-gray-600);
 }
 
 /* Content */
@@ -77,7 +77,7 @@
 .sectionTitle {
   font-size: var(--font-size-16);
   font-weight: var(--font-weight-semibold);
-  color: var(--zyx-gray-700);
+  color: var(--waltre-gray-700);
   margin: 0 0 var(--spacing-12) 0;
 }
 
@@ -92,16 +92,16 @@
   padding: var(--spacing-12) var(--spacing-16);
   border: var(--border-width-thin) solid var(--border-color-default);
   border-radius: var(--radius-8);
-  background: var(--zyx-white);
+  background: var(--waltre-white);
   transition: border-color var(--transition-normal);
 }
 
 .searchInput:focus-within {
-  border-color: var(--zyx-primary);
+  border-color: var(--waltre-primary);
 }
 
 .searchInput svg {
-  color: var(--zyx-gray-400);
+  color: var(--waltre-gray-400);
   flex-shrink: 0;
 }
 
@@ -110,16 +110,16 @@
   border: none;
   outline: none;
   font-size: var(--font-size-14);
-  color: var(--zyx-gray-700);
+  color: var(--waltre-gray-700);
   background: transparent;
 }
 
 .searchInput input::placeholder {
-  color: var(--zyx-gray-400);
+  color: var(--waltre-gray-400);
 }
 
 .searchingIndicator {
-  color: var(--zyx-gray-400);
+  color: var(--waltre-gray-400);
   font-size: var(--font-size-12);
 }
 
@@ -129,7 +129,7 @@
   top: calc(100% + 4px);
   left: 0;
   right: 0;
-  background: var(--zyx-white);
+  background: var(--waltre-white);
   border: var(--border-width-thin) solid var(--border-color-default);
   border-radius: var(--radius-8);
   box-shadow: var(--shadow-card);
@@ -152,7 +152,7 @@
 }
 
 .searchResultItem:hover:not(.alreadyInvited) {
-  background-color: var(--zyx-gray-100);
+  background-color: var(--waltre-gray-100);
 }
 
 .searchResultItem.alreadyInvited {
@@ -178,13 +178,13 @@
   width: 40px;
   height: 40px;
   border-radius: var(--radius-circle);
-  background: var(--zyx-gray-quinary);
+  background: var(--waltre-gray-quinary);
   display: flex;
   align-items: center;
   justify-content: center;
   font-size: var(--font-size-16);
   font-weight: var(--font-weight-semibold);
-  color: var(--zyx-gray-500);
+  color: var(--waltre-gray-500);
 }
 
 .brokerDetails {
@@ -196,22 +196,22 @@
 .brokerName {
   font-size: var(--font-size-14);
   font-weight: var(--font-weight-medium);
-  color: var(--zyx-gray-700);
+  color: var(--waltre-gray-700);
 }
 
 .brokerEmail {
   font-size: var(--font-size-12);
-  color: var(--zyx-gray-500);
+  color: var(--waltre-gray-500);
 }
 
 .brokerCompany {
   font-size: var(--font-size-12);
-  color: var(--zyx-gray-400);
+  color: var(--waltre-gray-400);
 }
 
 .invitedBadge {
   font-size: var(--font-size-12);
-  color: var(--zyx-primary);
+  color: var(--waltre-primary);
   font-weight: var(--font-weight-medium);
 }
 
@@ -233,7 +233,7 @@
   padding: var(--spacing-12);
   border: var(--border-width-thin) solid var(--border-color-default);
   border-radius: var(--radius-8);
-  background: var(--zyx-white);
+  background: var(--waltre-white);
 }
 
 .removeButton {
@@ -241,7 +241,7 @@
   border: none;
   padding: var(--spacing-4);
   cursor: pointer;
-  color: var(--zyx-gray-400);
+  color: var(--waltre-gray-400);
   transition: color var(--transition-normal);
   display: flex;
   align-items: center;
@@ -251,8 +251,8 @@
 }
 
 .removeButton:hover {
-  color: var(--zyx-error);
-  background-color: var(--zyx-error-100);
+  color: var(--waltre-error);
+  background-color: var(--waltre-error-100);
 }
 
 /* Success Message */
@@ -266,14 +266,14 @@
 }
 
 .successMessage svg {
-  color: var(--zyx-success);
+  color: var(--waltre-success);
   margin-bottom: var(--spacing-16);
 }
 
 .successMessage p {
   font-size: var(--font-size-16);
   font-weight: var(--font-weight-medium);
-  color: var(--zyx-gray-700);
+  color: var(--waltre-gray-700);
   margin: 0;
 }
 
@@ -290,8 +290,8 @@
   padding: var(--spacing-10) var(--spacing-20);
   font-size: var(--font-size-14);
   font-weight: var(--font-weight-medium);
-  color: var(--zyx-gray-600);
-  background-color: var(--zyx-white);
+  color: var(--waltre-gray-600);
+  background-color: var(--waltre-white);
   border: var(--border-width-thin) solid var(--border-color-default);
   border-radius: var(--radius-8);
   cursor: pointer;
@@ -299,7 +299,7 @@
 }
 
 .cancelButton:hover:not(:disabled) {
-  background-color: var(--zyx-gray-100);
+  background-color: var(--waltre-gray-100);
 }
 
 .cancelButton:disabled {
@@ -311,8 +311,8 @@
   padding: var(--spacing-10) var(--spacing-20);
   font-size: var(--font-size-14);
   font-weight: var(--font-weight-medium);
-  color: var(--zyx-white);
-  background-color: var(--zyx-primary);
+  color: var(--waltre-white);
+  background-color: var(--waltre-primary);
   border: none;
   border-radius: var(--radius-8);
   cursor: pointer;
@@ -320,7 +320,7 @@
 }
 
 .sendButton:hover:not(:disabled) {
-  background-color: var(--zyx-primary-dark);
+  background-color: var(--waltre-primary-dark);
 }
 
 .sendButton:disabled {

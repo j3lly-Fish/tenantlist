@@ -15,7 +15,7 @@
 }
 
 .modalContainer {
-  background: var(--zyx-white);
+  background: var(--waltre-white);
   border-radius: var(--radius-12);
   max-width: 650px;
   width: 100%;
@@ -33,13 +33,13 @@
 .modalTitle {
   font-size: var(--font-size-18);
   font-weight: var(--font-weight-semibold);
-  color: var(--zyx-gray-700);
+  color: var(--waltre-gray-700);
   margin: 0 0 var(--spacing-4) 0;
 }
 
 .modalSubtitle {
   font-size: var(--font-size-14);
-  color: var(--zyx-gray-500);
+  color: var(--waltre-gray-500);
   margin: 0;
 }
 
@@ -50,7 +50,7 @@
   background: none;
   border: none;
   font-size: var(--font-size-24);
-  color: var(--zyx-gray-400);
+  color: var(--waltre-gray-400);
   cursor: pointer;
   padding: var(--spacing-4);
   line-height: 1;
@@ -58,7 +58,7 @@
 }
 
 .closeButton:hover {
-  color: var(--zyx-gray-500);
+  color: var(--waltre-gray-500);
 }
 
 .modalForm {
@@ -77,7 +77,7 @@
 .sectionTitle {
   font-size: var(--font-size-14);
   font-weight: var(--font-weight-semibold);
-  color: var(--zyx-gray-700);
+  color: var(--waltre-gray-700);
   margin: 0 0 var(--spacing-16) 0;
   padding-bottom: var(--spacing-8);
   border-bottom: var(--border-width-thin) solid var(--border-color-default);
@@ -102,12 +102,12 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: var(--zyx-white);
+  background-color: var(--waltre-white);
 }
 
 .logoUploadArea:hover {
-  border-color: var(--zyx-gray-400);
-  background-color: var(--zyx-gray-100);
+  border-color: var(--waltre-gray-400);
+  background-color: var(--waltre-gray-100);
 }
 
 .logoPlaceholder {
@@ -119,14 +119,14 @@
   height: 100px;
   border: var(--border-width-medium) dashed var(--border-color-default);
   border-radius: var(--radius-circle);
-  color: var(--zyx-gray-500);
+  color: var(--waltre-gray-500);
   text-align: center;
 }
 
 .uploadIconWrapper {
   width: 36px;
   height: 36px;
-  background-color: var(--zyx-gray-200);
+  background-color: var(--waltre-gray-200);
   border-radius: var(--radius-circle);
   display: flex;
   align-items: center;
@@ -137,13 +137,13 @@
 .uploadIcon {
   width: 18px;
   height: 18px;
-  color: var(--zyx-gray-400);
+  color: var(--waltre-gray-400);
 }
 
 .uploadText {
   font-size: var(--font-size-12);
   font-weight: var(--font-weight-medium);
-  color: var(--zyx-gray-500);
+  color: var(--waltre-gray-500);
 }
 
 .logoPreview {
@@ -161,7 +161,7 @@
 
 .uploadHint {
   font-size: var(--font-size-12);
-  color: var(--zyx-gray-400);
+  color: var(--waltre-gray-400);
   text-align: center;
   margin: 0;
 }
@@ -186,7 +186,7 @@
   display: block;
   font-size: var(--font-size-14);
   font-weight: var(--font-weight-medium);
-  color: var(--zyx-gray-600);
+  color: var(--waltre-gray-600);
   margin-bottom: var(--spacing-8);
 }
 
@@ -200,19 +200,19 @@
   border-radius: var(--radius-8);
   transition: all var(--transition-normal);
   font-family: inherit;
-  color: var(--zyx-gray-700);
+  color: var(--waltre-gray-700);
 }
 
 .input::placeholder,
 .textarea::placeholder {
-  color: var(--zyx-gray-400);
+  color: var(--waltre-gray-400);
 }
 
 .input:focus,
 .select:focus,
 .textarea:focus {
   outline: none;
-  border-color: var(--zyx-info);
+  border-color: var(--waltre-info);
   box-shadow: var(--shadow-focus);
 }
 
@@ -222,22 +222,22 @@
 }
 
 .inputError {
-  border-color: var(--zyx-error);
+  border-color: var(--waltre-error);
 }
 
 .errorText {
   font-size: var(--font-size-12);
-  color: var(--zyx-error);
+  color: var(--waltre-error);
   margin-top: var(--spacing-4);
   margin-bottom: 0;
 }
 
 .errorMessage {
   padding: var(--spacing-12);
-  background-color: var(--zyx-error-light);
-  border: var(--border-width-thin) solid var(--zyx-error-light);
+  background-color: var(--waltre-error-light);
+  border: var(--border-width-thin) solid var(--waltre-error-light);
   border-radius: var(--radius-8);
-  color: var(--zyx-error);
+  color: var(--waltre-error);
   font-size: var(--font-size-14);
   margin-bottom: var(--spacing-20);
 }
@@ -257,13 +257,13 @@
   transition: all var(--transition-normal);
   border: none;
   font-family: inherit;
-  background-color: var(--zyx-gray-700);
-  color: var(--zyx-white);
+  background-color: var(--waltre-gray-700);
+  color: var(--waltre-white);
   min-height: var(--button-height-lg);
 }
 
 .submitButton:hover:not(:disabled) {
-  background-color: var(--zyx-gray-600);
+  background-color: var(--waltre-gray-600);
   transform: translateY(-1px);
   box-shadow: var(--shadow-card);
 }
@@ -273,7 +273,7 @@
 }
 
 .submitButton:focus-visible {
-  outline: 2px solid var(--zyx-info);
+  outline: 2px solid var(--waltre-info);
   outline-offset: 2px;
   box-shadow: var(--shadow-focus);
 }

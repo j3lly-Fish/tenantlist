@@ -14,16 +14,16 @@
 
 /* Free tier styling */
 .tierBadge.free {
-  background: var(--zyx-gray-100);
-  color: var(--zyx-gray-600);
+  background: var(--waltre-gray-100);
+  color: var(--waltre-gray-600);
   border-color: var(--border-color-light);
 }
 
 /* Starter tier styling */
 .tierBadge.starter {
-  background: var(--zyx-info-light);
-  color: var(--zyx-info);
-  border-color: var(--zyx-info);
+  background: var(--waltre-info-light);
+  color: var(--waltre-info);
+  border-color: var(--waltre-info);
 }
 
 /* Pro tier styling */

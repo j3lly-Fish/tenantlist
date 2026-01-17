@@ -31,7 +31,7 @@ interface TenantSidebarProps {
  * 2. My Businesses (building icon) - /my-businesses
  * 3. Review Performance (chart icon) - /review-performance
  * 4. Listing Matches (link icon) - /listing-matches
- * 5. Invite Clients (envelope icon) - /invite-clients
+ * 5. Invite Team Member (envelope icon) - /invite-team-member
  */
 export const TenantSidebar: React.FC<TenantSidebarProps> = ({ onNavigate }) => {
   const handleClick = () => {
@@ -91,14 +91,14 @@ export const TenantSidebar: React.FC<TenantSidebarProps> = ({ onNavigate }) => {
         </NavLink>
 
         <NavLink
-          to="/invite-clients"
+          to="/invite-team-member"
           className={({ isActive }) =>
             `${styles.menuItem} ${isActive ? styles.active : ''}`
           }
           onClick={handleClick}
         >
           <EnvelopeIcon className={styles.icon} />
-          <span className={styles.label}>Invite Clients</span>
+          <span className={styles.label}>Invite Team Member</span>
         </NavLink>
       </div>
     </nav>

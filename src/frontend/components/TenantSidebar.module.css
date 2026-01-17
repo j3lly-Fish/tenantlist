@@ -20,7 +20,7 @@
   padding: 0 var(--spacing-24) var(--spacing-16) var(--spacing-24);
   font-size: var(--font-size-12);
   font-weight: var(--font-weight-semibold);
-  color: var(--zyx-gray-500);
+  color: var(--waltre-gray-500);
   letter-spacing: 0.5px;
   text-transform: uppercase;
 }
@@ -40,7 +40,7 @@
   align-items: center;
   gap: var(--spacing-12);
   padding: var(--spacing-12) var(--spacing-24);
-  color: var(--zyx-gray-600);
+  color: var(--waltre-gray-600);
   font-size: var(--font-size-14);
   font-weight: var(--font-weight-medium);
   text-decoration: none;
@@ -50,14 +50,14 @@
 }
 
 .menuItem:hover {
-  background-color: var(--zyx-gray-100);
-  color: var(--zyx-gray-700);
+  background-color: var(--waltre-gray-100);
+  color: var(--waltre-gray-700);
 }
 
 /* Active state with left border indicator */
 .menuItem.active {
   background-color: #ffffff;
-  color: var(--zyx-gray-900);
+  color: var(--waltre-gray-900);
   font-weight: var(--font-weight-semibold);
 }
 
@@ -68,7 +68,7 @@
   top: 0;
   bottom: 0;
   width: 3px;
-  background-color: var(--zyx-gray-900);
+  background-color: var(--waltre-gray-900);
 }
 
 /* ========================================
@@ -124,7 +124,7 @@
    ======================================== */
 
 .menuItem:focus-visible {
-  outline: 2px solid var(--zyx-gray-900);
+  outline: 2px solid var(--waltre-gray-900);
   outline-offset: -2px;
   box-shadow: var(--shadow-focus);
 }

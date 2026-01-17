@@ -3,11 +3,11 @@ version: '3.8'
 services:
   postgres:
     image: postgres:14-alpine
-    container_name: zyx_postgres
+    container_name: waltre_postgres
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
-      POSTGRES_DB: zyx_development
+      POSTGRES_DB: waltre_development
     ports:
       - "5432:5432"
     volumes:
@@ -20,11 +20,11 @@ services:
 
   postgres_test:
     image: postgres:14-alpine
-    container_name: zyx_postgres_test
+    container_name: waltre_postgres_test
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
-      POSTGRES_DB: zyx_test
+      POSTGRES_DB: waltre_test
     ports:
       - "5433:5432"
     healthcheck:
@@ -35,7 +35,7 @@ services:
 
   redis:
     image: redis:6-alpine
-    container_name: zyx_redis
+    container_name: waltre_redis
     ports:
       - "6379:6379"
     healthcheck:

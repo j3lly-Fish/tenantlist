@@ -6,7 +6,7 @@ import { migrations } from '../../database/migrations';
 const testPool = new Pool({
   host: process.env.TEST_DATABASE_HOST || 'localhost',
   port: parseInt(process.env.TEST_DATABASE_PORT || '5432', 10),
-  database: process.env.TEST_DATABASE_NAME || 'zyx_test',
+  database: process.env.TEST_DATABASE_NAME || 'waltre_test',
   user: process.env.TEST_DATABASE_USER || 'postgres',
   password: process.env.TEST_DATABASE_PASSWORD || 'postgres',
 });

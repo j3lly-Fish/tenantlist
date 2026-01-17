@@ -13,36 +13,36 @@
      BRAND COLORS - From Figma Color Palette
      ======================================== */
 
-  --zyx-white: #FFFFFF;
-  --zyx-gray-100: #F9FAFB;
-  --zyx-gray-200: #EFF2F6;
-  --zyx-gray-400: #8091A5;
-  --zyx-gray-500: #5A6A7D;
-  --zyx-gray-600: #313541;
-  --zyx-gray-700: #16181E;
+  --waltre-white: #FFFFFF;
+  --waltre-gray-100: #F9FAFB;
+  --waltre-gray-200: #EFF2F6;
+  --waltre-gray-400: #8091A5;
+  --waltre-gray-500: #5A6A7D;
+  --waltre-gray-600: #313541;
+  --waltre-gray-700: #16181E;
 
   /* ========================================
      SEMANTIC COLORS
      ======================================== */
 
   /* Primary/Info Colors */
-  --zyx-info: #4177FF;
-  --zyx-info-light: #F3F9FF;
+  --waltre-info: #4177FF;
+  --waltre-info-light: #F3F9FF;
 
   /* Status Colors */
-  --zyx-success: #10B981;
-  --zyx-success-light: #D1FAE5;
+  --waltre-success: #10B981;
+  --waltre-success-light: #D1FAE5;
 
-  --zyx-warning: #F59E0B;
-  --zyx-warning-light: #FEF3C7;
+  --waltre-warning: #F59E0B;
+  --waltre-warning-light: #FEF3C7;
 
-  --zyx-error: #EF4444;
-  --zyx-error-light: #FEE2E2;
+  --waltre-error: #EF4444;
+  --waltre-error-light: #FEE2E2;
 
   /* Additional Grays (iOS/Apple Design System) */
-  --zyx-gray-tertiary: #C7C7CC;
-  --zyx-gray-quaternary: #D1D1D6;
-  --zyx-gray-quinary: #E5E5EA;
+  --waltre-gray-tertiary: #C7C7CC;
+  --waltre-gray-quaternary: #D1D1D6;
+  --waltre-gray-quinary: #E5E5EA;
 
   /* ========================================
      TYPOGRAPHY - SF Pro Font Stack
@@ -126,10 +126,10 @@
   --border-width-medium: 2px;
   --border-width-thick: 4px;
 
-  --border-color-light: var(--zyx-gray-200);
-  --border-color-default: var(--zyx-gray-quinary);
-  --border-color-medium: var(--zyx-gray-400);
-  --border-color-dark: var(--zyx-gray-600);
+  --border-color-light: var(--waltre-gray-200);
+  --border-color-default: var(--waltre-gray-quinary);
+  --border-color-medium: var(--waltre-gray-400);
+  --border-color-dark: var(--waltre-gray-600);
 
   /* ========================================
      SHADOWS - Elevation System
@@ -179,7 +179,7 @@
      ======================================== */
 
   /* Cards */
-  --card-background: var(--zyx-white);
+  --card-background: var(--waltre-white);
   --card-border: var(--border-width-thin) solid var(--border-color-light);
   --card-radius: var(--radius-12);
   --card-padding: var(--spacing-16);
@@ -197,10 +197,10 @@
   --input-height: 40px;
   --input-padding-x: var(--spacing-16);
   --input-padding-y: var(--spacing-8);
-  --input-background: var(--zyx-gray-100);
+  --input-background: var(--waltre-gray-100);
   --input-border: var(--border-width-thin) solid var(--border-color-default);
   --input-radius: var(--radius-4);
-  --input-placeholder-color: var(--zyx-gray-quaternary);
+  --input-placeholder-color: var(--waltre-gray-quaternary);
 
   /* Badges */
   --badge-height: 20px;

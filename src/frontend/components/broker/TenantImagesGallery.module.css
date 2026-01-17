@@ -1,6 +1,6 @@
 .gallerySection {
   background: white;
-  border: 1px solid var(--zyx-gray-200, #e5e7eb);
+  border: 1px solid var(--waltre-gray-200, #e5e7eb);
   border-radius: 8px;
   padding: 24px;
 }
@@ -8,7 +8,7 @@
 .sectionTitle {
   font-size: 20px;
   font-weight: 600;
-  color: var(--zyx-gray-900, #1a1a1a);
+  color: var(--waltre-gray-900, #1a1a1a);
   margin: 0 0 16px 0;
 }
 

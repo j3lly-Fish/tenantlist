@@ -15,7 +15,7 @@
 }
 
 .modalContainer {
-  background: var(--zyx-white);
+  background: var(--waltre-white);
   border-radius: var(--radius-12);
   max-width: 400px;
   width: 100%;
@@ -31,7 +31,7 @@
   width: 48px;
   height: 48px;
   margin: 0 auto var(--spacing-16);
-  background-color: var(--zyx-error-light);
+  background-color: var(--waltre-error-light);
   border-radius: var(--radius-circle);
   display: flex;
   align-items: center;
@@ -41,13 +41,13 @@
 .warningIcon svg {
   width: var(--font-size-24);
   height: var(--font-size-24);
-  color: var(--zyx-error);
+  color: var(--waltre-error);
 }
 
 .modalTitle {
   font-size: var(--font-size-18);
   font-weight: var(--font-weight-semibold);
-  color: var(--zyx-gray-700);
+  color: var(--waltre-gray-700);
   margin: 0;
 }
 
@@ -58,17 +58,17 @@
 
 .message {
   font-size: var(--font-size-14);
-  color: var(--zyx-gray-600);
+  color: var(--waltre-gray-600);
   margin: 0 0 var(--spacing-8) 0;
 }
 
 .message strong {
-  color: var(--zyx-gray-700);
+  color: var(--waltre-gray-700);
 }
 
 .warning {
   font-size: var(--font-size-14);
-  color: var(--zyx-gray-500);
+  color: var(--waltre-gray-500);
   margin: 0;
   line-height: var(--line-height-relaxed);
 }
@@ -76,10 +76,10 @@
 .errorMessage {
   margin-top: var(--spacing-16);
   padding: var(--spacing-12);
-  background-color: var(--zyx-error-light);
-  border: var(--border-width-thin) solid var(--zyx-error-light);
+  background-color: var(--waltre-error-light);
+  border: var(--border-width-thin) solid var(--waltre-error-light);
   border-radius: var(--radius-8);
-  color: var(--zyx-error);
+  color: var(--waltre-error);
   font-size: var(--font-size-14);
   text-align: left;
 }
@@ -105,19 +105,19 @@
 }
 
 .cancelButton {
-  background-color: var(--zyx-white);
+  background-color: var(--waltre-white);
   border: var(--border-width-thin) solid var(--border-color-default);
-  color: var(--zyx-gray-600);
+  color: var(--waltre-gray-600);
 }
 
 .cancelButton:hover:not(:disabled) {
-  background-color: var(--zyx-gray-100);
-  border-color: var(--zyx-gray-400);
+  background-color: var(--waltre-gray-100);
+  border-color: var(--waltre-gray-400);
 }
 
 .deleteButton {
-  background-color: var(--zyx-error);
-  color: var(--zyx-white);
+  background-color: var(--waltre-error);
+  color: var(--waltre-white);
 }
 
 .deleteButton:hover:not(:disabled) {
@@ -132,7 +132,7 @@
 
 .deleteButton:focus-visible,
 .cancelButton:focus-visible {
-  outline: 2px solid var(--zyx-info);
+  outline: 2px solid var(--waltre-info);
   outline-offset: 2px;
   box-shadow: var(--shadow-focus);
 }

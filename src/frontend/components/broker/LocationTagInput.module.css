@@ -15,12 +15,12 @@
   border-radius: var(--radius-8);
   min-height: 42px;
   align-items: center;
-  background: var(--zyx-white);
+  background: var(--waltre-white);
   transition: all var(--transition-normal);
 }
 
 .tagsContainer:focus-within {
-  border-color: var(--zyx-info);
+  border-color: var(--waltre-info);
   box-shadow: var(--shadow-focus);
 }
 
@@ -29,8 +29,8 @@
   align-items: center;
   gap: var(--spacing-6);
   padding: var(--spacing-4) var(--spacing-8);
-  background-color: var(--zyx-info);
-  color: var(--zyx-white);
+  background-color: var(--waltre-info);
+  color: var(--waltre-white);
   border-radius: var(--radius-4);
   font-size: var(--font-size-14);
   font-weight: var(--font-weight-medium);
@@ -44,7 +44,7 @@
 .removeButton {
   background: none;
   border: none;
-  color: var(--zyx-white);
+  color: var(--waltre-white);
   font-size: var(--font-size-18);
   line-height: 1;
   cursor: pointer;
@@ -69,17 +69,17 @@
   outline: none;
   padding: var(--spacing-4) 0;
   font-size: var(--font-size-14);
-  color: var(--zyx-gray-700);
+  color: var(--waltre-gray-700);
   font-family: inherit;
 }
 
 .input::placeholder {
-  color: var(--zyx-gray-400);
+  color: var(--waltre-gray-400);
 }
 
 .hint {
   font-size: var(--font-size-12);
-  color: var(--zyx-gray-500);
+  color: var(--waltre-gray-500);
   margin: 0;
 }
 

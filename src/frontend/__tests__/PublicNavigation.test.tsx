@@ -26,7 +26,7 @@ describe('PublicNavigation Component', () => {
   test('renders logo that links to home page', () => {
     renderWithRouter(<PublicNavigation />);
 
-    const logo = screen.getByText('zyx');
+    const logo = screen.getByText(/waltre/i);
     expect(logo).toBeInTheDocument();
 
     // Logo should link to home (/)

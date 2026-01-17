@@ -38,7 +38,7 @@ const Notifications: React.FC = () => {
           {
             id: '1',
             type: 'info',
-            title: 'Welcome to ZYX Platform',
+            title: 'Welcome to Waltre Platform',
             message: 'Your account has been successfully created.',
             timestamp: new Date(Date.now() - 3600000), // 1 hour ago
             read: false,
@@ -184,9 +184,8 @@ const Notifications: React.FC = () => {
             {notifications.map((notification) => (
               <div
                 key={notification.id}
-                className={`${styles.notificationCard} ${
-                  !notification.read ? styles.unread : ''
-                } ${styles[notification.type]}`}
+                className={`${styles.notificationCard} ${!notification.read ? styles.unread : ''
+                  } ${styles[notification.type]}`}
                 onClick={() => !notification.read && markAsRead(notification.id)}
               >
                 <div className={styles.notificationIcon}>

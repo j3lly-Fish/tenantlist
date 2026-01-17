@@ -12,18 +12,18 @@
 }
 
 .statusBadge.active {
-  background: var(--zyx-success-light);
-  color: var(--zyx-success);
+  background: var(--waltre-success-light);
+  color: var(--waltre-success);
 }
 
 .statusBadge.pending {
-  background: var(--zyx-warning-light);
-  color: var(--zyx-warning);
+  background: var(--waltre-warning-light);
+  color: var(--waltre-warning);
 }
 
 .statusBadge.stealth {
-  background: var(--zyx-gray-200);
-  color: var(--zyx-gray-600);
+  background: var(--waltre-gray-200);
+  color: var(--waltre-gray-600);
 }
 
 /* Responsive Design */

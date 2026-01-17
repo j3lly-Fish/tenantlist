@@ -1,6 +1,6 @@
 .contactCard {
   background: white;
-  border: 1px solid var(--zyx-gray-200, #e5e7eb);
+  border: 1px solid var(--waltre-gray-200, #e5e7eb);
   border-radius: 8px;
   padding: 20px;
 }
@@ -8,7 +8,7 @@
 .title {
   font-size: 16px;
   font-weight: 600;
-  color: var(--zyx-gray-900, #1a1a1a);
+  color: var(--waltre-gray-900, #1a1a1a);
   margin: 0 0 16px 0;
 }
 
@@ -18,7 +18,7 @@
   gap: 12px;
   padding-bottom: 16px;
   margin-bottom: 16px;
-  border-bottom: 1px solid var(--zyx-gray-200, #e5e7eb);
+  border-bottom: 1px solid var(--waltre-gray-200, #e5e7eb);
 }
 
 .avatar {
@@ -27,7 +27,7 @@
   flex-shrink: 0;
   border-radius: 50%;
   overflow: hidden;
-  background: var(--zyx-gray-200, #e5e7eb);
+  background: var(--waltre-gray-200, #e5e7eb);
 }
 
 .avatar img {
@@ -42,7 +42,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  background: var(--zyx-info, #4a90e2);
+  background: var(--waltre-info, #4a90e2);
   color: white;
   font-size: 18px;
   font-weight: 600;
@@ -56,13 +56,13 @@
 .name {
   font-size: 15px;
   font-weight: 600;
-  color: var(--zyx-gray-900, #1a1a1a);
+  color: var(--waltre-gray-900, #1a1a1a);
   margin: 0 0 4px 0;
 }
 
 .company {
   font-size: 13px;
-  color: var(--zyx-gray-600, #666666);
+  color: var(--waltre-gray-600, #666666);
   margin: 0;
 }
 
@@ -90,24 +90,24 @@
 
 .sendMessageButton {
   background: white;
-  color: var(--zyx-gray-700, #1a1a1a);
-  border: 1px solid var(--zyx-gray-300, #d1d5db);
+  color: var(--waltre-gray-700, #1a1a1a);
+  border: 1px solid var(--waltre-gray-300, #d1d5db);
 }
 
 .sendMessageButton:hover {
-  background: var(--zyx-gray-50, #f9fafb);
-  border-color: var(--zyx-gray-400, #9ca3af);
+  background: var(--waltre-gray-50, #f9fafb);
+  border-color: var(--waltre-gray-400, #9ca3af);
   transform: translateY(-1px);
 }
 
 .submitPropertyButton {
-  background: var(--zyx-gray-900, #1a1a1a);
+  background: var(--waltre-gray-900, #1a1a1a);
   color: white;
   border: none;
 }
 
 .submitPropertyButton:hover {
-  background: var(--zyx-gray-800, #333333);
+  background: var(--waltre-gray-800, #333333);
   transform: translateY(-1px);
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
 }

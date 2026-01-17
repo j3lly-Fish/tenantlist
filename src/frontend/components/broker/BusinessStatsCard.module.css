@@ -24,14 +24,14 @@
 .title {
   font-size: var(--font-size-18);
   font-weight: var(--font-weight-semibold);
-  color: var(--zyx-gray-700);
+  color: var(--waltre-gray-700);
   margin: 0 0 var(--spacing-4) 0;
   line-height: var(--line-height-28);
 }
 
 .subtitle {
   font-size: var(--font-size-14);
-  color: var(--zyx-gray-500);
+  color: var(--waltre-gray-500);
   margin: 0;
   line-height: var(--line-height-24);
 }
@@ -52,27 +52,27 @@
   align-items: center;
   justify-content: center;
   padding: var(--spacing-16);
-  background-color: var(--zyx-gray-100);
+  background-color: var(--waltre-gray-100);
   border-radius: var(--radius-8);
   transition: all var(--transition-fast);
 }
 
 .statItem:hover {
-  background-color: var(--zyx-info-light);
+  background-color: var(--waltre-info-light);
   box-shadow: var(--shadow-sm);
 }
 
 .statIcon {
   width: 32px;
   height: 32px;
-  color: var(--zyx-info);
+  color: var(--waltre-info);
   margin-bottom: var(--spacing-8);
 }
 
 .statValue {
   font-size: var(--font-size-24);
   font-weight: var(--font-weight-bold);
-  color: var(--zyx-gray-700);
+  color: var(--waltre-gray-700);
   margin-bottom: var(--spacing-4);
   line-height: 1;
 }
@@ -80,7 +80,7 @@
 .statLabel {
   font-size: var(--font-size-12);
   font-weight: var(--font-weight-medium);
-  color: var(--zyx-gray-500);
+  color: var(--waltre-gray-500);
   text-align: center;
   text-transform: uppercase;
   letter-spacing: 0.5px;
@@ -95,15 +95,15 @@
   align-items: center;
   justify-content: center;
   padding: var(--spacing-48) var(--spacing-24);
-  color: var(--zyx-gray-400);
+  color: var(--waltre-gray-400);
   font-size: var(--font-size-14);
 }
 
 .spinner {
   width: 20px;
   height: 20px;
-  border: 2px solid var(--zyx-gray-200);
-  border-top-color: var(--zyx-info);
+  border: 2px solid var(--waltre-gray-200);
+  border-top-color: var(--waltre-info);
   border-radius: 50%;
   animation: spin 0.6s linear infinite;
   margin-right: var(--spacing-8);
@@ -132,13 +132,13 @@
 
 .emptyStateText {
   font-size: var(--font-size-14);
-  color: var(--zyx-gray-500);
+  color: var(--waltre-gray-500);
   margin: 0 0 var(--spacing-8) 0;
 }
 
 .emptyStateSubtext {
   font-size: var(--font-size-12);
-  color: var(--zyx-gray-400);
+  color: var(--waltre-gray-400);
   margin: 0;
 }
 
@@ -148,10 +148,10 @@
 
 .error {
   padding: var(--spacing-16);
-  background-color: var(--zyx-error-light);
-  border: var(--border-width-thin) solid var(--zyx-error);
+  background-color: var(--waltre-error-light);
+  border: var(--border-width-thin) solid var(--waltre-error);
   border-radius: var(--radius-8);
-  color: var(--zyx-error);
+  color: var(--waltre-error);
   font-size: var(--font-size-14);
   text-align: center;
 }

@@ -15,7 +15,7 @@
 }
 
 .modalContainer {
-  background: var(--zyx-white);
+  background: var(--waltre-white);
   border-radius: var(--radius-8);
   max-width: 700px; /* Wider for map component */
   width: 100%;
@@ -32,20 +32,20 @@
   align-items: flex-start;
   position: sticky;
   top: 0;
-  background: var(--zyx-white);
+  background: var(--waltre-white);
   z-index: 1;
 }
 
 .modalTitle {
   font-size: var(--font-size-18);
   font-weight: var(--font-weight-semibold);
-  color: var(--zyx-gray-700);
+  color: var(--waltre-gray-700);
   margin: 0 0 var(--spacing-4) 0;
 }
 
 .stepIndicator {
   font-size: var(--font-size-14);
-  color: var(--zyx-gray-500);
+  color: var(--waltre-gray-500);
   margin: 0;
 }
 
@@ -53,7 +53,7 @@
   background: none;
   border: none;
   font-size: var(--font-size-28);
-  color: var(--zyx-gray-400);
+  color: var(--waltre-gray-400);
   cursor: pointer;
   padding: 0;
   line-height: 1;
@@ -61,7 +61,7 @@
 }
 
 .closeButton:hover:not(:disabled) {
-  color: var(--zyx-gray-500);
+  color: var(--waltre-gray-500);
 }
 
 .closeButton:disabled {
@@ -79,10 +79,10 @@
 /* Error Message */
 .errorMessage {
   padding: var(--spacing-12);
-  background-color: var(--zyx-error-light);
-  border: var(--border-width-thin) solid var(--zyx-error);
+  background-color: var(--waltre-error-light);
+  border: var(--border-width-thin) solid var(--waltre-error);
   border-radius: var(--radius-8);
-  color: var(--zyx-error);
+  color: var(--waltre-error);
   font-size: var(--font-size-14);
   margin: 0 var(--spacing-24) var(--spacing-16) var(--spacing-24);
 }
@@ -97,12 +97,12 @@
   display: block;
   font-size: var(--font-size-14);
   font-weight: var(--font-weight-medium);
-  color: var(--zyx-gray-600);
+  color: var(--waltre-gray-600);
   margin-bottom: var(--spacing-8);
 }
 
 .required {
-  color: var(--zyx-error);
+  color: var(--waltre-error);
 }
 
 .input,
@@ -115,30 +115,30 @@
   transition: all var(--transition-normal);
   font-family: inherit;
   box-sizing: border-box;
-  color: var(--zyx-gray-700);
+  color: var(--waltre-gray-700);
 }
 
 .input:focus,
 .select:focus {
   outline: none;
-  border-color: var(--zyx-info);
+  border-color: var(--waltre-info);
   box-shadow: var(--shadow-focus);
 }
 
 .inputError {
-  border-color: var(--zyx-error);
+  border-color: var(--waltre-error);
 }
 
 .errorText {
   font-size: var(--font-size-12);
-  color: var(--zyx-error);
+  color: var(--waltre-error);
   margin-top: var(--spacing-4);
   margin-bottom: 0;
 }
 
 .hint {
   font-size: var(--font-size-12);
-  color: var(--zyx-gray-500);
+  color: var(--waltre-gray-500);
   margin: 0 0 var(--spacing-12) 0;
 }
 
@@ -153,7 +153,7 @@
 .sectionTitle {
   font-size: var(--font-size-16);
   font-weight: var(--font-weight-semibold);
-  color: var(--zyx-gray-700);
+  color: var(--waltre-gray-700);
   margin: 0 0 var(--spacing-8) 0;
 }
 
@@ -184,26 +184,26 @@
 
 .cancelButton,
 .backButton {
-  background-color: var(--zyx-white);
+  background-color: var(--waltre-white);
   border: var(--border-width-thin) solid var(--border-color-default);
-  color: var(--zyx-gray-600);
+  color: var(--waltre-gray-600);
 }
 
 .cancelButton:hover:not(:disabled),
 .backButton:hover:not(:disabled) {
-  background-color: var(--zyx-gray-100);
-  border-color: var(--zyx-gray-400);
+  background-color: var(--waltre-gray-100);
+  border-color: var(--waltre-gray-400);
 }
 
 .nextButton,
 .submitButton {
-  background-color: var(--zyx-gray-700);
-  color: var(--zyx-white);
+  background-color: var(--waltre-gray-700);
+  color: var(--waltre-white);
 }
 
 .nextButton:hover:not(:disabled),
 .submitButton:hover:not(:disabled) {
-  background-color: var(--zyx-gray-600);
+  background-color: var(--waltre-gray-600);
   transform: translateY(-1px);
   box-shadow: var(--shadow-card);
 }

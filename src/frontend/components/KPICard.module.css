@@ -1,7 +1,7 @@
 /* KPI Card Component - Figma Design System */
 .kpiCard {
   position: relative;
-  background: var(--zyx-white);
+  background: var(--waltre-white);
   border-radius: var(--radius-12);
   padding: var(--spacing-16);
   border: var(--border-width-thin) solid var(--border-color-light);
@@ -31,7 +31,7 @@
 
 .lockIcon {
   font-size: var(--font-size-16);
-  color: var(--zyx-gray-500);
+  color: var(--waltre-gray-500);
   opacity: 0.6;
 }
 
@@ -62,7 +62,7 @@
 .kpiTitle {
   font-size: var(--font-size-14);
   font-weight: var(--font-weight-regular);
-  color: var(--zyx-gray-600);
+  color: var(--waltre-gray-600);
   line-height: var(--line-height-24);
   letter-spacing: var(--letter-spacing-normal);
 }
@@ -71,18 +71,18 @@
 .kpiValue {
   font-size: var(--font-size-24);
   font-weight: var(--font-weight-regular);
-  color: var(--zyx-gray-700);
+  color: var(--waltre-gray-700);
   line-height: var(--line-height-28);
   letter-spacing: var(--letter-spacing-tight);
 }
 
 .kpiValue.loading {
-  color: var(--zyx-gray-400);
+  color: var(--waltre-gray-400);
   animation: pulse 1.5s ease-in-out infinite;
 }
 
 .kpiCard.locked .kpiValue {
-  color: var(--zyx-gray-500);
+  color: var(--waltre-gray-500);
 }
 
 /* Trend Indicator Styles - Figma Design */
@@ -112,20 +112,20 @@
 }
 
 .trendUp {
-  color: var(--zyx-success);
+  color: var(--waltre-success);
 }
 
 .trendDown {
-  color: var(--zyx-error);
+  color: var(--waltre-error);
 }
 
 .trendNeutral {
-  color: var(--zyx-gray-600);
+  color: var(--waltre-gray-600);
 }
 
 .trendPeriod {
   font-size: var(--font-size-14);
-  color: var(--zyx-gray-400);
+  color: var(--waltre-gray-400);
   font-weight: var(--font-weight-regular);
   line-height: var(--line-height-24);
 }
@@ -145,15 +145,15 @@
 .icon {
   width: 32px;
   height: 32px;
-  color: var(--zyx-gray-600);
+  color: var(--waltre-gray-600);
 }
 
 /* Upgrade badge - Figma Design */
 .upgradeBadge {
   margin-top: var(--spacing-8);
   padding: var(--badge-padding-y) var(--badge-padding-x);
-  background-color: var(--zyx-info);
-  color: var(--zyx-white);
+  background-color: var(--waltre-info);
+  color: var(--waltre-white);
   border-radius: var(--badge-radius);
   font-size: var(--badge-font-size);
   font-weight: var(--badge-font-weight);

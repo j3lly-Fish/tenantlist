@@ -1,6 +1,6 @@
 .documentsSection {
   background: white;
-  border: 1px solid var(--zyx-gray-200, #e5e7eb);
+  border: 1px solid var(--waltre-gray-200, #e5e7eb);
   border-radius: 8px;
   padding: 24px;
 }
@@ -8,7 +8,7 @@
 .sectionTitle {
   font-size: 20px;
   font-weight: 600;
-  color: var(--zyx-gray-900, #1a1a1a);
+  color: var(--waltre-gray-900, #1a1a1a);
   margin: 0 0 16px 0;
 }
 
@@ -23,15 +23,15 @@
   align-items: center;
   gap: 12px;
   padding: 12px;
-  background: var(--zyx-gray-50, #f9fafb);
-  border: 1px solid var(--zyx-gray-200, #e5e7eb);
+  background: var(--waltre-gray-50, #f9fafb);
+  border: 1px solid var(--waltre-gray-200, #e5e7eb);
   border-radius: 8px;
   transition: all 0.2s ease;
 }
 
 .documentItem:hover {
-  background: var(--zyx-gray-100, #f3f4f6);
-  border-color: var(--zyx-gray-300, #d1d5db);
+  background: var(--waltre-gray-100, #f3f4f6);
+  border-color: var(--waltre-gray-300, #d1d5db);
 }
 
 .documentIcon {
@@ -56,7 +56,7 @@
 .documentName {
   font-size: 14px;
   font-weight: 500;
-  color: var(--zyx-gray-900, #1a1a1a);
+  color: var(--waltre-gray-900, #1a1a1a);
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
@@ -64,7 +64,7 @@
 
 .documentType {
   font-size: 12px;
-  color: var(--zyx-gray-600, #666666);
+  color: var(--waltre-gray-600, #666666);
 }
 
 .downloadButton {
@@ -74,9 +74,9 @@
   gap: 6px;
   padding: 8px 16px;
   background: white;
-  border: 1px solid var(--zyx-gray-300, #e0e0e0);
+  border: 1px solid var(--waltre-gray-300, #e0e0e0);
   border-radius: 6px;
-  color: var(--zyx-gray-700, #1a1a1a);
+  color: var(--waltre-gray-700, #1a1a1a);
   font-size: 14px;
   font-weight: 500;
   cursor: pointer;
@@ -84,8 +84,8 @@
 }
 
 .downloadButton:hover {
-  background: var(--zyx-gray-50, #f9fafb);
-  border-color: var(--zyx-gray-400, #9ca3af);
+  background: var(--waltre-gray-50, #f9fafb);
+  border-color: var(--waltre-gray-400, #9ca3af);
 }
 
 .downloadButton svg {

@@ -8,7 +8,7 @@
 .selector {
   width: 350px;
   min-width: 350px;
-  background-color: var(--zyx-white);
+  background-color: var(--waltre-white);
   border-left: var(--border-width-thin) solid var(--border-color-light);
   padding: var(--spacing-24);
   overflow-y: auto;
@@ -28,14 +28,14 @@
 .title {
   font-size: var(--font-size-18);
   font-weight: var(--font-weight-semibold);
-  color: var(--zyx-gray-700);
+  color: var(--waltre-gray-700);
   margin: 0 0 var(--spacing-8) 0;
   line-height: var(--line-height-28);
 }
 
 .subtitle {
   font-size: var(--font-size-14);
-  color: var(--zyx-gray-500);
+  color: var(--waltre-gray-500);
   line-height: var(--line-height-24);
   margin: 0;
 }
@@ -52,7 +52,7 @@
   border: var(--input-border);
   border-radius: var(--input-radius);
   font-size: var(--font-size-14);
-  color: var(--zyx-gray-700);
+  color: var(--waltre-gray-700);
   transition: all var(--transition-fast);
   margin-bottom: var(--spacing-16);
 }
@@ -63,9 +63,9 @@
 
 .searchInput:focus {
   outline: none;
-  border-color: var(--zyx-info);
+  border-color: var(--waltre-info);
   box-shadow: var(--shadow-focus);
-  background-color: var(--zyx-white);
+  background-color: var(--waltre-white);
 }
 
 /* ========================================
@@ -86,7 +86,7 @@
   align-items: center;
   gap: var(--spacing-12);
   padding: var(--spacing-12);
-  background-color: var(--zyx-white);
+  background-color: var(--waltre-white);
   border: var(--border-width-thin) solid var(--border-color-light);
   border-radius: var(--radius-8);
   cursor: pointer;
@@ -94,14 +94,14 @@
 }
 
 .profileCard:hover {
-  border-color: var(--zyx-info);
-  background-color: var(--zyx-info-light);
+  border-color: var(--waltre-info);
+  background-color: var(--waltre-info-light);
   box-shadow: var(--shadow-sm);
 }
 
 .profileCard.active {
-  border-color: var(--zyx-info);
-  background-color: var(--zyx-info-light);
+  border-color: var(--waltre-info);
+  background-color: var(--waltre-info-light);
   box-shadow: var(--shadow-sm);
 }
 
@@ -111,13 +111,13 @@
   min-width: 40px;
   border-radius: var(--radius-circle);
   object-fit: cover;
-  background-color: var(--zyx-gray-200);
+  background-color: var(--waltre-gray-200);
   display: flex;
   align-items: center;
   justify-content: center;
   font-size: var(--font-size-18);
   font-weight: var(--font-weight-semibold);
-  color: var(--zyx-gray-600);
+  color: var(--waltre-gray-600);
 }
 
 .profileLogoImage {
@@ -138,7 +138,7 @@
   gap: var(--spacing-8);
   font-size: var(--font-size-14);
   font-weight: var(--font-weight-medium);
-  color: var(--zyx-gray-700);
+  color: var(--waltre-gray-700);
   margin-bottom: 2px;
   line-height: var(--line-height-normal);
 }
@@ -153,12 +153,12 @@
   width: 16px;
   height: 16px;
   min-width: 16px;
-  color: var(--zyx-info);
+  color: var(--waltre-info);
 }
 
 .profileLocation {
   font-size: var(--font-size-12);
-  color: var(--zyx-gray-500);
+  color: var(--waltre-gray-500);
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
@@ -180,13 +180,13 @@
 
 .emptyStateText {
   font-size: var(--font-size-14);
-  color: var(--zyx-gray-500);
+  color: var(--waltre-gray-500);
   margin: 0 0 var(--spacing-8) 0;
 }
 
 .emptyStateSubtext {
   font-size: var(--font-size-12);
-  color: var(--zyx-gray-400);
+  color: var(--waltre-gray-400);
   margin: 0 0 var(--spacing-16) 0;
 }
 
@@ -198,8 +198,8 @@
   width: 100%;
   height: var(--button-height-md);
   padding: var(--button-padding-y) var(--button-padding-x);
-  background-color: var(--zyx-gray-700);
-  color: var(--zyx-white);
+  background-color: var(--waltre-gray-700);
+  color: var(--waltre-white);
   border: none;
   border-radius: var(--button-radius);
   font-size: var(--font-size-14);
@@ -213,7 +213,7 @@
 }
 
 .createButton:hover {
-  background-color: var(--zyx-gray-600);
+  background-color: var(--waltre-gray-600);
   box-shadow: var(--shadow-sm);
 }
 
@@ -235,15 +235,15 @@
   align-items: center;
   justify-content: center;
   padding: var(--spacing-48) var(--spacing-24);
-  color: var(--zyx-gray-400);
+  color: var(--waltre-gray-400);
   font-size: var(--font-size-14);
 }
 
 .spinner {
   width: 20px;
   height: 20px;
-  border: 2px solid var(--zyx-gray-200);
-  border-top-color: var(--zyx-info);
+  border: 2px solid var(--waltre-gray-200);
+  border-top-color: var(--waltre-info);
   border-radius: 50%;
   animation: spin 0.6s linear infinite;
   margin-right: var(--spacing-8);
@@ -261,10 +261,10 @@
 
 .error {
   padding: var(--spacing-16);
-  background-color: var(--zyx-error-light);
-  border: var(--border-width-thin) solid var(--zyx-error);
+  background-color: var(--waltre-error-light);
+  border: var(--border-width-thin) solid var(--waltre-error);
   border-radius: var(--radius-8);
-  color: var(--zyx-error);
+  color: var(--waltre-error);
   font-size: var(--font-size-14);
   margin-bottom: var(--spacing-16);
 }
@@ -282,12 +282,12 @@
 }
 
 .profileList::-webkit-scrollbar-thumb {
-  background: var(--zyx-gray-400);
+  background: var(--waltre-gray-400);
   border-radius: 3px;
 }
 
 .profileList::-webkit-scrollbar-thumb:hover {
-  background: var(--zyx-gray-500);
+  background: var(--waltre-gray-500);
 }
 
 /* ========================================

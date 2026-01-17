@@ -58,7 +58,7 @@ describe('TopNavigation Component', () => {
     renderWithRouter(<TopNavigation />);
 
     // Check logo
-    expect(screen.getByText('zyx')).toBeInTheDocument();
+    expect(screen.getByText(/waltre/i)).toBeInTheDocument();
 
     // Check navigation tabs
     expect(screen.getByText('Dashboard')).toBeInTheDocument();

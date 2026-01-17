@@ -15,7 +15,7 @@
 }
 
 .modalContainer {
-  background: var(--zyx-white);
+  background: var(--waltre-white);
   border-radius: var(--radius-8);
   max-width: 600px;
   width: 100%;
@@ -32,20 +32,20 @@
   align-items: flex-start;
   position: sticky;
   top: 0;
-  background: var(--zyx-white);
+  background: var(--waltre-white);
   z-index: 1;
 }
 
 .modalTitle {
   font-size: var(--font-size-18);
   font-weight: var(--font-weight-semibold);
-  color: var(--zyx-gray-700);
+  color: var(--waltre-gray-700);
   margin: 0 0 var(--spacing-4) 0;
 }
 
 .stepIndicator {
   font-size: var(--font-size-14);
-  color: var(--zyx-gray-500);
+  color: var(--waltre-gray-500);
   margin: 0;
 }
 
@@ -53,7 +53,7 @@
   background: none;
   border: none;
   font-size: var(--font-size-28);
-  color: var(--zyx-gray-400);
+  color: var(--waltre-gray-400);
   cursor: pointer;
   padding: 0;
   line-height: 1;
@@ -61,7 +61,7 @@
 }
 
 .closeButton:hover:not(:disabled) {
-  color: var(--zyx-gray-500);
+  color: var(--waltre-gray-500);
 }
 
 .closeButton:disabled {
@@ -79,10 +79,10 @@
 /* Error Message */
 .errorMessage {
   padding: var(--spacing-12);
-  background-color: var(--zyx-error-light);
-  border: var(--border-width-thin) solid var(--zyx-error);
+  background-color: var(--waltre-error-light);
+  border: var(--border-width-thin) solid var(--waltre-error);
   border-radius: var(--radius-8);
-  color: var(--zyx-error);
+  color: var(--waltre-error);
   font-size: var(--font-size-14);
   margin: 0 var(--spacing-24) var(--spacing-16) var(--spacing-24);
 }
@@ -96,20 +96,20 @@
   display: block;
   font-size: var(--font-size-14);
   font-weight: var(--font-weight-semibold);
-  color: var(--zyx-gray-700);
+  color: var(--waltre-gray-700);
   margin-bottom: var(--spacing-8);
 }
 
 .sectionTitle {
   font-size: var(--font-size-16);
   font-weight: var(--font-weight-semibold);
-  color: var(--zyx-gray-700);
+  color: var(--waltre-gray-700);
   margin: 0 0 var(--spacing-16) 0;
 }
 
 .hint {
   font-size: var(--font-size-12);
-  color: var(--zyx-gray-500);
+  color: var(--waltre-gray-500);
   margin: 0 0 var(--spacing-12) 0;
 }
 
@@ -128,8 +128,8 @@
 }
 
 .coverDropZone:hover {
-  border-color: var(--zyx-gray-400);
-  background-color: var(--zyx-gray-100);
+  border-color: var(--waltre-gray-400);
+  background-color: var(--waltre-gray-100);
 }
 
 .coverPreview {
@@ -149,7 +149,7 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  color: var(--zyx-gray-400);
+  color: var(--waltre-gray-400);
 }
 
 /* Logo Upload */
@@ -167,8 +167,8 @@
 }
 
 .logoDropZone:hover {
-  border-color: var(--zyx-gray-400);
-  background-color: var(--zyx-gray-100);
+  border-color: var(--waltre-gray-400);
+  background-color: var(--waltre-gray-100);
 }
 
 .logoImage {
@@ -187,7 +187,7 @@
   height: 100px;
   border: var(--border-width-medium) dashed var(--border-color-default);
   border-radius: var(--radius-circle);
-  color: var(--zyx-gray-400);
+  color: var(--waltre-gray-400);
 }
 
 .placeholderIcon {
@@ -209,7 +209,7 @@
   height: 28px;
   border-radius: var(--radius-circle);
   background-color: rgba(0, 0, 0, 0.6);
-  color: var(--zyx-white);
+  color: var(--waltre-white);
   border: none;
   cursor: pointer;
   font-size: var(--font-size-16);
@@ -233,12 +233,12 @@
   display: block;
   font-size: var(--font-size-14);
   font-weight: var(--font-weight-medium);
-  color: var(--zyx-gray-600);
+  color: var(--waltre-gray-600);
   margin-bottom: var(--spacing-8);
 }
 
 .required {
-  color: var(--zyx-error);
+  color: var(--waltre-error);
 }
 
 .input,
@@ -253,7 +253,7 @@
   transition: all var(--transition-normal);
   font-family: inherit;
   box-sizing: border-box;
-  color: var(--zyx-gray-700);
+  color: var(--waltre-gray-700);
 }
 
 .textarea {
@@ -266,24 +266,24 @@
 .textarea:focus,
 .searchInput:focus {
   outline: none;
-  border-color: var(--zyx-info);
+  border-color: var(--waltre-info);
   box-shadow: var(--shadow-focus);
 }
 
 .inputError {
-  border-color: var(--zyx-error);
+  border-color: var(--waltre-error);
 }
 
 .errorText {
   font-size: var(--font-size-12);
-  color: var(--zyx-error);
+  color: var(--waltre-error);
   margin-top: var(--spacing-4);
   margin-bottom: 0;
 }
 
 .charCount {
   font-size: var(--font-size-12);
-  color: var(--zyx-gray-400);
+  color: var(--waltre-gray-400);
   text-align: right;
   margin-top: var(--spacing-4);
 }
@@ -298,7 +298,7 @@
 /* Stats Section */
 .statsSection {
   padding: var(--spacing-20);
-  background-color: var(--zyx-gray-100);
+  background-color: var(--waltre-gray-100);
   border-radius: var(--radius-8);
   border: var(--border-width-thin) solid var(--border-color-default);
 }
@@ -306,7 +306,7 @@
 .statsTitle {
   font-size: var(--font-size-14);
   font-weight: var(--font-weight-semibold);
-  color: var(--zyx-gray-700);
+  color: var(--waltre-gray-700);
   margin: 0 0 var(--spacing-16) 0;
 }
 
@@ -321,26 +321,26 @@
   flex-direction: column;
   align-items: center;
   padding: var(--spacing-12);
-  background-color: var(--zyx-white);
+  background-color: var(--waltre-white);
   border-radius: var(--radius-8);
   border: var(--border-width-thin) solid var(--border-color-default);
 }
 
 .statLabel {
   font-size: var(--font-size-12);
-  color: var(--zyx-gray-500);
+  color: var(--waltre-gray-500);
   margin-bottom: var(--spacing-4);
 }
 
 .statValue {
   font-size: var(--font-size-18);
   font-weight: var(--font-weight-semibold);
-  color: var(--zyx-gray-700);
+  color: var(--waltre-gray-700);
 }
 
 /* Team Members */
 .searchInput {
-  background-color: var(--zyx-gray-100);
+  background-color: var(--waltre-gray-100);
 }
 
 .teamMembersList {
@@ -355,7 +355,7 @@
 .emptyState {
   text-align: center;
   padding: var(--spacing-32) var(--spacing-16);
-  color: var(--zyx-gray-500);
+  color: var(--waltre-gray-500);
 }
 
 .emptyState p {
@@ -365,19 +365,19 @@
 .addMemberButton {
   width: 100%;
   padding: var(--spacing-10) var(--spacing-16);
-  background-color: var(--zyx-white);
+  background-color: var(--waltre-white);
   border: var(--border-width-medium) dashed var(--border-color-default);
   border-radius: var(--radius-8);
   font-size: var(--font-size-14);
   font-weight: var(--font-weight-medium);
-  color: var(--zyx-gray-600);
+  color: var(--waltre-gray-600);
   cursor: pointer;
   transition: all var(--transition-normal);
 }
 
 .addMemberButton:hover {
-  border-color: var(--zyx-gray-400);
-  background-color: var(--zyx-gray-100);
+  border-color: var(--waltre-gray-400);
+  background-color: var(--waltre-gray-100);
 }
 
 /* Actions */
@@ -407,26 +407,26 @@
 
 .cancelButton,
 .backButton {
-  background-color: var(--zyx-white);
+  background-color: var(--waltre-white);
   border: var(--border-width-thin) solid var(--border-color-default);
-  color: var(--zyx-gray-600);
+  color: var(--waltre-gray-600);
 }
 
 .cancelButton:hover:not(:disabled),
 .backButton:hover:not(:disabled) {
-  background-color: var(--zyx-gray-100);
-  border-color: var(--zyx-gray-400);
+  background-color: var(--waltre-gray-100);
+  border-color: var(--waltre-gray-400);
 }
 
 .nextButton,
 .submitButton {
-  background-color: var(--zyx-gray-700);
-  color: var(--zyx-white);
+  background-color: var(--waltre-gray-700);
+  color: var(--waltre-white);
 }
 
 .nextButton:hover:not(:disabled),
 .submitButton:hover:not(:disabled) {
-  background-color: var(--zyx-gray-600);
+  background-color: var(--waltre-gray-600);
   transform: translateY(-1px);
   box-shadow: var(--shadow-card);
 }

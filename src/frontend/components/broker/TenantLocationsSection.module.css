@@ -1,6 +1,6 @@
 .locationsSection {
   background: white;
-  border: 1px solid var(--zyx-gray-200, #e5e7eb);
+  border: 1px solid var(--waltre-gray-200, #e5e7eb);
   border-radius: 8px;
   padding: 24px;
 }
@@ -8,7 +8,7 @@
 .sectionTitle {
   font-size: 20px;
   font-weight: 600;
-  color: var(--zyx-gray-900, #1a1a1a);
+  color: var(--waltre-gray-900, #1a1a1a);
   margin: 0 0 16px 0;
 }
 
@@ -17,12 +17,12 @@
   margin-bottom: 24px;
   border-radius: 8px;
   overflow: hidden;
-  border: 1px solid var(--zyx-gray-200, #e5e7eb);
+  border: 1px solid var(--waltre-gray-200, #e5e7eb);
 }
 
 .mapPlaceholder {
   height: 300px;
-  background: var(--zyx-gray-50, #f9fafb);
+  background: var(--waltre-gray-50, #f9fafb);
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -33,13 +33,13 @@
 .mapPlaceholder p {
   font-size: 16px;
   font-weight: 500;
-  color: var(--zyx-gray-700, #374151);
+  color: var(--waltre-gray-700, #374151);
   margin: 0;
 }
 
 .mapNote {
   font-size: 13px;
-  color: var(--zyx-gray-500, #6b7280);
+  color: var(--waltre-gray-500, #6b7280);
 }
 
 /* Locations List */
@@ -51,15 +51,15 @@
 
 .locationCard {
   padding: 16px;
-  background: var(--zyx-gray-50, #f9fafb);
-  border: 1px solid var(--zyx-gray-200, #e5e7eb);
+  background: var(--waltre-gray-50, #f9fafb);
+  border: 1px solid var(--waltre-gray-200, #e5e7eb);
   border-radius: 8px;
   transition: all 0.2s ease;
 }
 
 .locationCard:hover {
   background: white;
-  border-color: var(--zyx-gray-300, #d1d5db);
+  border-color: var(--waltre-gray-300, #d1d5db);
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
 }
 
@@ -77,7 +77,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  background: var(--zyx-info, #4a90e2);
+  background: var(--waltre-info, #4a90e2);
   color: white;
   border-radius: 8px;
 }
@@ -90,13 +90,13 @@
 .locationName {
   font-size: 16px;
   font-weight: 600;
-  color: var(--zyx-gray-900, #1a1a1a);
+  color: var(--waltre-gray-900, #1a1a1a);
   margin: 0 0 4px 0;
 }
 
 .locationAddress {
   font-size: 14px;
-  color: var(--zyx-gray-600, #666666);
+  color: var(--waltre-gray-600, #666666);
   margin: 0;
 }
 
@@ -105,7 +105,7 @@
   grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
   gap: 12px;
   padding-top: 12px;
-  border-top: 1px solid var(--zyx-gray-200, #e5e7eb);
+  border-top: 1px solid var(--waltre-gray-200, #e5e7eb);
 }
 
 .detailItem {
@@ -117,14 +117,14 @@
 .detailItem label {
   font-size: 12px;
   font-weight: 500;
-  color: var(--zyx-gray-600, #666666);
+  color: var(--waltre-gray-600, #666666);
   text-transform: uppercase;
   letter-spacing: 0.5px;
 }
 
 .detailItem span {
   font-size: 14px;
-  color: var(--zyx-gray-900, #1a1a1a);
+  color: var(--waltre-gray-900, #1a1a1a);
   font-weight: 500;
 }
 

@@ -1,6 +1,6 @@
 /* Top Navigation Component - Figma Design System */
 .topNavigation {
-  background: var(--zyx-white);
+  background: var(--waltre-white);
   border-bottom: var(--border-width-thin) solid var(--border-color-light);
   position: sticky;
   top: 0;
@@ -47,7 +47,7 @@
 }
 
 .loading {
-  color: var(--zyx-gray-600);
+  color: var(--waltre-gray-600);
   font-size: var(--font-size-14);
   padding: var(--spacing-8);
 }
