@@ -633,6 +633,29 @@ export const getBrokerDeals = async (params?: {
 };
 
 /**
+ * Search for brokers
+ */
+export const searchBrokers = async (query: string): Promise<any[]> => {
+  const response = await apiClient.get<{ brokers: any[] }>('/api/users/search/brokers', { q: query });
+  if (!response.success || !response.data) {
+    throw new Error(response.error || 'Failed to search brokers');
+  }
+  return response.data.brokers || [];
+};
+
+/**
+ * Invite brokers to a business
+ */
+export const inviteBrokers = async (businessId: string, brokerIds: string[]): Promise<void> => {
+  const response = await apiClient.post(`/api/businesses/${businessId}/invite-brokers`, {
+    broker_ids: brokerIds,
+  });
+  if (!response.success) {
+    throw new Error(response.error || 'Failed to invite brokers');
+  }
+};
+
+/**
  * Get featured property listings
  */
 export const getFeaturedPropertyListings = async (limit?: number): Promise<{ listings: PropertyListing[] }> => {

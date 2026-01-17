@@ -1,4 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import styles from './ThreeDotsMenu.module.css';
 
 interface ThreeDotsMenuProps {
@@ -16,6 +17,7 @@ interface ThreeDotsMenuProps {
  *
  * Three-dot icon button with dropdown menu for business actions
  * - Stealth mode toggle switch (disabled for non-Enterprise tiers)
+ * - Edit Profile
  * - Edit Business
  * - Delete Business
  *
@@ -35,6 +37,7 @@ export const ThreeDotsMenu: React.FC<ThreeDotsMenuProps> = ({
   onDelete,
   userTier = 'starter',
 }) => {
+  const navigate = useNavigate();
   const [isOpen, setIsOpen] = useState(false);
   const [focusedIndex, setFocusedIndex] = useState(0);
   const menuRef = useRef<HTMLDivElement>(null);
@@ -70,7 +73,7 @@ export const ThreeDotsMenu: React.FC<ThreeDotsMenuProps> = ({
         break;
       case 'ArrowDown':
         event.preventDefault();
-        setFocusedIndex((prev) => Math.min(prev + 1, 2));
+        setFocusedIndex((prev) => Math.min(prev + 1, 3));
         break;
       case 'ArrowUp':
         event.preventDefault();
@@ -91,11 +94,14 @@ export const ThreeDotsMenu: React.FC<ThreeDotsMenuProps> = ({
         }
         break;
       case 1:
+        navigate(`/business/${businessId}/edit-profile`);
+        break;
+      case 2:
         if (onEdit) {
           onEdit(businessId);
         }
         break;
-      case 2:
+      case 3:
         if (onDelete) {
           onDelete(businessId);
         }
@@ -115,6 +121,12 @@ export const ThreeDotsMenu: React.FC<ThreeDotsMenuProps> = ({
       onToggleStealthMode(businessId);
       setIsOpen(false);
     }
+  };
+
+  const handleEditProfileClick = (event: React.MouseEvent) => {
+    event.stopPropagation();
+    navigate(`/business/${businessId}/edit-profile`);
+    setIsOpen(false);
   };
 
   const handleEditClick = (event: React.MouseEvent) => {
@@ -176,6 +188,15 @@ export const ThreeDotsMenu: React.FC<ThreeDotsMenuProps> = ({
 
           <button
             className={`${styles.menuItem} ${focusedIndex === 1 ? styles.focused : ''}`}
+            onClick={handleEditProfileClick}
+            role="menuitem"
+            aria-label={`Edit profile for ${businessName}`}
+          >
+            Edit Profile
+          </button>
+
+          <button
+            className={`${styles.menuItem} ${focusedIndex === 2 ? styles.focused : ''}`}
             onClick={handleEditClick}
             role="menuitem"
             aria-label={`Edit ${businessName}`}
@@ -185,7 +206,7 @@ export const ThreeDotsMenu: React.FC<ThreeDotsMenuProps> = ({
 
           <button
             className={`${styles.menuItem} ${styles.danger} ${
-              focusedIndex === 2 ? styles.focused : ''
+              focusedIndex === 3 ? styles.focused : ''
             }`}
             onClick={handleDeleteClick}
             role="menuitem"

@@ -23,6 +23,7 @@ import Notifications from '@pages/Notifications';
 import MyBusinesses from '@pages/MyBusinesses';
 import TenantReviewPerformance from '@pages/ReviewPerformance';
 import TenantListingMatches from '@pages/ListingMatches';
+import PublicProfileEdit from '@pages/PublicProfileEdit';
 // Broker Dashboard Redesign - Layout and Pages
 import { BrokerLayout } from '@pages/broker/BrokerLayout';
 import Overview from '@pages/broker/Overview';
@@ -70,6 +71,15 @@ function App() {
                 element={
                   <ProtectedRoute>
                     <BusinessDetail />
+                  </ProtectedRoute>
+                }
+              />
+              {/* Business Public Profile Edit */}
+              <Route
+                path="/business/:businessId/edit-profile"
+                element={
+                  <ProtectedRoute>
+                    <PublicProfileEdit />
                   </ProtectedRoute>
                 }
               />
